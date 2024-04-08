@@ -111,7 +111,7 @@ const Ownerdatail = () => {
         Direct Orders And Report Directly To Owner Group Member(S).
       </div>
 
-      <div className="grid grid-cols-3 gap-x-36">
+      <div className="grid grid-cols-3 gap-x-[5%]">
         <div>
           {" "}
           <InputField size="default" className="mb-[15px] " placeholder={"Name"}/>

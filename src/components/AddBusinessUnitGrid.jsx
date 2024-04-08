@@ -9,6 +9,7 @@ import Smallindianimage from "./uicomponent/lib/Icon/SmallIndianImage.jsx";
 import BigIndianflag from "./uicomponent/lib/Icon/BigIndianflag.jsx";
 import DirectionCrossIcon from "./uicomponent/lib/Icon/DirectionCrossIcon.jsx";
 import {Link,useNavigate} from "react-router-dom";
+import PageCounter from "./PageCounter.jsx";
 const options = [
   { value: "option1", label: "Option 1" },
   { value: "option2", label: "Option 2" },
@@ -26,7 +27,7 @@ const AddBusinessUnitGrid = () => {
     setSelectedValue(e.target.value);
   };
   return (
-    <div className="text-poppins text-regular text-[22px] text-mediumText">
+    <div className="px-20 text-poppins text-regular text-[1.14vw] text-mediumText">
       <div className="grid grid-cols-2 justify-between w-[90%] mx-auto">
         <div>
           <img
@@ -37,7 +38,7 @@ const AddBusinessUnitGrid = () => {
         </div>
         <div>
           <div className="flex justify-end mb-10 mt-5">
-            <div className="w-[30%] grid grid-cols-2 gap-x-5">
+          <div className="w-[50%] grid grid-flow-col gap-x-0">
             <Select
               options={options}
               value={selectedValue}
@@ -62,56 +63,55 @@ const AddBusinessUnitGrid = () => {
             />
             </div>
           </div>
-          <div className="flex justify-end">
-            <div className="w-[70%] grid grid-cols-4   justify-items-end items-center text-poppins text-regular text-[22px] text-black capitalize text-center">
-              <div>Home</div>
-              <div>Company</div>
-              <div>Contact us</div>
-              <div>Support</div>
-            </div>
-          </div>
+        
         </div>
       </div>
-      <div className="grid grid-cols-1 justify-center text-center text-poppins text-[45px] text-regular text-mediumText my-4 border-b-4 border-yellow-dark p-9 ">
+      <div className="flex justify-end">
+          <div className="w-[70%] grid grid-cols-4   justify-items-end items-center text-poppins text-regular text-[1.146vw] text-black capitalize text-center">
+          <div>Home</div>
+          <div>Company</div>
+          <div>Contact us</div>
+          <div>Support</div>
+        </div>
+          </div>
+      <div className="grid grid-cols-1 justify-center text-center text-poppins text-[2.34vw] text-regular text-mediumText mt-4 border-b-4 border-yellow-dark p-9 ">
         <div>Add New Business Unit</div>
       </div>
       <div className="grid grid-cols-3 text-center text-poppins text-regular my-6 items-center">
         <div></div>
         <div className="text-black text-[30px]">
           <div className="flex justify-center">
-            <div className="grid grid-cols-3 justify-items-center p-10 w-[40%]">
-              <div className="border-0 border-yellow-dark bg-yellow-dark w-10 h-10 rounded-full"></div>
-              <div className="border-2 border-gray w-10 h-10 rounded-full"></div>
-              <div className="border-2 border-gray w-10 h-10 rounded-full"></div>
-            </div>
+         <PageCounter page="1"/>
           </div>
-          <div>Unit Details</div>
+          <div className="text-center  text-[1.56vw]">
+            Ownership and Licence Details
+          </div>
         </div>
-        <div className="text-mediumText text-[25px]">
-          All fields are mandatory
+        <div className="text-mediumText text-[1.35vw] text-right">
+          <span className="text-red">*</span> All fields are mandatory
         </div>
       </div>
       <div className="px-7 ">
-        <div className="grid grid-cols-3 gap-x-40 grid-rows-5 justify-center">
+        <div className="grid grid-cols-3 gap-x-[5%] grid-rows-5 justify-center">
           <div className="   gap-y-0 ">
             <div>Business Category Selected</div>{" "}
-            <InputField size="default" className="mb-[15px] " />
+            <InputField size="default" className="mb-[15px] " placeholder={"Liquor Store/Wine Shop"} />
           </div>
           <div className=" ">
             <div className="">Business Unit Name</div>
             <div className="flex-1">
               {" "}
-              <InputField size="default" className="mb-[15px] " />
+              <InputField size="default" className="mb-[15px] " placeholder={"English Wine Shop"} />
             </div>
           </div>
           <div className=" ">
             <div>Area Name</div>
             <div>
               {" "}
-              <InputField size="default" className="mb-[15px] " />
+              <InputField size="default" className="mb-[15px] " placeholder={"Enter Area Name"}/>
             </div>
           </div>
-          <div className=" ">
+          <div className=" grid">
             <div>Business Unit Registration Country</div>
             <div>
               <Select
@@ -156,16 +156,16 @@ const AddBusinessUnitGrid = () => {
           <div className="">
             <div>Subarea/Society/Landmark</div>
             <div>
-              <InputField size="default" className="mb-[15px] " />
+              <InputField size="default" className="mb-[15px] " placeholder={"Enter Area Name"}/>
             </div>
           </div>
-          <div className="">
+          <div className="grid">
             <div>Business Unit Ownership Mode</div>
             <div>
               <Select
                 options={options}
                 value={selectedValue}
-                name="mySelect"
+                name="Select Ownership Mode"
                 handleOptionClick={handleSelectChange}
                 variant="default"
                 size="default"
@@ -175,13 +175,13 @@ const AddBusinessUnitGrid = () => {
               />
             </div>
           </div>
-          <div className="">
+          <div className="grid">
             <div>Shop Category</div>
             <div>
               <Select
                 options={options}
                 value={selectedValue}
-                name="mySelect"
+                name="Counter Store"
                 handleOptionClick={handleSelectChange}
                 variant="default"
                 size="default"
@@ -194,7 +194,7 @@ const AddBusinessUnitGrid = () => {
           <div className="">
             <div>Address</div>
             <div>
-              <InputField size="default" className="mb-[15px] " RightIcon={<DirectionCrossIcon/>} />
+              <InputField size="default" className="mb-[15px] " RightIcon={<DirectionCrossIcon/>} placeholder={"Select Address"}/>
             </div>
           </div>
           <div className="row-span-2 ">
@@ -269,9 +269,8 @@ const AddBusinessUnitGrid = () => {
           </div>
           <div className="">
             <div>Mobile Number (OTP Verification Via SMS)</div>
-            <div className="grid grid-cols-[30%_70%] gay-y-2 gap-x-2 ">
-              <div>Country Code</div>
-              <div>Mobile Number</div>
+            <div className="grid grid-flow-col gay-y-2 gap-x-2 ">
+             <div> <div>Country Code</div>
               <div>
                 {" "}
                 <Select
@@ -285,11 +284,13 @@ const AddBusinessUnitGrid = () => {
                   rightIcon={<ArrowPreviewSmall color="#0F0F0F" />}
                   className="z-30 py-2"
                 />
-              </div>
+              </div></div>
+             <div> <div>Mobile Number</div>
+              
               <div>
                 {" "}
                 <InputField size="default" className="mb-[15px] " />
-              </div>
+              </div></div>
             </div>
           </div>
         </div>

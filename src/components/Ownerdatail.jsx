@@ -100,7 +100,7 @@ const Ownerdatail = () => {
       <div>Business Owner-Group Member Details</div>
       <div>All The Business Transactions Are Done Against The Name Of The Business Entity...Read More</div>
       <div className="text-yellow-dark">(Minimum 1 Member Details Must Be Provided)</div>
-      <div className="grid grid-cols-3 gap-x-36">
+      <div className="grid grid-cols-3 gap-x-[5%]">
         <div>  <InputField size="default" className="mb-[15px] " placeholder={"Name"}/></div>
         <div>  <InputField size="default" className="mb-[15px] " placeholder={"Designation"}/></div>
         <div>   <div>Owner Member Contact Number</div>
@@ -133,7 +133,7 @@ const Ownerdatail = () => {
         </div>
         <div>
           <div>Mobile Number (OTP verificatiob via SMS)</div>
-          <div className="grid grid-cols-[30%_70%] gap-x-4">
+          <div className="grid grid-flow-col gap-x-4">
           
           <div ><div>Country code</div><Select
             options={options}
@@ -146,17 +146,17 @@ const Ownerdatail = () => {
             rightIcon={<ArrowPreviewSmall color="#0F0F0F" />}
             className="z-50 py-2"
           /></div>
-         <div><div>Mobile Number</div> <InputField size="default" className="mb-[15px] " /></div>
+         <div><div>Mobile Number</div> <InputField size="default" className="mb-[15px]  " /></div>
         </div></div>
       </div>
       <div>Legal Identity Details (Personal Photo Identification Document/Certificate Number)</div>
-      <div className="grid grid-cols-[20%_80%] w-[30%]">
+      <div className="grid grid-cols-[20%_80%] w-[45%]">
         <div className="text-yellow-dark"> Note : </div>{" "}
         <div>ID Must Be - Government Issued And Legally Valid</div>
         <div></div>
         <div>ID Must Have - Recent Photograph And Date Of Birth</div>
       </div>
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-flow-col gap-4">
         <div><div>PhotoId Type</div>  <Select
                 options={options}
                 value={selectedValue}

@@ -34,11 +34,11 @@ const Login = () => {
       </div>
       <div className="flex-[56%] flex items-center p-[7%] relative ">
         <div className="flex-col w-full ">
-          <div className="font-poppins font-bold text-[67px] text-yellow-dark">
+          <div className="font-poppins font-bold text-[3.49vw] text-yellow-dark">
             Login
           </div>
 
-          <div className="font-poppins text-secondary font-regular text-[28px] mb-[60px]  ">
+          <div className="font-poppins text-secondary font-regular text-[1.45vw] mb-[60px]  ">
             Don't have an account
             <span className="text-yellow-dark"> Create Account</span>
           </div>

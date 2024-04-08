@@ -2,14 +2,14 @@ import React from "react";
 import { FooterComponentLinks, SocialLinks } from "./FooterComponentLinks";
 const Footer = () => {
   return (
-    <div className="grid grid-cols-5 gap-x-4 pt-10 w-[95%] mx-auto ">
+    <div className="grid grid-flow-col gap-x-4 pt-10 w-[95%] mx-auto ">
       <div>
         <img />
-        <div className="text-poppins text-regular text-[22px] text-mediumText">
+        <div className="text-poppins text-regular text-[1.146vw] text-mediumText">
           HKBR private limited
         </div>
 
-        <div className="text-poppins text-regular text-[22px] text-mediumText"></div>
+        <div className="text-poppins text-regular text-[1.14vw] text-mediumText"></div>
       </div>
       <div className="grid gap-y-3">
         <FooterComponentLinks

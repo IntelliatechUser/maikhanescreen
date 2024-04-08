@@ -85,13 +85,13 @@ const InputField = ({
         placeholder={placeholder}
         onChange={handleInputChange}
         disabled={disabled}
-        className={`${baseClasses} ${sizeClasses} ${variantClasses} bg-white absolute  font-poppins font-regular text-[26px] text-input 
+        className={`${baseClasses} ${sizeClasses} ${variantClasses} bg-white absolute  font-poppins font-regular text-[1.35vw] text-input 
         
         `}
-        style={{ paddingLeft: Icon ? "60px" : "30px", paddingRight : RightIcon ? "60px" : "30px" }}
+        style={{ paddingLeft: Icon ? "60px" : "30px", paddingRight : RightIcon ? "3.12vw" : "1.5vw" }}
         // outline outline-2 outline-green focus:outline-blue
       />
-      <div className="absolute    pl-[29px] pt-[23px] ">{Icon}</div>
+      <div className="absolute    pl-[1.51vw] pt-[1.19vw] ">{Icon}</div>
       <div className="absolute   right-3 pt-[23px] ">{RightIcon}</div>
       {
         <p className="error text-red text-sm mt-1 ml-3 absolute -bottom-5">

@@ -9,6 +9,7 @@ import IconCheckColor from "./uicomponent/lib/Icon/IconCheckColor";
 import BigIndianflag from "./uicomponent/lib/Icon/BigIndianflag";
 import SmallIndianImage from "./uicomponent/lib/Icon/SmallIndianImage";
 import { TeamBusiness } from ".";
+import PageCounter from "./PageCounter";
 const options = [
   { value: "option1", label: "Option 1" },
   { value: "option2", label: "Option 2" },
@@ -16,7 +17,7 @@ const options = [
 ];
 const BusinessDetail = () => {
   const [selectedOption, setSelectedOption] = useState("option1");
-  const [borderbottom, setBorderBottom] = useState(true);
+  
   const [selectedValue, setSelectedValue] = useState("");
   const [key, setkey] = useState("business");
   const handleSelectChange = (e) => {
@@ -27,8 +28,8 @@ const BusinessDetail = () => {
   };
 
   return (
-    <div className="px-12 text-poppins text-regular text-[22px] text-mediumText">
-      <div className="grid grid-cols-2 justify-between w-[90%] mx-auto">
+    <div className="px-20 text-poppins text-regular text-[1.14vw] text-mediumText ">
+      <div className="grid grid-cols-2 justify-between w-full  ">
         <div>
           <img
             src={maikhanelogo}
@@ -38,101 +39,113 @@ const BusinessDetail = () => {
         </div>
         <div>
           <div className="flex justify-end mb-10 mt-5">
-          <div className="w-[30%] grid grid-cols-2 gap-x-5">
-            <Select
-              options={options}
-              value={selectedValue}
-              name=""
-              handleOptionClick={handleSelectChange}
-              variant="default"
-              size="default"
-              LeftIcon={<SmallIndianImage />}
-              rightIcon={<ArrowPreviewSmall color="#0F0F0F" />}
-              className="z-50 py-2"
-            />
-             <Select
-              options={options}
-              value={selectedValue}
-              name="my"
-              handleOptionClick={handleSelectChange}
-              variant="default"
-              size="default"
-              LeftIcon={<IconAwesomeuser />}
-              rightIcon={<ArrowPreviewSmall color="#0F0F0F" />}
-              className="z-50 py-2"
-            />
-            </div>
-          </div>
-          <div className="flex justify-end">
-            <div className="w-[70%] grid grid-cols-4   justify-items-end items-center text-poppins text-regular text-[22px] text-black capitalize text-center">
-              <div>Home</div>
-              <div>Company</div>
-              <div>Contact us</div>
-              <div>Support</div>
+            <div className="w-[50%] grid grid-flow-col gap-x-0">
+              <Select
+                options={options}
+                value={selectedValue}
+                name=""
+                handleOptionClick={handleSelectChange}
+                variant="default"
+                size="default"
+                LeftIcon={<SmallIndianImage />}
+                rightIcon={<ArrowPreviewSmall color="#0F0F0F" />}
+                className="z-50 py-2"
+              />
+              <Select
+                options={options}
+                value={selectedValue}
+                name="my"
+                handleOptionClick={handleSelectChange}
+                variant="default"
+                size="default"
+                LeftIcon={<IconAwesomeuser />}
+                rightIcon={<ArrowPreviewSmall color="#0F0F0F" />}
+                className="z-50 py-2"
+              />
             </div>
           </div>
         </div>
       </div>
-      <div className="grid grid-cols-1 justify-center text-center text-poppins text-[45px] text-regular text-mediumText mt-4 border-b-4 border-yellow-dark p-9 ">
+      <div className="flex justify-end ">
+        <div className="w-[50%] grid grid-cols-4   justify-items-end items-center text-poppins text-regular text-[1.146vw] text-black capitalize text-center">
+          <div>Home</div>
+          <div>Company</div>
+          <div>Contact us</div>
+          <div>Support</div>
+        </div>
+      </div>
+      <div className="grid grid-cols-1 justify-center text-center text-poppins text-[2.34vw] text-regular text-mediumText mt-4 border-b-4 border-yellow-dark p-9 ">
         <div>Add New Business Unit</div>
       </div>
       <div className="grid grid-cols-3  text-poppins text-regular mb-6 mt-0 items-center">
-        <div className="text-poppins text-regular text-[26px] text-mediumText">
+        <div className="text-poppins text-regular text-[1.35vw] text-mediumText">
           Business Unit Ownership Mode
           <br />
-          <div className="text-[20px]">Private Limited</div>
+          <div className="text-[1.04vw]">Private Limited</div>
         </div>
         <div className="text-black text-[30px]">
           <div className="flex justify-center">
-            <div className="grid grid-cols-3 justify-items-center p-6 w-[40%]">
-              <div className="border-2 border-gray w-10 h-10 rounded-full"></div>
-              <div className="border-2 border-gray   bg-yellow-dark w-10 h-10 rounded-full"></div>
-              <div className="border-2 border-gray  w-10 h-10 rounded-full"></div>
-            </div>
+           <PageCounter page="2" />
           </div>
-          <div className="text-center">Ownership and Licence Details</div>
+          <div className="text-center  text-[1.56vw]">
+            Ownership and Licence Details
+          </div>
         </div>
-        <div className="text-mediumText text-[25px] text-right">
-          All fields are mandatory
+        <div className="text-mediumText text-[1.35vw] text-right">
+          <span className="text-red">*</span> All fields are mandatory
         </div>
       </div>
 
-      <div className="w-[50%] grid grid-cols-4 text-poppins text-[30px] text-mediumText text-regular mb-12">
+      <div className="w-[50%] flex justify-start gap-4 text-poppins text-[1.56vw] text-mediumText text-regular mb-12">
         <button
           className={
-            borderbottom
-              ? `border-b-4 border-b-yellow-dark focus:border-b-4 focus:border-b-yellow-dark `
-              : `focus:border-b-4 focus:border-b-yellow-dark`
+            key == "business" && "border-b-4 border-b-yellow-dark"
           }
-
+          style={{ flex: 1 }}
           onClick={() => {
-            setBorderBottom(false);
+          
             setkey("business");
-          }}  
+          }}
         >
           Business
         </button>
         <button
-          className="   focus:border-b-4 focus:border-b-yellow-dark"
+          className={
+            key == "owner" && "border-b-4 border-b-yellow-dark"
+          }
           onClick={() => {
-            setBorderBottom(false);
+           
             setkey("owner");
           }}
+          style={{ flex: 1 }}
         >
           Owner
         </button>
         <button
-          className="   focus:border-b-4 focus:border-b-yellow-dark"
-          onClick={() => setBorderBottom(false)}
+          className={
+            key == "Licence" && "border-b-4 border-b-yellow-dark"
+          }
+          onClick={() => 
+            {
+            
+          
+          
+            }
+          
+          }
+          style={{ flex: 1 }}
         >
           Licence
         </button>
         <button
-          className="   focus:border-b-4 focus:border-b-yellow-dark"
+          className={
+            key == "team" && "border-b-4 border-b-yellow-dark"
+          }
           onClick={() => {
-            setBorderBottom(false);
+            
             setkey("team");
           }}
+          style={{ flex: 1 }}
         >
           Team
         </button>
@@ -143,7 +156,11 @@ const BusinessDetail = () => {
             <div>
               <div>Legally Registered Name Of Business Entity</div>
               <div>
-                <InputField size="default" className="mb-[15px]"  placeholder="Legally Registered Name" />
+                <InputField
+                  size="default"
+                  className="mb-[15px]"
+                  placeholder="Legally Registered Name"
+                />
               </div>
               <div className="leading-none">
                 All The Business Transactions Are Done Against The Name Of The
@@ -153,40 +170,58 @@ const BusinessDetail = () => {
             <div>
               <div>Business Entity Registration Country</div>
               <div className="w-[80%]">
-              
-              <Select
-                options={options}
-                value={selectedValue}
-                name="mySelect"
-                handleOptionClick={handleSelectChange}
-                variant="default"
-                size="default"
-                LeftIcon={<BigIndianflag />}
-                rightIcon={<ArrowPreviewSmall color="#0F0F0F" />}
-                className="z-40 py-2"
-              />
-            
+                <Select
+                  options={options}
+                  value={selectedValue}
+                  name="mySelect"
+                  handleOptionClick={handleSelectChange}
+                  variant="default"
+                  size="default"
+                  LeftIcon={<BigIndianflag />}
+                  rightIcon={<ArrowPreviewSmall color="#0F0F0F" />}
+                  className="z-40 py-2"
+                />
               </div>
             </div>
           </div>
 
           <div>Official Postel Address</div>
-          <div className="grid grid-cols-3 gap-x-36">
+          <div className="grid grid-cols-3 gap-x-[5%]">
             <div>
-              <InputField size="default" className="mb-[15px] " placeholder={"Address Line 01"}/>
+              <InputField
+                size="default"
+                className="mb-[15px] "
+                placeholder={"Address Line 01"}
+              />
             </div>
 
             <div>
-              <InputField size="default" className="mb-[15px] "  placeholder={"Address Line 02"}/>
+              <InputField
+                size="default"
+                className="mb-[15px] "
+                placeholder={"Address Line 02"}
+              />
             </div>
             <div>
-              <InputField size="default" className="mb-[15px] "  placeholder={"Email - Verify Option"}/>
+              <InputField
+                size="default"
+                className="mb-[15px] "
+                placeholder={"Email - Verify Option"}
+              />
             </div>
             <div>
-              <InputField size="default" className="mb-[15px] " placeholder={"Town/City"}/>
+              <InputField
+                size="default"
+                className="mb-[15px] "
+                placeholder={"Town/City"}
+              />
             </div>
             <div>
-              <InputField size="default" className="mb-[15px] "  placeholder={"State/Province/Territory"}/>
+              <InputField
+                size="default"
+                className="mb-[15px] "
+                placeholder={"State/Province/Territory"}
+              />
             </div>
             <div>
               <div>
@@ -217,29 +252,44 @@ const BusinessDetail = () => {
               </div>
             </div>
             <div>
-              <InputField size="default" className="mb-[15px] " placeholder={"Postal Code"} />
+              <InputField
+                size="default"
+                className="mb-[15px] "
+                placeholder={"Postal Code"}
+              />
             </div>
             <div>
-              <InputField size="default" className="mb-[15px] " placeholder={"Add GPS Location"}/>
-            </div>
-            <div className="grid grid-cols-[30%_70%] gap-x-4">
-              <Select
-                options={options}
-                value={selectedValue}
-                name="mySelect"
-                handleOptionClick={handleSelectChange}
-                variant="default"
+              <InputField
                 size="default"
-                LeftIcon={<IconAwesomeuser />}
-                rightIcon={<ArrowPreviewSmall color="#0F0F0F" />}
-                className="z-50 py-2"
+                className="mb-[15px] "
+                placeholder={"Add GPS Location"}
               />
-              <InputField size="default" className="mb-[15px] " />
+            </div>
+            <div >
+            <div>Mobile Number (OTP verificatiob via SMS)</div>
+          <div className="grid grid-flow-col gap-x-4">
+          
+          <div ><div>Country code</div><Select
+            options={options}
+            value={selectedValue}
+            name="mySelect"
+            handleOptionClick={handleSelectChange}
+            variant="default"
+            size="default"
+            LeftIcon={<IconAwesomeuser />}
+            rightIcon={<ArrowPreviewSmall color="#0F0F0F" />}
+            className="z-50 py-2 "
+          /></div>
+         <div><div>Mobile Number</div> <InputField size="default" className="mb-[15px]  " /></div>
+        </div>
             </div>
             <div>
               <div className="grid grid-cols-3 gap-4">
                 <div className="col-span-2">
-                  <InputField size="default" placeholder={"Add Business Logo"}/>
+                  <InputField
+                    size="default"
+                    placeholder={"Add Business Logo"}
+                  />
                 </div>
                 <div className="mt-2">
                   <Button />
@@ -256,7 +306,7 @@ const BusinessDetail = () => {
               <div>PAN Id Number</div>
               <div className="grid grid-cols-3 gap-4 ">
                 <div className="col-span-2 ">
-                  <InputField size="default" placeholder={"HGEUA9660T"}/>
+                  <InputField size="default" placeholder={"HGEUA9660T"} />
                 </div>
                 <div>
                   <Button className="mt-2" />
@@ -267,7 +317,7 @@ const BusinessDetail = () => {
               <div>CIN Or Registration Certificate Id Number</div>
               <div className="grid grid-cols-3 gap-4">
                 <div className="col-span-2">
-                  <InputField size="default" placeholder={"HGEUA9660T"}/>
+                  <InputField size="default" placeholder={"HGEUA9660T"} />
                 </div>
                 <div className="mt-2">
                   <Button />
@@ -278,7 +328,7 @@ const BusinessDetail = () => {
               <div>GST Id Certificate Number</div>
               <div className="grid grid-cols-3 gap-4">
                 <div className="col-span-2">
-                  <InputField size="default" placeholder={"HGEUA9660T"}/>
+                  <InputField size="default" placeholder={"HGEUA9660T"} />
                 </div>
                 <div className="mt-2">
                   <Button />
@@ -317,9 +367,7 @@ const BusinessDetail = () => {
       )}
 
       {key == "owner" && <Ownerdatail />}
-      {
-        key=="team" && <TeamBusiness/>
-      }
+      {key == "team" && <TeamBusiness />}
     </div>
   );
 };

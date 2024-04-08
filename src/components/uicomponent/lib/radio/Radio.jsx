@@ -17,7 +17,7 @@ const Radio = ({ label, name, value, checked, onChange }) => {
         )}
       </div>
       {/* <span style={{marginLeft:"30px"}}>{label}</span> */}
-            <span className="ml-10 font-poppins font-regular text-[20px] text-input ">{label}</span>
+            <span className="ml-10 font-poppins font-regular text-[1.04vw] text-input ">{label}</span>
     </label>
   );
 };
