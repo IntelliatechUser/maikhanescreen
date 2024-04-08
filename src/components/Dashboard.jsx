@@ -28,7 +28,7 @@ const Dashboard = () => {
             className="w-[359px] h-[189px]"
           />
         </div>
-        <div className="grid grid-cols-4  items-center text-poppins text-regular text-[22px] text-black capitalize">
+        <div className="grid grid-cols-4  items-center text-poppins text-regular text-[1.146vw] text-black capitalize">
        
           <div>Home</div>
           <div>Company</div>
