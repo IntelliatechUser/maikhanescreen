@@ -87,14 +87,10 @@ const Login = () => {
     //   </div>
     // </div>
     <div class="grid  bg-gray min-h-[100vh]  gap-y-2 ">
-      <div className="grid  md:grid-cols-[20%_80%]">
+      <div className="grid  min-h-[7vh] md:grid-cols-[20%_80%]">
         <div className="bg-green p-2">
           {" "}
-          <img
-            src="https://dummyimage.com/300.png/09f/fff"
-            width="40px"
-            height="40px"
-          />
+          <img src="https://dummyimage.com/300.png/09f/fff" width="40px" />
         </div>
         <div className="flex justify-end">
           <div className="w-128">
@@ -102,29 +98,29 @@ const Login = () => {
               <Countryandlanguage />
             </div>
             <div className="grid grid-cols-5 gap-2">
-              <div>ss</div>
-              <div>ss</div>
-              <div>ss</div>
-              <div>ss</div>
-              <div>ss</div>
+              <div>Home</div>
+              <div>Company</div>
+              <div>ContactUs</div>
+              <div>Pricing</div>
+              <div>Support</div>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="grid md:min-h-[50vh] md:grid-cols-[70%_30%]">
-        <div className="grid bg-pink grid md:grid-rows-[10%_20%_200px] p-2 ">
+      <div className="grid md:min-h-[40vh] md:grid-cols-[70%_30%]">
+        <div className="grid bg-pink grid md:grid-rows-[10%_20%_200px] p-4 ">
           <div className="bg-pink"></div>
-          <div className="bg-orange flex">
+          <div className="bg-orange flex pb-4">
             <Commonheading />
             <Commonheading />
             <Commonheading />
             <Commonheading />
           </div>
-          <div className="border border-indigo-900 ">
+          <div className="border border-indigo-900 bg-gray ">
             <img
               src="https://dummyimage.com/300.png/09f/fff"
-              className=" object-cover"
+              className="w-full h-full object-cover"
             />
           </div>
         </div>
