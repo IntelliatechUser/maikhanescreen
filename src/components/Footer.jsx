@@ -4,11 +4,18 @@ const Footer = () => {
   return (
     <div className="grid grid-flow-col gap-x-4 pt-10 w-[95%] mx-auto ">
       <div>
-        <img />
-        <div className="text-poppins text-regular text-[1.146vw] text-mediumText">
+        <img
+          src="https://dummyimage.com/300.png/09f/fff"
+          width="20px"
+          height="20px"
+        />
+
+        <div className="text-poppins text-regular text-[1vw] text-mediumText">
           HKBR private limited
         </div>
-
+        <div className="text-poppins text-regular text-[1.25vw] text-mediumText">
+          HKBR private limited
+        </div>
         <div className="text-poppins text-regular text-[1.14vw] text-mediumText"></div>
       </div>
       <div className="grid gap-y-3">

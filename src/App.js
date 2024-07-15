@@ -12,14 +12,9 @@ import {
   Ownerdatail,
   BusinessDetail,
   Business1,
-  TeamBusiness
-
+  TeamBusiness,
 } from "./components/index.js";
 import Login from "./components/Login";
-import FrontPage from "./components/FrontPage";
-import DatePicker from "./components/DatePicker.jsx";
-import FillOtpLogin from "./components/FillOtpLogin.jsx";
-import Dashboard from "./components/Dashboard.jsx";
 
 const router = createBrowserRouter([
   // { path: "/DatePicker", element: <DatePicker /> },
@@ -29,32 +24,32 @@ const router = createBrowserRouter([
   // { path: "/business2", element: <Business2 /> },
   { path: "/businessDetail", element: <BusinessDetail /> },
   { path: "/addBusinessUnitGrid", element: <AddBusinessUnitGrid /> },
-  { path: "/FrontPage", element: <FrontPage /> },
+
   { path: "/header", element: <Header /> },
   { path: "/register", element: <Register /> },
-  { path: "/dashboard", element: <Dashboard /> },
- { path: "/fillotplogin", element: <FillOtpLogin /> },
- {
-  path:"/teambusiness",element: <TeamBusiness/>
- },
+
+  {
+    path: "/teambusiness",
+    element: <TeamBusiness />,
+  },
   {
     path: "/",
     element: <Login />,
     errorElement: <Errorpage />,
-    children: [
-      {
-        path: "register",
-        element: <Register />,
-      },
-      {
-        path: "header",
-        element: <Header />,
-      },
-      {
-        path: "footer",
-        element: <Footer />,
-      },
-    ],
+    // children: [
+    //   {
+    //     path: "register",
+    //     element: <Register />,
+    //   },
+    //   {
+    //     path: "header",
+    //     element: <Header />,
+    //   },
+    //   {
+    //     path: "footer",
+    //     element: <Footer />,
+    //   },
+    // ],
   },
   // {path : '/businessheader', element: <headerBusiness/>,
   // errorElement: <Errorpage/>,
