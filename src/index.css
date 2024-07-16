@@ -2,3 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+.progress-bar {
+    height: 4px;
+    background-color: #80808063;
+}
+
+.progress-bar-active {
+    background-color: orange;
+}
