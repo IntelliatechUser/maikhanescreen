@@ -88,69 +88,68 @@ const Login = () => {
     //     </div>
     //   </div>
     // </div>
-    // <div class="grid  bg-gray min-h-[100vh]  gap-y-2 ">
-    //   <div className="grid  md:grid-cols-[20%_80%]">
-    //     <div className="bg-green p-2">
-    //       {" "}
-    //       <img
-    //         src="https://dummyimage.com/300.png/09f/fff"
-    //         width="40px"
-    //         height="40px"
-    //       />
-    //     </div>
-    //     <div className="flex justify-end">
-    //       <div className="w-128">
-    //         <div className="flex justify-end">
-    //           <Countryandlanguage />
-    //         </div>
-    //         <div className="grid grid-cols-5 gap-2">
-    //           <div>ss</div>
-    //           <div>ss</div>
-    //           <div>ss</div>
-    //           <div>ss</div>
-    //           <div>ss</div>
-    //         </div>
-    //       </div>
-    //     </div>
-    //   </div>
-
-    //   <div className="grid md:min-h-[50vh] md:grid-cols-[70%_30%]">
-    //     <div className="grid bg-pink grid md:grid-rows-[10%_20%_200px] p-2 ">
-    //       <div className="bg-pink"></div>
-    //       <div className="bg-orange flex">
-    //         <Commonheading />
-    //         <Commonheading />
-    //         <Commonheading />
-    //         <Commonheading />
-    //       </div>
-    //       <div className="border border-indigo-900 ">
-    //         <img
-    //           src="https://dummyimage.com/300.png/09f/fff"
-    //           className=" object-cover"
-    //         />
-    //       </div>
-    //     </div>
-    //     <div className="bg-orange">
-    //       <div className="flex flex-col h-full">
-    //         <div className="flex-[70%] bg-blue">ddd</div>
-    //         <div className="flex-[30%] bg-orange">dd</div>
-    //       </div>
-    //     </div>
-    //   </div>
-    //   <div className="grid md:min-h-[30vh] md:grid-cols-[25%_25%_25%_25%]">
-    //     <BarsOwner />
-
-    //     <BarsOwner />
-    //     <BarsOwner />
-
-    //     <BarsOwner />
-    //   </div>
-    //   <div className="grid md:min-h-[20vh] md:grid-cols-[100%]">
-    //     <Footer />
-    //   </div>
-    // </div>
     <Layout>
-      <Dashboard />
+      <div class="grid  bg-gray min-h-[100vh]  gap-y-2 ">
+        <div className="grid  md:grid-cols-[20%_80%]">
+          <div className="bg-green p-2">
+            {" "}
+            <img
+              src="https://dummyimage.com/300.png/09f/fff"
+              width="40px"
+              height="40px"
+            />
+          </div>
+          <div className="flex justify-end">
+            <div className="w-128">
+              <div className="flex justify-end">
+                <Countryandlanguage />
+              </div>
+              <div className="grid grid-cols-5 gap-2">
+                <div>ss</div>
+                <div>ss</div>
+                <div>ss</div>
+                <div>ss</div>
+                <div>ss</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid md:min-h-[50vh] md:grid-cols-[70%_30%]">
+          <div className="grid bg-pink grid md:grid-rows-[10%_20%_200px] p-2 ">
+            <div className="bg-pink"></div>
+            <div className="bg-orange flex">
+              <Commonheading />
+              <Commonheading />
+              <Commonheading />
+              <Commonheading />
+            </div>
+            <div className="border border-indigo-900 ">
+              <img
+                src="https://dummyimage.com/300.png/09f/fff"
+                className=" object-cover"
+              />
+            </div>
+          </div>
+          <div className="bg-orange">
+            <div className="flex flex-col h-full">
+              <div className="flex-[70%] bg-blue">ddd</div>
+              <div className="flex-[30%] bg-orange">dd</div>
+            </div>
+          </div>
+        </div>
+        <div className="grid md:min-h-[30vh] md:grid-cols-[25%_25%_25%_25%]">
+          <BarsOwner />
+
+          <BarsOwner />
+          <BarsOwner />
+
+          <BarsOwner />
+        </div>
+        <div className="grid md:min-h-[20vh] md:grid-cols-[100%]">
+          <Footer />
+        </div>
+      </div>
     </Layout>
   );
 };
