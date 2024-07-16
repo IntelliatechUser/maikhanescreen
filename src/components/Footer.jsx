@@ -1,14 +1,11 @@
 import React from "react";
-import { FooterComponentLinks, SocialLinks } from "./FooterComponentLinks";
+import { FooterComponentLinks, SocialLinks } from "../CommonComponents/FooterComponentLink";
+import logo from "../assets/logo/logo.png";
 const Footer = () => {
   return (
     <div className="grid grid-flow-col gap-x-4 pt-10 w-[95%] mx-auto ">
       <div>
-        <img
-          src="https://dummyimage.com/300.png/09f/fff"
-          width="20px"
-          height="20px"
-        />
+        <img className="h-20" src={logo} />
 
         <div className="text-poppins text-regular text-[1vw] text-mediumText">
           HKBR private limited
