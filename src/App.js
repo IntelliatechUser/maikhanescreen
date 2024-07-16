@@ -15,6 +15,7 @@ import {
   TeamBusiness,
 } from "./components/index.js";
 import Login from "./components/Login";
+import Dashboard from "./pages/DashboardPage.jsx";
 
 const router = createBrowserRouter([
   // { path: "/DatePicker", element: <DatePicker /> },
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
   { path: "/header", element: <Header /> },
   { path: "/register", element: <Register /> },
 
+  {
+    path: "/dashboard",
+    element: <Dashboard />,
+  },
   {
     path: "/teambusiness",
     element: <TeamBusiness />,

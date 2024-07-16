@@ -9,7 +9,6 @@ const Layout = ({ children }) => (
     <main className="flex-grow container mx-auto p-6">
       {children}
     </main>
-    <Footer />
   </div>
 );
 
