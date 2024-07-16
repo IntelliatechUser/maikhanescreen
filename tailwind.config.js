@@ -39,7 +39,7 @@ module.exports = {
       customOrange: '#FF9F08',
       green: "#13ce66",
       "gray-dark": "#000000AD",
-      gray: "#8492a6",
+      gray: "#80808063",
       black: "#0F0F0F",
       "yellow-dark": "#FF9804",
     },
