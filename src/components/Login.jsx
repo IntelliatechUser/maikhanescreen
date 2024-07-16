@@ -1,7 +1,11 @@
 import React from "react";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
+import Slider from "react-slick";
 import { useState } from "react";
-
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
 import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { BarsOwner, Commonheading } from "./Commonheading";
@@ -16,7 +20,94 @@ const options = [
   { value: "option2", label: "Option 2", countryCode: "CA" },
   { value: "option3", label: "Option 3", countryCode: "FR" },
 ];
+
 const Login = () => {
+  const validationSchema = Yup.object().shape({
+    username: Yup.string().required("Username is required"),
+    password: Yup.string().required("Password is required"),
+  });
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    arrows: true,
+    autoplay: true,
+    autoplaySpeed: 2000,
+    pauseOnHover: true,
+    nextArrow: <SampleNextArrow />,
+    prevArrow: <SamplePrevArrow />,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
+  };
+  const settings1 = {
+    dots: true,
+    infinite: true,
+
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: true,
+    autoplay: true,
+    autoplaySpeed: 5000,
+    pauseOnHover: true,
+    nextArrow: <SampleNextArrow />,
+    prevArrow: <SamplePrevArrow />,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
+  };
+  // Initial form values
+  const initialValues = {
+    username: "",
+    password: "",
+  };
+  // Initial form values
+  const onSubmit = (values) => {
+    console.log("Form data", values);
+    // Perform login logic here (e.g., API call)
+  };
   const navigate = useNavigate();
 
   const [toggle, setToggle] = useState();
@@ -30,128 +121,269 @@ const Login = () => {
     console.log("Selected:", selected);
   };
   return (
-    // <div className="flex h-[97vh] w-[97vw]">
-    //   <div className="flex-[44%] bg-gray-dark  flex justify-center items-center">
-    //     <div>
-    //       <img src={maikhanelogo} alt="maikhane logo" />
-    //     </div>
-    //   </div>
-    //   <div className="flex-[56%] flex items-center p-[7%] relative ">
-    //     <div className="flex-col w-full ">
-    //       <div className="font-poppins font-bold text-[3.49vw] text-yellow-dark">
-    //         Login
-    //       </div>
-
-    //       <div className="font-poppins text-secondary font-regular text-[1.45vw] mb-[60px]  ">
-    //         Don't have an account
-    //         <span className="text-yellow-dark"> Create Account</span>
-    //       </div>
-    //       <div className="flex-col  w-[65%]">
-    //         <InputField
-    //           size="default"
-    //           className="mb-[15px] mt-5 "
-    //           Icon={<IconAwesomephone />}
-    //           placeholder={"Enter the mobile number"}
-    //         />
-
-    //         <Select
-    //           options={options}
-    //           value={selectedValue}
-    //           name="mySelect"
-    //           handleOptionClick={handleSelectChange}
-    //           variant="default"
-    //           size="default"
-    //           className="mb-[30px] py-2"
-    //           LeftIcon={<IconAwesomeuser />}
-    //           rightIcon={<ArrowPreviewSmall color="#0F0F0F" />}
-    //         />
-    //         <div className="flex justify-end">
-    //           <Button size="default" onClick={() => navigate("/fillotplogin")}>
-    //             <span className="font-poppins font-medium  text-[20px] text-white">
-    //               SEND OTP
-    //             </span>
-    //           </Button>
-    //         </div>
-    //       </div>
-    //     </div>
-    //     <div className="absolute bottom-1   flex font-regular font-poppins  text-gray-light gap-[2.68rem] text-1xl">
-    //       <div className="flex  ">
-    //         <span>Change password |</span>
-    //         <span>Reset Password |</span>
-    //         <span>SignUp</span>
-    //       </div>
-    //       <div className="flex ml-10 ">
-    //         <span className="mr-1 ">Privacy Policy |</span>
-    //         <span>Term Of Use |</span>
-    //         <span>Return Policy </span>
-    //       </div>
-    //     </div>
-    //   </div>
-    // </div>
     <Layout>
-      <div class="grid  bg-gray min-h-[100vh]  gap-y-2 ">
-        <div className="grid  md:grid-cols-[20%_80%]">
-          <div className="bg-green p-2">
-            {" "}
-            <img
-              src="https://dummyimage.com/300.png/09f/fff"
-              width="40px"
-              height="40px"
-            />
+      <div class="grid   min-h-[70vh]  gap-y-2 ">
+        <div className="grid md:min-h-[40vh] md:grid-cols-[70%_30%]">
+          <div className="grid   md:grid-rows-[10%_20%_200px] ">
+            <div className="font-bold">Why Use Maikhane Business Platform</div>
+            <div className=" flex pb-4 w-[70%]">
+              <Commonheading heading={"Restaurant Bar"} />
+              <Commonheading heading={"Hotels"} />
+              <Commonheading heading={"Liquor Brand"} />
+              <Commonheading heading={"Liquor Store"} />
+            </div>
+            <div className="grid grid-cols-1 h-[200px] ">
+              <Slider {...settings1} className="h-200px">
+                <div className="relative h-[200px] w-full flex ">
+                  <img
+                    src="https://dummyimage.com/300.png/09f/fff"
+                    className="absolute top-0 left-0 w-[70%] h-full object-cover"
+                  />
+
+                  <div className="absolute left-[75%]">
+                    <p>Inventory management</p> <p>Attendence report</p>
+                  </div>
+                </div>
+                <div className="relative h-[200px] w-full">
+                  <img
+                    src="https://dummyimage.com/300.png/09f/fff"
+                    className="absolute top-0 left-0 w-full h-full object-cover"
+                  />
+                </div>
+                <div className="relative h-[200px] w-full">
+                  <img
+                    src="https://dummyimage.com/300.png/09f/fff"
+                    className="absolute top-0 left-0 w-full h-full object-cover"
+                  />
+                </div>
+                <div className="relative h-[200px] w-full">
+                  <img
+                    src="https://dummyimage.com/300.png/09f/fff"
+                    className="absolute top-0 left-0 w-full h-full object-cover"
+                  />
+                </div>
+                <div className="relative h-[200px] w-full">
+                  <img
+                    src="https://dummyimage.com/300.png/09f/fff"
+                    className="absolute top-0 left-0 w-full h-full object-cover"
+                  />
+                </div>
+              </Slider>
+            </div>
           </div>
-          <div className="flex justify-end">
-            <div className="w-128">
-              <div className="flex justify-end">
-                <Countryandlanguage />
+          <div>
+            <div className="flex flex-col h-full">
+              <div className="flex-[70%] ">
+                <div className=" rounded-lg shadow-md p-6 w-full max-w-md">
+                  <h1 className="text-2xl font-semibold mb-6 text-center">
+                    Login
+                  </h1>
+                  <Formik
+                    initialValues={initialValues}
+                    validationSchema={validationSchema}
+                    onSubmit={onSubmit}
+                  >
+                    {({ isSubmitting }) => (
+                      <Form>
+                        <div className="mb-4">
+                          <Field
+                            type="text"
+                            name="username"
+                            placeholder="Username"
+                            className="w-full p-3 rounded border-2 border-yellow-dark focus:border-4 focus:outline-0 focus:border-yellow"
+                          />
+                          <ErrorMessage
+                            name="username"
+                            component="div"
+                            className="text-red-600 mt-1 text-sm"
+                          />
+                        </div>
+                        <div className="mb-6">
+                          <Field
+                            type="password"
+                            name="password"
+                            placeholder="Password"
+                            className="w-full p-3 rounded border-2 border-yellow-dark focus:border-4 focus:outline-0 focus:border-yellow"
+                          />
+                          <ErrorMessage
+                            name="password"
+                            component="div"
+                            className="text-red-600 mt-1 text-sm"
+                          />
+                        </div>
+                        <div>
+                          <button
+                            type="submit"
+                            disabled={isSubmitting}
+                            className="w-full bg-yellow-dark text-white p-3 rounded hover:bg-indigo-700  border border-2"
+                          >
+                            Login
+                          </button>
+                        </div>
+                      </Form>
+                    )}
+                  </Formik>
+                </div>
               </div>
-              <div className="grid grid-cols-5 gap-2">
-                <div>ss</div>
-                <div>ss</div>
-                <div>ss</div>
-                <div>ss</div>
-                <div>ss</div>
+              <div className="flex-[30%]  flex flex-col px-6">
+                <div className="flex justify-between ">
+                  <div>Remember Me</div>
+                  <div>Forgot Password</div>
+                </div>
+                <div className="flex flex-col justify-center items-center ">
+                  <div className="text-center">
+                    if you have dont have account yet
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="w-40 h-10 bg-yellow-dark text-white flex justify-center items-center p-3 rounded-full   border border-2"
+                  >
+                    SignUp
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </div>
-
-        <div className="grid md:min-h-[50vh] md:grid-cols-[70%_30%]">
-          <div className="grid bg-pink grid md:grid-rows-[10%_20%_200px] p-2 ">
-            <div className="bg-pink"></div>
-            <div className="bg-orange flex">
-              <Commonheading />
-              <Commonheading />
-              <Commonheading />
-              <Commonheading />
-            </div>
-            <div className="border border-indigo-900 ">
+        <div className="grid min-h-[10vh]  md:min-h-[30vh] grid-cols-1">
+          <Slider {...settings}>
+            <div>
               <img
                 src="https://dummyimage.com/300.png/09f/fff"
-                className=" object-cover"
+                className="w-full h-full object-cover"
               />
             </div>
-          </div>
-          <div className="bg-orange">
-            <div className="flex flex-col h-full">
-              <div className="flex-[70%] bg-blue">ddd</div>
-              <div className="flex-[30%] bg-orange">dd</div>
+            <div>
+              <img
+                src="https://dummyimage.com/300.png/09f/fff"
+                className="w-full h-full object-cover"
+              />
             </div>
-          </div>
+            <div>
+              <img
+                src="https://dummyimage.com/300.png/09f/fff"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div>
+              <img
+                src="https://dummyimage.com/300.png/09f/fff"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div>
+              <img
+                src="https://dummyimage.com/300.png/09f/fff"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div>
+              <img
+                src="https://dummyimage.com/300.png/09f/fff"
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </Slider>
         </div>
-        <div className="grid md:min-h-[30vh] md:grid-cols-[25%_25%_25%_25%]">
-          <BarsOwner />
-
-          <BarsOwner />
-          <BarsOwner />
-
-          <BarsOwner />
-        </div>
-        <div className="grid md:min-h-[20vh] md:grid-cols-[100%]">
+        {/* <div className="grid md:min-h-[20vh] md:grid-cols-[100%]">
           <Footer />
-        </div>
+        </div> */}
       </div>
     </Layout>
   );
 };
 
 export default Login;
+
+// Import css files
+
+const SampleNextArrow = (props) => {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={className}
+      style={{
+        ...style,
+        display: "block",
+        color: "black",
+        fontSize: "30px",
+        right: "10px",
+        zIndex: 1,
+      }}
+      onClick={onClick}
+    ></div>
+  );
+};
+
+const SamplePrevArrow = (props) => {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={className}
+      style={{
+        ...style,
+        display: "block",
+        color: "black",
+        fontSize: "30px",
+        left: "10px",
+        zIndex: 1,
+      }}
+      onClick={onClick}
+    ></div>
+  );
+};
+
+// export default function SimpleSlider() {
+//   const settings = {
+//     dots: true,
+//     infinite: true,
+//     speed: 500,
+//     slidesToShow: 4,
+//     slidesToScroll: 1,
+//     arrows: true,
+//     nextArrow: <SampleNextArrow />,
+//     prevArrow: <SamplePrevArrow />,
+//   };
+
+//   return (
+//     <Slider {...settings}>
+//       <div>
+//         <img
+//           src="https://dummyimage.com/300.png/09f/fff"
+//           className="w-full h-full object-cover"
+//         />
+//       </div>
+//       <div>
+//         <img
+//           src="https://dummyimage.com/300.png/09f/fff"
+//           className="w-full h-full object-cover"
+//         />
+//       </div>
+//       <div>
+//         <img
+//           src="https://dummyimage.com/300.png/09f/fff"
+//           className="w-full h-full object-cover"
+//         />
+//       </div>
+//       <div>
+//         <img
+//           src="https://dummyimage.com/300.png/09f/fff"
+//           className="w-full h-full object-cover"
+//         />
+//       </div>
+//       <div>
+//         <img
+//           src="https://dummyimage.com/300.png/09f/fff"
+//           className="w-full h-full object-cover"
+//         />
+//       </div>
+//       <div>
+//         <img
+//           src="https://dummyimage.com/300.png/09f/fff"
+//           className="w-full h-full object-cover"
+//         />
+//       </div>
+//     </Slider>
+//   );
+// }

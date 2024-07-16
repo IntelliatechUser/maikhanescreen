@@ -5,7 +5,7 @@ export const Commonheading = ({
   heading = "default text",
 }) => {
   return (
-    <div className="p-1">
+    <div className="p-1 flex-1">
       <img width="50px" height="50px" src={img} className="rounded" />
       <p>{heading}</p>
     </div>
@@ -17,7 +17,6 @@ export const BarsOwner = () => {
       <img
         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvoDpETXEh0BUvReWb7nTOygdv7ZL7Yb5MQA&s"
         width="50px"
-        height="10px"
         className="rounded-full"
       />
       <p className="text-xs">Shanshank Owner</p>
