@@ -1,7 +1,7 @@
 import React from "react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
+import restaurantbar from "../assets/img/restaurantbar.jpg";
 import Slider from "react-slick";
 import { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -9,6 +9,10 @@ import * as Yup from "yup";
 import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { BarsOwner, Commonheading } from "./Commonheading";
+import restaurantbarsmall from "../assets/img/resturantbarsmall.png";
+import liquorstore from "../assets/img/liquorstore.png";
+import liquorbrand from "../assets/img/liquorbrand.png";
+import hotels from "../assets/img/hotels.png";
 import Footer from "./Footer";
 import ReactCountryFlag from "react-country-flag";
 import Countryandlanguage from "../CommonComponents/Countryandlanguage";
@@ -36,6 +40,7 @@ const Login = () => {
     autoplay: true,
     autoplaySpeed: 2000,
     pauseOnHover: true,
+
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />,
     responsive: [
@@ -127,16 +132,19 @@ const Login = () => {
           <div className="grid   md:grid-rows-[10%_20%_200px] ">
             <div className="font-bold">Why Use Maikhane Business Platform</div>
             <div className=" flex pb-4 w-[70%]">
-              <Commonheading heading={"Restaurant Bar"} />
-              <Commonheading heading={"Hotels"} />
-              <Commonheading heading={"Liquor Brand"} />
-              <Commonheading heading={"Liquor Store"} />
+              <Commonheading
+                heading={"Restaurant Bar"}
+                img={restaurantbarsmall}
+              />
+              <Commonheading heading={"Hotels"} img={hotels} />
+              <Commonheading heading={"Liquor Brand"} img={liquorbrand} />
+              <Commonheading heading={"Liquor Store"} img={liquorstore} />
             </div>
             <div className="grid grid-cols-1 h-[200px] ">
               <Slider {...settings1} className="h-200px">
                 <div className="relative h-[200px] w-full flex ">
                   <img
-                    src="https://dummyimage.com/300.png/09f/fff"
+                    src={restaurantbar}
                     className="absolute top-0 left-0 w-[70%] h-full object-cover"
                   />
 
@@ -249,40 +257,22 @@ const Login = () => {
         <div className="grid min-h-[10vh]  md:min-h-[30vh] grid-cols-1">
           <Slider {...settings}>
             <div>
-              <img
-                src="https://dummyimage.com/300.png/09f/fff"
-                className="w-full h-full object-cover"
-              />
+              <BarsOwner />
             </div>
             <div>
-              <img
-                src="https://dummyimage.com/300.png/09f/fff"
-                className="w-full h-full object-cover"
-              />
+              <BarsOwner />
             </div>
             <div>
-              <img
-                src="https://dummyimage.com/300.png/09f/fff"
-                className="w-full h-full object-cover"
-              />
+              <BarsOwner />
             </div>
             <div>
-              <img
-                src="https://dummyimage.com/300.png/09f/fff"
-                className="w-full h-full object-cover"
-              />
+              <BarsOwner />
             </div>
             <div>
-              <img
-                src="https://dummyimage.com/300.png/09f/fff"
-                className="w-full h-full object-cover"
-              />
+              <BarsOwner />
             </div>
             <div>
-              <img
-                src="https://dummyimage.com/300.png/09f/fff"
-                className="w-full h-full object-cover"
-              />
+              <BarsOwner />
             </div>
           </Slider>
         </div>
