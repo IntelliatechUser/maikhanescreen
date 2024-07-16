@@ -3,20 +3,17 @@ import { useSelector, useDispatch } from "react-redux";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import {
   Header,
-  Footer,
   Errorpage,
-  Home,
   Register,
-  Business2,
   AddBusinessUnitGrid,
   Ownerdatail,
   BusinessDetail,
-  Business1,
   TeamBusiness,
 } from "./components/index.js";
 import Login from "./components/Login";
 import Dashboard from "./pages/DashboardPage.jsx";
 import BusinessUnit from "./pages/AddBusinessUnitPage.jsx";
+import SignUp from "./components/SignUp.jsx";
 
 const router = createBrowserRouter([
   // { path: "/DatePicker", element: <DatePicker /> },
@@ -36,7 +33,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/addBusinessUnit",
-    element: <BusinessUnit />
+    element: <BusinessUnit />,
   },
   {
     path: "/teambusiness",
@@ -46,28 +43,12 @@ const router = createBrowserRouter([
     path: "/",
     element: <Login />,
     errorElement: <Errorpage />,
-    // children: [
-    //   {
-    //     path: "register",
-    //     element: <Register />,
-    //   },
-    //   {
-    //     path: "header",
-    //     element: <Header />,
-    //   },
-    //   {
-    //     path: "footer",
-    //     element: <Footer />,
-    //   },
-    // ],
   },
-  // {path : '/businessheader', element: <headerBusiness/>,
-  // errorElement: <Errorpage/>,
-  // children:[{
-  //   path:'',element:<Home/>},{
-  //   path: 'header',element:<Header/>},{
-  //   path:'footer',element:<Footer/>}
-  // ],},
+  {
+    path: "/signup",
+    element: <SignUp />,
+    errorElement: <Errorpage />,
+  },
 ]);
 export default function App() {
   const dispatch = useDispatch();

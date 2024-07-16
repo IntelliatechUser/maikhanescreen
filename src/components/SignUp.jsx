@@ -6,17 +6,19 @@ import Slider from "react-slick";
 import { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-
 import { useNavigate } from "react-router-dom";
+
 import { BarsOwner, Commonheading } from "./Commonheading";
 import restaurantbarsmall from "../assets/img/resturantbarsmall.png";
 import liquorstore from "../assets/img/liquorstore.png";
 import liquorbrand from "../assets/img/liquorbrand.png";
 import hotels from "../assets/img/hotels.png";
 import Footer from "./Footer";
-
+import ReactCountryFlag from "react-country-flag";
+import Countryandlanguage from "../CommonComponents/Countryandlanguage";
+import SimpleSlider from "./SimpleSlider";
+import Dashboard from "../pages/DashboardPage";
 import Layout from "./Layout";
-
 const options = [
   { value: "option1", label: "Option 1", countryCode: "US" },
   { value: "option2", label: "Option 2", countryCode: "CA" },
@@ -26,9 +28,20 @@ const options = [
 const Login = () => {
   const navigate = useNavigate();
   const validationSchema = Yup.object().shape({
-    username: Yup.string().required("Username is required"),
-    password: Yup.string().required("Password is required"),
+    fullName: Yup.string().required("Full name is required"),
+    phoneNumber: Yup.string().required("Phone number is required"),
+    email: Yup.string()
+      .email("Invalid email format")
+      .required("Email is required"),
+    role: Yup.string().required("Role is required"),
   });
+
+  const initialValues = {
+    fullName: "",
+    phoneNumber: "",
+    email: "",
+    role: "",
+  };
   const settings = {
     dots: true,
     infinite: true,
@@ -102,11 +115,7 @@ const Login = () => {
       },
     ],
   };
-  // Initial form values
-  const initialValues = {
-    username: "",
-    password: "",
-  };
+
   // Initial form values
   const onSubmit = (values) => {
     console.log("Form data", values);
@@ -138,8 +147,8 @@ const Login = () => {
               <Commonheading heading={"Liquor Brand"} img={liquorbrand} />
               <Commonheading heading={"Liquor Store"} img={liquorstore} />
             </div>
-            <div className="grid grid-cols-1 h-[200px] ">
-              <Slider {...settings1} className="h-200px">
+            <div className="grid grid-cols-1  ">
+              <Slider {...settings1}>
                 <div className="relative h-[200px] w-full flex ">
                   <img
                     src={restaurantbar}
@@ -179,11 +188,20 @@ const Login = () => {
           </div>
           <div>
             <div className="flex flex-col h-full">
-              <div className="flex-[70%] ">
-                <div className=" rounded-lg shadow-md p-6 w-full max-w-md">
-                  <h1 className="text-2xl font-semibold mb-6 text-center">
-                    Login
-                  </h1>
+              <div className="flex-[70%]">
+                <div className="rounded-lg shadow-md p-6 w-full max-w-md">
+                  <p className="text-2xl font-semibold mb-6 text-center">
+                    Create Account
+                  </p>
+                  <p className="text-2xl font-semibold mb-6 text-center">
+                    Already have account?
+                    <span
+                      className="text-yellow-dark"
+                      onClick={() => navigate("/")}
+                    >
+                      Login
+                    </span>
+                  </p>
                   <Formik
                     initialValues={initialValues}
                     validationSchema={validationSchema}
@@ -194,25 +212,54 @@ const Login = () => {
                         <div className="mb-4">
                           <Field
                             type="text"
-                            name="username"
-                            placeholder="Username"
+                            name="fullName"
+                            placeholder="Full Name"
                             className="w-full p-3 rounded border-2 border-yellow-dark focus:border-4 focus:outline-0 focus:border-yellow"
                           />
                           <ErrorMessage
-                            name="username"
+                            name="fullName"
+                            component="div"
+                            className="text-red-600 mt-1 text-sm"
+                          />
+                        </div>
+                        <div className="mb-4">
+                          <Field
+                            type="text"
+                            name="phoneNumber"
+                            placeholder="Phone Number"
+                            className="w-full p-3 rounded border-2 border-yellow-dark focus:border-4 focus:outline-0 focus:border-yellow"
+                          />
+                          <ErrorMessage
+                            name="phoneNumber"
+                            component="div"
+                            className="text-red-600 mt-1 text-sm"
+                          />
+                        </div>
+                        <div className="mb-4">
+                          <Field
+                            type="email"
+                            name="email"
+                            placeholder="Email"
+                            className="w-full p-3 rounded border-2 border-yellow-dark focus:border-4 focus:outline-0 focus:border-yellow"
+                          />
+                          <ErrorMessage
+                            name="email"
                             component="div"
                             className="text-red-600 mt-1 text-sm"
                           />
                         </div>
                         <div className="mb-6">
                           <Field
-                            type="password"
-                            name="password"
-                            placeholder="Password"
+                            as="select"
+                            name="role"
                             className="w-full p-3 rounded border-2 border-yellow-dark focus:border-4 focus:outline-0 focus:border-yellow"
-                          />
+                          >
+                            <option value="" label="Select your role" />
+                            <option value="Owner" label="Owner" />
+                            <option value="Manager" label="Manager" />
+                          </Field>
                           <ErrorMessage
-                            name="password"
+                            name="role"
                             component="div"
                             className="text-red-600 mt-1 text-sm"
                           />
@@ -221,33 +268,14 @@ const Login = () => {
                           <button
                             type="submit"
                             disabled={isSubmitting}
-                            className="w-full bg-yellow-dark text-white p-3 rounded hover:bg-indigo-700  border border-2"
+                            className="w-full bg-yellow-dark text-white p-3 rounded hover:bg-indigo-700 border border-2"
                           >
-                            Login
+                            Sign Up
                           </button>
                         </div>
                       </Form>
                     )}
                   </Formik>
-                </div>
-              </div>
-              <div className="flex-[30%]  flex flex-col px-6">
-                <div className="flex justify-between ">
-                  <div>Remember Me</div>
-                  <div>Forgot Password</div>
-                </div>
-                <div className="flex flex-col justify-center items-center ">
-                  <div className="text-center">
-                    if you have dont have account yet
-                  </div>
-
-                  <button
-                    type="submit"
-                    className="w-40 h-10 bg-yellow-dark text-white flex justify-center items-center p-3 rounded-full   border border-2"
-                    onClick={() => navigate("/signup")}
-                  >
-                    SignUp
-                  </button>
                 </div>
               </div>
             </div>
