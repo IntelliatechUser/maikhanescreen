@@ -814,8 +814,38 @@ const SignUp = () => {
     autoplay: true,
     autoplaySpeed: 2000,
     pauseOnHover: true,
-    nextArrow: <SampleNextArrow />,
-    prevArrow: <SamplePrevArrow />,
+    nextArrow: (
+      <div>
+        <div className="next-slick-arrow">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            stroke="black"
+            height="24"
+            viewBox="0 -960 960 960"
+            width="24"
+            fill="orange"
+          >
+            <path d="m242-200 200-280-200-280h98l200 280-200 280h-98Zm238 0 200-280-200-280h98l200 280-200 280h-98Z" />
+          </svg>
+        </div>
+      </div>
+    ),
+    prevArrow: (
+      <div>
+        <div className="next-slick-arrow rotate-180">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            stroke="black"
+            height="24"
+            viewBox="0 -960 960 960"
+            width="24"
+            fill="orange"
+          >
+            <path d="m242-200 200-280-200-280h98l200 280-200 280h-98Zm238 0 200-280-200-280h98l200 280-200 280h-98Z" />
+          </svg>
+        </div>
+      </div>
+    ),
     responsive: [
       {
         breakpoint: 1024,

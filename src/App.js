@@ -14,7 +14,7 @@ import Login from "./components/Login";
 import Dashboard from "./pages/DashboardPage.jsx";
 import BusinessUnit from "./pages/AddBusinessUnitPage.jsx";
 import SignUp from "./components/SignUp.jsx";
-
+import ModelTest from "./ModelTest.jsx";
 const router = createBrowserRouter([
   // { path: "/DatePicker", element: <DatePicker /> },
   { path: "/businessGrid", element: <BusinessDetail /> },
@@ -47,6 +47,11 @@ const router = createBrowserRouter([
   {
     path: "/signup",
     element: <SignUp />,
+    errorElement: <Errorpage />,
+  },
+  {
+    path: "/modaltest",
+    element: <ModelTest />,
     errorElement: <Errorpage />,
   },
 ]);
