@@ -16,14 +16,13 @@ export const BarsOwner = () => {
     <div className="flex flex-col items-center justify-center h-full p-5">
       <img
         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvoDpETXEh0BUvReWb7nTOygdv7ZL7Yb5MQA&s"
-        width="50px"
-        className="rounded-full"
+        className="w-10 h-10 rounded-full"
       />
       <p className="text-xs">Shanshank Owner</p>
       <p>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi ex,
-        repudiandae est ipsam quasi, porro neque nobis nisi quam accusamus nihil
-        molestiae id consequuntur labore modi dolorem. Hic, suscipit doloremque.
+        repudiandae est ipsam quasi, porro neque nobis nisi quam accusamus
+        nihil.
       </p>
     </div>
   );

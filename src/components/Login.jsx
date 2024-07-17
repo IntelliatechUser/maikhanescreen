@@ -146,8 +146,13 @@ const Login = () => {
                     className="absolute top-0 left-0 w-[70%] h-full object-cover"
                   />
 
-                  <div className="absolute left-[75%]">
-                    <p>Inventory management</p> <p>Attendence report</p>
+                  <div className="absolute left-[75%] text-sm flex flex-col h-full">
+                    <p className="flex-1 font-bold">Other features</p>{" "}
+                    <p className="flex-1">Inventory management</p>{" "}
+                    <p className="flex-1">Attendence report</p>
+                    <p className="flex-1">Discount Vouchers</p>
+                    <p className="flex-1">Ticket Management</p>
+                    <p className="flex-1">Customer Interaction</p>
                   </div>
                 </div>
                 <div className="relative h-[200px] w-full">
@@ -178,9 +183,9 @@ const Login = () => {
             </div>
           </div>
           <div>
-            <div className="flex flex-col h-full">
+            <div className="flex flex-col h-full justify-start">
               <div className="flex-[70%] ">
-                <div className=" rounded-lg shadow-md p-6 w-full max-w-md">
+                <div className=" rounded-lg shadow-md px-6 w-full max-w-md">
                   <h1 className="text-2xl font-semibold mb-6 text-center">
                     Login
                   </h1>
@@ -221,7 +226,7 @@ const Login = () => {
                           <button
                             type="submit"
                             disabled={isSubmitting}
-                            className="w-full bg-yellow-dark text-white p-2 rounded hover:bg-indigo-700  border border-2"
+                            className=" bg-customOrange w-full text-white py-1 rounded-full hover:bg-indigo-700  border border-2"
                           >
                             Login
                           </button>
@@ -243,7 +248,7 @@ const Login = () => {
 
                   <button
                     type="submit"
-                    className="w-40 h-10 bg-yellow-dark text-white flex justify-center items-center p-3 rounded-full   border border-2"
+                    className="w-full h-10 bg-customOrange text-white flex justify-center items-center p-1 rounded-full   border border-2"
                     onClick={() => navigate("/signup")}
                   >
                     SignUp

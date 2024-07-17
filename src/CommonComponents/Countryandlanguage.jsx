@@ -19,7 +19,7 @@ const Countryandlanguage = () => {
   return (
     <>
       <div className="relative inline-block ">
-        <div className="flex items-center bg-white border border-gray-300 text-gray-700 py-3 px-2  rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+        <div className="flex items-center bg-white border border-gray-300 text-gray-700 py-2 px-2  rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
           <ReactCountryFlag
             countryCode={selectedOption.countryCode}
             svg
@@ -48,7 +48,7 @@ const Countryandlanguage = () => {
         </div>
       </div>
       <div className="relative inline-block ">
-        <div className="flex items-center bg-white border border-gray-300 text-gray-700 py-3 px-2  rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+        <div className="flex items-center bg-white border border-gray-300 text-gray-700 py-2 px-2  rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
           <ReactCountryFlag
             countryCode={selectedOption.countryCode}
             svg
