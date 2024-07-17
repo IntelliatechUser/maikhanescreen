@@ -1,14 +1,57 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
+const OTPInput = ({ field, form }) => {
+  const inputRefs = useRef([]); // Ref to hold all input elements
+
+  const handleChange = (e, index) => {
+    const value = e.target.value;
+    if (/^\d?$/.test(value)) {
+      const otp = field.value.split("");
+      otp[index] = value;
+      form.setFieldValue(field.name, otp.join(""));
+      // Move focus to the next input if a digit is entered and it's not the last input
+      if (value && index < inputRefs.current.length - 1) {
+        inputRefs.current[index + 1].focus();
+      }
+    }
+  };
+
+  const handleKeyDown = (e, index) => {
+    if (e.key === "Backspace" && !e.target.value && index > 0) {
+      inputRefs.current[index - 1].focus();
+    }
+  };
+
+  return (
+    <div className="flex justify-between space-x-2">
+      {Array(4)
+        .fill()
+        .map((_, index) => (
+          <input
+            key={index}
+            type="text"
+            maxLength="1"
+            value={field.value[index] || ""}
+            onChange={(e) => handleChange(e, index)}
+            onKeyDown={(e) => handleKeyDown(e, index)}
+            ref={(el) => (inputRefs.current[index] = el)}
+            className="w-10 h-10 text-center bg-transparent border-0 border-b-2 border-gray-300 focus:border-yellow-500 focus:outline-none"
+          />
+        ))}
+    </div>
+  );
+};
+
 const OTPModal = ({ isOpen, onClose, onSubmitOTP }) => {
   const formRef = useRef(null); // Ref to hold Formik form instance
+  const [timer, setTimer] = useState(60);
 
   // Validation schema for Formik
   const validationSchema = Yup.object().shape({
     otp: Yup.string()
-      .matches(/^\d{6}$/, "OTP must be 6 digits")
+      .matches(/^\d{4}$/, "OTP must be 4 digits")
       .required("OTP is required"),
   });
 
@@ -27,8 +70,21 @@ const OTPModal = ({ isOpen, onClose, onSubmitOTP }) => {
   useEffect(() => {
     if (!isOpen) {
       formRef.current.resetForm(); // Access resetForm function via useRef
+      setTimer(60); // Reset the timer when modal closes
     }
   }, [isOpen]);
+
+  useEffect(() => {
+    let interval;
+    if (isOpen && timer > 0) {
+      interval = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000);
+    } else if (timer === 0) {
+      clearInterval(interval);
+    }
+    return () => clearInterval(interval);
+  }, [isOpen, timer]);
 
   return (
     <div
@@ -77,32 +133,33 @@ const OTPModal = ({ isOpen, onClose, onSubmitOTP }) => {
               <div className="mb-4">
                 <label
                   htmlFor="otp"
-                  className="block text-sm font-medium text-gray-700 text-center "
+                  className="block text-xl font-medium text-gray-700 text-center"
                 >
                   Please Enter OTP
                 </label>
-
-                <Field
-                  type="text"
-                  id="otp"
-                  name="otp"
-                  className="w-full p-2 rounded border-2 border-yellow-dark focus:border-4 focus:outline-0 focus:border-yellow"
-                />
+                <Field name="otp" component={OTPInput} />
                 <ErrorMessage
                   name="otp"
                   component="p"
-                  className="text-red-500 text-sm mt-1 text-center text-red"
+                  className="text-red-500 text-sm mt-1 text-center"
                 />
               </div>
 
+              {/* Timer */}
+              <div className="text-center text-gray-600 mb-4">
+                {`Time remaining: ${timer} seconds`}
+              </div>
+
               {/* Submit Button */}
-              <button
-                type="submit"
-                className="mt-4 w-full bg-orange-500 hover:bg-orange-600 bg-yellow-dark text-white font-semibold py-2 rounded-md focus:outline-none"
-                disabled={isSubmitting}
-              >
-                Submit OTP
-              </button>
+              <div className="flex justify-center">
+                <button
+                  type="submit"
+                  className="mt-4 w-40 flex justify-center bg-customOrange hover:bg-customOrange text-white font-semibold py-2 rounded-full focus:outline-none"
+                  disabled={isSubmitting}
+                >
+                  Submit
+                </button>
+              </div>
             </Form>
           )}
         </Formik>
