@@ -878,7 +878,7 @@ const SignUp = () => {
                     className="absolute top-0 left-0 w-full h-full object-cover"
                   />
                 </div>
-                <div className="relative h-[200px] w-full">
+                {/* <div className="relative h-[200px] w-full">
                   <img
                     src="https://dummyimage.com/300.png/09f/fff"
                     className="absolute top-0 left-0 w-full h-full object-cover"
@@ -895,7 +895,7 @@ const SignUp = () => {
                     src="https://dummyimage.com/300.png/09f/fff"
                     className="absolute top-0 left-0 w-full h-full object-cover"
                   />
-                </div>
+                </div> */}
               </Slider>
             </div>
           </div>

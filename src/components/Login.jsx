@@ -161,7 +161,7 @@ const Login = () => {
                     className="absolute top-0 left-0 w-full h-full object-cover"
                   />
                 </div>
-                <div className="relative h-[200px] w-full">
+                {/* <div className="relative h-[200px] w-full">
                   <img
                     src="https://dummyimage.com/300.png/09f/fff"
                     className="absolute top-0 left-0 w-full h-full object-cover"
@@ -178,7 +178,7 @@ const Login = () => {
                     src="https://dummyimage.com/300.png/09f/fff"
                     className="absolute top-0 left-0 w-full h-full object-cover"
                   />
-                </div>
+                </div> */}
               </Slider>
             </div>
           </div>
@@ -248,7 +248,7 @@ const Login = () => {
 
                   <button
                     type="submit"
-                    className="w-full h-10 bg-customOrange text-white flex justify-center items-center p-1 rounded-full   border border-2"
+                    className="w-full h-10 bg-gray-dark text-white flex justify-center items-center p-1 rounded-full   border border-2"
                     onClick={() => navigate("/signup")}
                   >
                     SignUp
