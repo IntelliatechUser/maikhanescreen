@@ -4,10 +4,10 @@ import Countryandlanguage from "../CommonComponents/Countryandlanguage";
 
 const Header = () => (
   <header className="bg-white shadow mb-8">
-    <div className="container mx-auto p-4 pb-1 flex justify-between items-center">
+    <div className=" mx-auto px-14 pb-1 flex justify-between items-center">
       <img className="h-20" src={logo} />
-      <div className="flex flex-col justify-end">
-        <div className="flex justify-end gap-2">
+      <div className="flex flex-col justify-end gap-2">
+        <div className="flex justify-end gap-4">
           <Countryandlanguage />
         </div>
         <nav>
