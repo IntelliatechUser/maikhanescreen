@@ -8,14 +8,14 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
 import { useNavigate } from "react-router-dom";
-import { BarsOwner, Commonheading } from "./Commonheading";
+import { BarsOwner, Commonheading } from "../components/Commonheading";
 import restaurantbarsmall from "../assets/img/resturantbarsmall.png";
 import liquorstore from "../assets/img/liquorstore.png";
 import liquorbrand from "../assets/img/liquorbrand.png";
 import hotels from "../assets/img/hotels.png";
-import Footer from "./Footer";
+import Footer from "../components/Footer";
 
-import Layout from "./Layout";
+import Layout from "../components/Layout";
 
 const options = [
   { value: "option1", label: "Option 1", countryCode: "US" },
@@ -189,24 +189,6 @@ const Login = () => {
                     className="absolute top-0 left-0 w-full h-full object-cover"
                   />
                 </div>
-                {/* <div className="relative h-[200px] w-full">
-                  <img
-                    src="https://dummyimage.com/300.png/09f/fff"
-                    className="absolute top-0 left-0 w-full h-full object-cover"
-                  />
-                </div>
-                <div className="relative h-[200px] w-full">
-                  <img
-                    src="https://dummyimage.com/300.png/09f/fff"
-                    className="absolute top-0 left-0 w-full h-full object-cover"
-                  />
-                </div>
-                <div className="relative h-[200px] w-full">
-                  <img
-                    src="https://dummyimage.com/300.png/09f/fff"
-                    className="absolute top-0 left-0 w-full h-full object-cover"
-                  />
-                </div> */}
               </Slider>
             </div>
           </div>
@@ -255,6 +237,7 @@ const Login = () => {
                             type="submit"
                             disabled={isSubmitting}
                             className=" bg-customOrange w-full text-white py-1 rounded-full hover:bg-indigo-700  border border-2"
+                            onClick={() => navigate("/dashboard")}
                           >
                             Login
                           </button>

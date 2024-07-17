@@ -10,10 +10,10 @@ import {
   BusinessDetail,
   TeamBusiness,
 } from "./components/index.js";
-import Login from "./components/Login";
+import Login from "./pages/Login.jsx";
 import Dashboard from "./pages/DashboardPage.jsx";
 import BusinessUnit from "./pages/AddBusinessUnitPage.jsx";
-import SignUp from "./components/SignUp.jsx";
+import SignUp from "./pages/SignUp.jsx";
 import ModelTest from "./ModelTest.jsx";
 const router = createBrowserRouter([
   // { path: "/DatePicker", element: <DatePicker /> },
