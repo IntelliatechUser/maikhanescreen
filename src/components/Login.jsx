@@ -196,7 +196,7 @@ const Login = () => {
                   >
                     {({ isSubmitting }) => (
                       <Form>
-                        <div className="mb-4">
+                        <div className="">
                           <Field
                             type="text"
                             name="username"
@@ -209,7 +209,7 @@ const Login = () => {
                             className="text-red-600 mt-1 text-sm"
                           />
                         </div>
-                        <div className="mb-6">
+                        <div className="my-2">
                           <Field
                             type="password"
                             name="password"
@@ -237,11 +237,11 @@ const Login = () => {
                 </div>
               </div>
               <div className="flex-[30%]  flex flex-col px-6">
-                <div className="flex justify-between text-sm">
+                <div className="flex justify-between text-xs pl-2">
                   <div>Remember Me</div>
-                  <div>Forgot Password</div>
+                  <div className="text-yellow-dark">Forgot Password</div>
                 </div>
-                <div className="flex flex-col justify-center items-center text-sm">
+                <div className="flex flex-col justify-center items-center text-xs ">
                   <div className="text-center mb-2">
                     if you have dont have account yet
                   </div>
