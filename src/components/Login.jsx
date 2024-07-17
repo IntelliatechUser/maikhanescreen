@@ -129,7 +129,7 @@ const Login = () => {
         <div className="grid md:min-h-[40vh] md:grid-cols-[70%_30%]">
           <div className="grid   md:grid-rows-[10%_20%_200px] ">
             <div className="font-bold">Why Use Maikhane Business Platform</div>
-            <div className=" flex pb-4 w-[70%]">
+            <div className=" flex pb-4 w-[70%] text-sm">
               <Commonheading
                 heading={"Restaurant Bar"}
                 img={restaurantbarsmall}
@@ -232,12 +232,12 @@ const Login = () => {
                 </div>
               </div>
               <div className="flex-[30%]  flex flex-col px-6">
-                <div className="flex justify-between ">
+                <div className="flex justify-between text-sm">
                   <div>Remember Me</div>
                   <div>Forgot Password</div>
                 </div>
-                <div className="flex flex-col justify-center items-center ">
-                  <div className="text-center">
+                <div className="flex flex-col justify-center items-center text-sm">
+                  <div className="text-center mb-2">
                     if you have dont have account yet
                   </div>
 

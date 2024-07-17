@@ -138,7 +138,7 @@ const Login = () => {
         <div className="grid md:min-h-[40vh] md:grid-cols-[70%_30%]">
           <div className="grid   md:grid-rows-[10%_20%_200px] ">
             <div className="font-bold">Why Use Maikhane Business Platform</div>
-            <div className=" flex pb-4 w-[70%]">
+            <div className=" flex pb-4 w-[70%] text-sm">
               <Commonheading
                 heading={"Restaurant Bar"}
                 img={restaurantbarsmall}
@@ -147,7 +147,7 @@ const Login = () => {
               <Commonheading heading={"Liquor Brand"} img={liquorbrand} />
               <Commonheading heading={"Liquor Store"} img={liquorstore} />
             </div>
-            <div className="grid grid-cols-1  ">
+            <div className="grid grid-cols-1 ">
               <Slider {...settings1}>
                 <div className="relative h-[200px] w-full flex ">
                   <img
@@ -188,95 +188,93 @@ const Login = () => {
           </div>
           <div>
             <div className="flex flex-col h-full">
-              <div className="flex-[70%]">
-                <div className="rounded-lg shadow-md p-6 w-full max-w-md">
-                  <p className="text-2xl font-semibold mb-6 text-center">
-                    Create Account
-                  </p>
-                  <p className="text-2xl font-semibold mb-6 text-center">
-                    Already have account?
-                    <span
-                      className="text-yellow-dark"
-                      onClick={() => navigate("/")}
-                    >
-                      Login
-                    </span>
-                  </p>
-                  <Formik
-                    initialValues={initialValues}
-                    validationSchema={validationSchema}
-                    onSubmit={onSubmit}
+              <div className="rounded-lg shadow-md p-6 w-full max-w-md text-sm">
+                <p className=" font-semibold mb-6 text-center">
+                  Create Account
+                </p>
+                <p className=" font-semibold mb-6 text-center">
+                  Already have account?
+                  <span
+                    className="text-yellow-dark"
+                    onClick={() => navigate("/")}
                   >
-                    {({ isSubmitting }) => (
-                      <Form>
-                        <div className="mb-4">
-                          <Field
-                            type="text"
-                            name="fullName"
-                            placeholder="Full Name"
-                            className="w-full p-3 rounded border-2 border-yellow-dark focus:border-4 focus:outline-0 focus:border-yellow"
-                          />
-                          <ErrorMessage
-                            name="fullName"
-                            component="div"
-                            className="text-red-600 mt-1 text-sm"
-                          />
-                        </div>
-                        <div className="mb-4">
-                          <Field
-                            type="text"
-                            name="phoneNumber"
-                            placeholder="Phone Number"
-                            className="w-full p-3 rounded border-2 border-yellow-dark focus:border-4 focus:outline-0 focus:border-yellow"
-                          />
-                          <ErrorMessage
-                            name="phoneNumber"
-                            component="div"
-                            className="text-red-600 mt-1 text-sm"
-                          />
-                        </div>
-                        <div className="mb-4">
-                          <Field
-                            type="email"
-                            name="email"
-                            placeholder="Email"
-                            className="w-full p-3 rounded border-2 border-yellow-dark focus:border-4 focus:outline-0 focus:border-yellow"
-                          />
-                          <ErrorMessage
-                            name="email"
-                            component="div"
-                            className="text-red-600 mt-1 text-sm"
-                          />
-                        </div>
-                        <div className="mb-6">
-                          <Field
-                            as="select"
-                            name="role"
-                            className="w-full p-3 rounded border-2 border-yellow-dark focus:border-4 focus:outline-0 focus:border-yellow"
-                          >
-                            <option value="" label="Select your role" />
-                            <option value="Owner" label="Owner" />
-                            <option value="Manager" label="Manager" />
-                          </Field>
-                          <ErrorMessage
-                            name="role"
-                            component="div"
-                            className="text-red-600 mt-1 text-sm"
-                          />
-                        </div>
-                        <div>
-                          <button
-                            type="submit"
-                            disabled={isSubmitting}
-                            className="w-full bg-yellow-dark text-white p-3 rounded hover:bg-indigo-700 border border-2"
-                          >
-                            Sign Up
-                          </button>
-                        </div>
-                      </Form>
-                    )}
-                  </Formik>
-                </div>
+                    Login
+                  </span>
+                </p>
+                <Formik
+                  initialValues={initialValues}
+                  validationSchema={validationSchema}
+                  onSubmit={onSubmit}
+                >
+                  {({ isSubmitting }) => (
+                    <Form>
+                      <div className="mb-4">
+                        <Field
+                          type="text"
+                          name="fullName"
+                          placeholder="Full Name"
+                          className="w-full p-2 rounded border-2 border-yellow-dark focus:border-4 focus:outline-0 focus:border-yellow"
+                        />
+                        <ErrorMessage
+                          name="fullName"
+                          component="div"
+                          className="text-red-600 mt-1 text-sm"
+                        />
+                      </div>
+                      <div className="mb-4">
+                        <Field
+                          type="text"
+                          name="phoneNumber"
+                          placeholder="Phone Number"
+                          className="w-full p-2 rounded border-2 border-yellow-dark focus:border-4 focus:outline-0 focus:border-yellow"
+                        />
+                        <ErrorMessage
+                          name="phoneNumber"
+                          component="div"
+                          className="text-red-600 mt-1 text-sm"
+                        />
+                      </div>
+                      <div className="mb-4">
+                        <Field
+                          type="email"
+                          name="email"
+                          placeholder="Email"
+                          className="w-full p-2 rounded border-2 border-yellow-dark focus:border-4 focus:outline-0 focus:border-yellow"
+                        />
+                        <ErrorMessage
+                          name="email"
+                          component="div"
+                          className="text-red-600 mt-1 text-sm"
+                        />
+                      </div>
+                      <div className="mb-6">
+                        <Field
+                          as="select"
+                          name="role"
+                          className="w-full p-2 rounded border-2 border-yellow-dark focus:border-4 focus:outline-0 focus:border-yellow"
+                        >
+                          <option value="" label="Select your role" />
+                          <option value="Owner" label="Owner" />
+                          <option value="Manager" label="Manager" />
+                        </Field>
+                        <ErrorMessage
+                          name="role"
+                          component="div"
+                          className="text-red-600 mt-1 text-sm"
+                        />
+                      </div>
+                      <div>
+                        <button
+                          type="submit"
+                          disabled={isSubmitting}
+                          className="w-full bg-yellow-dark text-white p-2 rounded hover:bg-indigo-700 border border-2"
+                        >
+                          Sign Up
+                        </button>
+                      </div>
+                    </Form>
+                  )}
+                </Formik>
               </div>
             </div>
           </div>
