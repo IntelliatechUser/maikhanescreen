@@ -1,7 +1,13 @@
 import React from "react";
 import CustomCheckbox from "../../CommonComponents/CustomCheckBox";
+import CustomRadioButton from "../../CommonComponents/CustomRadioButton";
 
 const UnitDetails = () => {
+    const [selectedValue, setSelectedValue] = React.useState('mobile');
+
+    const handleRadioChange = (event) => {
+        setSelectedValue(event.target.value);
+    };
     return (
         <>
             <h3 className="text-2xl font-bold text-gray-700 mb-6 text-center">Unit Details</h3>
@@ -71,9 +77,13 @@ const UnitDetails = () => {
                     <div>
                         <label className="block text-gray-700 mb-2" htmlFor="currency">Accepted Currency</label>
                         <select className="w-full p-3 border border-customOrange outline-none rounded" id="currency">
-                            <option>INR</option>
-                            <option>USD</option>
-                            <option>EUR</option>
+                            <option>Indian Rupees : INR</option>
+                            <option>Euro : EUR</option>
+                            <option>South African Rand : ZAR</option>
+                            <option>American Dollars : USD</option>
+                            <option>British Pounds : GBD</option>
+                            <option>Japanese Yen : JPY</option>
+
                         </select>
                     </div>
                 </div>
@@ -104,12 +114,35 @@ const UnitDetails = () => {
                     <div>
                         <label className="block text-gray-600 mb-2" htmlFor="contactNumber">Unit/Reception Contact Number (Optional)</label>
                         <div className="flex items-center">
-                            <CustomCheckbox label="Mobile" />
-                            <CustomCheckbox label="Landline" />
-                            <CustomCheckbox label="Both" />
+                            <div className="flex space-x-4">
+                                <CustomRadioButton
+                                    id="mobile"
+                                    name="contact"
+                                    value="mobile"
+                                    checked={selectedValue === 'mobile'}
+                                    onChange={handleRadioChange}
+                                    label="Mobile"
+                                />
+                                <CustomRadioButton
+                                    id="landline"
+                                    name="contact"
+                                    value="landline"
+                                    checked={selectedValue === 'landline'}
+                                    onChange={handleRadioChange}
+                                    label="Landline"
+                                />
+                                <CustomRadioButton
+                                    id="both"
+                                    name="contact"
+                                    value="both"
+                                    checked={selectedValue === 'both'}
+                                    onChange={handleRadioChange}
+                                    label="Both"
+                                />
+                            </div>
                         </div>
                     </div>
-                    <div className="mt-5">
+                    {selectedValue === 'mobile' ? (<div className="mt-5">
                         <label className="block text-gray-600 mb-2" htmlFor="mobileNumber">Mobile Number (OTP Verification Via SMS)</label>
                         <div className="flex items-center">
                             <select className="p-3 border border-customOrange outline-none rounded mr-2">
@@ -120,10 +153,40 @@ const UnitDetails = () => {
                             <input className="w-full p-3 border border-customOrange outline-none rounded" type="text" id="mobileNumber" placeholder="Mobile Number" />
                             <button className="ml-2 py-3 px-6 text-[#FF9F08]">Verify Number</button>
                         </div>
-                    </div>
+                    </div>) : (
+                        selectedValue === 'landline' ? (
+                            <div className="mt-5">
+                                <label className="block text-gray-600 mb-2" htmlFor="mobileNumber">Landline Number</label>
+                                <div className="flex items-center">
+                                    <input className="w-full p-3 border border-customOrange outline-none rounded" type="text" id="landlineNumber" placeholder="Landline Number" />
+                                </div>
+                            </div>
+                        ) : (
+                            <>
+                                <div className="mt-5">
+                                    <label className="block text-gray-600 mb-2" htmlFor="mobileNumber">Mobile Number (OTP Verification Via SMS)</label>
+                                    <div className="flex items-center">
+                                        <select className="p-3 border border-customOrange outline-none rounded mr-2">
+                                            <option>IND +91</option>
+                                            <option>USA +1</option>
+                                            <option>UK +44</option>
+                                        </select>
+                                        <input className="w-full p-3 border border-customOrange outline-none rounded" type="text" id="mobileNumber" placeholder="Mobile Number" />
+                                        <button className="ml-2 py-3 px-6 text-[#FF9F08]">Verify Number</button>
+                                    </div>
+                                </div>
+                                <div className="mt-5">
+                                    <label className="block text-gray-600 mb-2" htmlFor="mobileNumber">Landline Number</label>
+                                    <div className="flex items-center">
+                                        <input className="w-full p-3 border border-customOrange outline-none rounded" type="text" id="landlineNumber" placeholder="Landline Number" />
+                                    </div>
+                                </div>
+                            </>
+                        )
+                    )}
                 </div>
             </div>
         </>
     )
 }
-export default UnitDetails;
+export default React.memo(UnitDetails);

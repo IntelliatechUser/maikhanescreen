@@ -253,6 +253,7 @@ const Login = () => {
                         <div>
                           <button
                             type="submit"
+                            onClick={() => navigate("/dashboard")}
                             disabled={isSubmitting}
                             className=" bg-customOrange w-full text-white py-1 rounded-full hover:bg-indigo-700  border border-2"
                           >

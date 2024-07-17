@@ -1,5 +1,3 @@
-import { testingdata } from "./store/authSlice";
-import { useSelector, useDispatch } from "react-redux";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import {
   Header,
@@ -56,19 +54,12 @@ const router = createBrowserRouter([
   },
 ]);
 export default function App() {
-  const dispatch = useDispatch();
-
-  const authdata = useSelector((state) => {
-    return state.auth;
-  });
-
   return (
     <RouterProvider router={router}>
       <h1 className="text-3xl font-bold underline bg-blue">
-        <button onClick={() => dispatch(testingdata("login data"))}>
+        <button>
           dddd
         </button>
-        {authdata?.testdata}
       </h1>
     </RouterProvider>
   );
