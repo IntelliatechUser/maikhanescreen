@@ -196,7 +196,7 @@ const Login = () => {
                             type="text"
                             name="username"
                             placeholder="Username"
-                            className="w-full p-3 rounded border-2 border-yellow-dark focus:border-4 focus:outline-0 focus:border-yellow"
+                            className="w-full p-2 rounded border-2 border-yellow-dark focus:border-4 focus:outline-0 focus:border-yellow"
                           />
                           <ErrorMessage
                             name="username"
@@ -209,7 +209,7 @@ const Login = () => {
                             type="password"
                             name="password"
                             placeholder="Password"
-                            className="w-full p-3 rounded border-2 border-yellow-dark focus:border-4 focus:outline-0 focus:border-yellow"
+                            className="w-full p-2 rounded border-2 border-yellow-dark focus:border-4 focus:outline-0 focus:border-yellow"
                           />
                           <ErrorMessage
                             name="password"
@@ -221,7 +221,7 @@ const Login = () => {
                           <button
                             type="submit"
                             disabled={isSubmitting}
-                            className="w-full bg-yellow-dark text-white p-3 rounded hover:bg-indigo-700  border border-2"
+                            className="w-full bg-yellow-dark text-white p-2 rounded hover:bg-indigo-700  border border-2"
                           >
                             Login
                           </button>
