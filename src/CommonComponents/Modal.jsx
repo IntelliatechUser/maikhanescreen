@@ -52,7 +52,7 @@ const OTPModal = ({ isOpen, onClose, onSubmitOTP }) => {
           <svg
             className="w-6 h-6"
             fill="none"
-            stroke="currentColor"
+            stroke="orange"
             viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg"
           >
@@ -77,27 +77,28 @@ const OTPModal = ({ isOpen, onClose, onSubmitOTP }) => {
               <div className="mb-4">
                 <label
                   htmlFor="otp"
-                  className="block text-sm font-medium text-gray-700"
+                  className="block text-sm font-medium text-gray-700 text-center "
                 >
-                  Enter OTP
+                  Please Enter OTP
                 </label>
+
                 <Field
                   type="text"
                   id="otp"
                   name="otp"
-                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  className="w-full p-2 rounded border-2 border-yellow-dark focus:border-4 focus:outline-0 focus:border-yellow"
                 />
                 <ErrorMessage
                   name="otp"
                   component="p"
-                  className="text-red-500 text-sm mt-1"
+                  className="text-red-500 text-sm mt-1 text-center text-red"
                 />
               </div>
 
               {/* Submit Button */}
               <button
                 type="submit"
-                className="mt-4 w-full bg-orange-500 hover:bg-orange-600 text-yellow-dark font-semibold py-2 rounded-md focus:outline-none"
+                className="mt-4 w-full bg-orange-500 hover:bg-orange-600 bg-yellow-dark text-white font-semibold py-2 rounded-md focus:outline-none"
                 disabled={isSubmitting}
               >
                 Submit OTP
