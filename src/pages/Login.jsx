@@ -193,7 +193,7 @@ const Login = () => {
             </div>
           </div>
           <div>
-            <div className="flex flex-col h-full justify-start">
+            <div className="flex flex-col h-full justify-start gap-5">
               <div className="flex-[70%] ">
                 <div className=" rounded-lg shadow-md px-6 w-full max-w-md">
                   <h1 className="text-2xl font-semibold mb-6 text-center">
@@ -206,7 +206,7 @@ const Login = () => {
                   >
                     {({ isSubmitting }) => (
                       <Form>
-                        <div className="">
+                        <div className="flex flex-col gap-10">
                           <Field
                             type="text"
                             name="username"
@@ -237,8 +237,7 @@ const Login = () => {
                             type="submit"
                             onClick={() => navigate("/dashboard")}
                             disabled={isSubmitting}
-                            className=" bg-customOrange w-full text-white py-1 rounded-full hover:bg-indigo-700  border border-2"
-                            onClick={() => navigate("/dashboard")}
+                            className=" bg-customOrange w-full text-white py-1 rounded-full hover:bg-indigo-700  border border-2 mb-10"
                           >
                             Login
                           </button>

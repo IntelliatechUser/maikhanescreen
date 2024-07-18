@@ -21,11 +21,11 @@ const LicenseTabForm = () => {
                         <div className='flex items-center justify-between w-full gap-2 mt-5'>
                             <div className='flex flex-col gap'>
                                 <label className="block text-gray-700 mb-2" htmlFor="currency">Valid From</label>
-                                <input className="w-full p-3 border border-customOrange outline-none rounded" type="date" />
+                                <input className="w-full p-3 border border-customOrange outline-none rounded" type="text" />
                             </div>
                             <div className='flex flex-col gap'>
                                 <label className="block text-gray-700 mb-2" htmlFor="currency">Valid Upto</label>
-                                <input className="w-full p-3 border border-customOrange outline-none rounded" type="date" />
+                                <input className="w-full p-3 border border-customOrange outline-none rounded" type="text" />
                             </div>
                         </div>
                     </div>

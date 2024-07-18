@@ -56,11 +56,6 @@ const router = createBrowserRouter([
 export default function App() {
   return (
     <RouterProvider router={router}>
-      <h1 className="text-3xl font-bold underline bg-blue">
-        <button>
-          dddd
-        </button>
-      </h1>
     </RouterProvider>
   );
 }

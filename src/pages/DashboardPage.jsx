@@ -15,17 +15,17 @@ const Dashboard = () => {
     const navigate = useNavigate();
     return (
         <Layout>
-            <div className="min-h-screen bg-gray-100 p-6 mr-10 ml-10">
-                <div className="container mx-auto">
+            <div className="min-h-screen bg-gray-100 p-6">
+                <div className="mx-auto">
                     <h2 className="text-2xl font-bold text-gray-700 mb-6">Your Dashboard</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-3 mb-12">
+                    <div className="grid grid-cols-1 md:grid-cols-3 mb-12 gap-6">
                         <SupportCard title="Create Business Unit" description="Create a business Unit" Icon={BusinessUnitIcon} handleRedirect={() => navigate("/addBusinessUnit")} />
                         <SupportCard title="In-Process Business Unit" description="Submit a sales request or connect with a sales associates." Icon={ProcessUnitIcon} number={4} />
                         <SupportCard title="Registered Business Unit" description="Submit a sales request or connect with a sales associates." Icon={RegisteredUnitIcon} number={3} />
                     </div>
 
                     <h2 className="text-2xl font-bold text-gray-700 mb-6">General Support Services</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-3 mb-12">
+                    <div className="grid grid-cols-1 md:grid-cols-3 mb-12 gap-6">
                         <SupportCard title="Sales Support" description="Submit a sales request or connect with a sales associates."
                             buttonTitle={'Connect with sales support'} Icon={SalesSupportIcon} />
                         <SupportCard title="Login/Access Support" description="Submit a sales request or connect with a sales associates."
@@ -34,7 +34,7 @@ const Dashboard = () => {
                     </div>
 
                     <h2 className="text-2xl font-bold text-gray-700 mb-6">Subscriber Support Services</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-3">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <SupportCard title="Technical Support" description="Submit a sales request or connect with a sales associates."
                             Icon={SalesSupportIcon} buttonTitle={'Connect with sales support'} />
                         <SupportCard title="Billing Support" description="Submit a sales request or connect with a sales associates."

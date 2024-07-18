@@ -1,7 +1,7 @@
 import React from 'react';
 
 const SupportCard = ({ title, description, Icon, buttonTitle, number, handleRedirect }) => (
-    <div className="p-6 max-w-sm bg-white rounded-lg shadow cursor-pointer" onClick={handleRedirect ? handleRedirect : ''}>
+    <div className="p-6 max-w-sm bg-white rounded-lg shadow-xl cursor-pointer gap-3" onClick={handleRedirect ? handleRedirect : ''}>
         <div className="flex items-center justify-between mb-4">
             <span className="inline-block bg-customOrange rounded-full p-3">
                 <img src={Icon} alt={`icon-${title}`} />

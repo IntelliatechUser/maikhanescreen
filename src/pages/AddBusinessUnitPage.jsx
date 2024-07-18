@@ -33,31 +33,41 @@ const AddBusinessUnitPage = () => {
                 return null;
         }
     };
-    console.log(currentTab, 'currentTabcurrentTab')
+
     return (
         <Layout>
             <h2 className="text-3xl font-bold text-gray-700 mb-6 text-center">Add New Business Unit</h2>
             <StepProgressBar currentStep={currentStep} />
-            <div className="bg-white p-8 rounded-lg shadow">
+            <div className="bg-white p-8 rounded-lg shadow-xl">
                 {renderStepContent()}
             </div>
             {currentStep === 1 ? <div className="flex justify-end mt-6">
                 <button
                     type="button"
                     onClick={handleNext}
-                    className="py-3 px-6 bg-customOrange text-white rounded-[1.5rem]"
+                    className="py-3 px-6 bg-customOrange text-white rounded-[1.5rem] mb-10"
                 >
                     Next
                 </button>
-            </div> : (currentTab === 4 && <div className="flex justify-end mt-6">
+            </div> : <div className="flex justify-start mt-6">
+                <button
+                    type="button"
+                    onClick={() => setCurrentStep(1)}
+                    className="py-3 px-6 bg-customOrange text-white rounded-[1.5rem] mb-10"
+                >
+                    Back
+                </button>
+            </div>}
+
+            {(currentTab === 3) && currentStep === 2 && <div className="flex justify-end mt-6">
                 <button
                     type="button"
                     onClick={handleNext}
-                    className="py-3 px-6 bg-customOrange text-white rounded-[1.5rem]"
+                    className="py-3 px-6 bg-customOrange text-white rounded-[1.5rem] mb-10"
                 >
                     SUBMIT FOR REGISTRATION
                 </button>
-            </div>)}
+            </div>}
 
         </Layout>
     );

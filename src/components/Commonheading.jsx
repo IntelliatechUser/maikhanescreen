@@ -6,14 +6,14 @@ export const Commonheading = ({
 }) => {
   return (
     <div className="p-1 flex-1">
-      <img width="50px" src={img} className="rounded max-h-[30px]" />
+      <img width="50px" src={img} className="rounded max-h-[30px] mb-2" />
       <p>{heading}</p>
     </div>
   );
 };
 export const BarsOwner = () => {
   return (
-    <div className="flex flex-col items-center justify-center h-full p-5">
+    <div className="flex flex-col items-center justify-center h-full p-5 gap-4">
       <img
         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvoDpETXEh0BUvReWb7nTOygdv7ZL7Yb5MQA&s"
         className="w-10 h-10 rounded-full"

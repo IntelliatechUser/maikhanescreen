@@ -10,7 +10,7 @@ const UnitDetails = () => {
     };
     return (
         <>
-            <h3 className="text-2xl font-bold text-gray-700 mb-6 text-center">Unit Details</h3>
+            <h3 className="text-2xl font-semibold text-gray-700 mb-6 text-center">Unit Details</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div>
                     <label className="block text-gray-600 mb-2" htmlFor="country">Business Unit Registration Country</label>
@@ -25,8 +25,7 @@ const UnitDetails = () => {
                     <select className="w-full p-3 border border-customOrange outline-none rounded" id="country">
                         <option>Liquor</option>
                         <option>Wine Shop</option>
-                        <option>Restaurant</option>
-                        <option>Bar</option>
+                        <option>Restaurant & Bar</option>
                     </select>
                 </div>
                 <div>
