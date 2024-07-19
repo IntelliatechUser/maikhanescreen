@@ -65,7 +65,7 @@ module.exports = {
         "1xl": "0px 5px 2px #FF9804 ",
       },
       fontSize: {
-        "1xl": ".87vw",
+        // "1xl": ".87vw",
       },
     },
   },
