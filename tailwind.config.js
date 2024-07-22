@@ -18,7 +18,7 @@ module.exports = {
       "acc-title": "#3C3C3C",
       "acc-list": "#FF0000",
       white: "#FFFFFF",
-      red: "#FF0000"
+      red: "#FF0000",
     },
 
     fontFamily: {
@@ -36,7 +36,7 @@ module.exports = {
       blue: "#1fb6ff",
       pink: "#ff49db",
       orange: "#ff7849",
-      customOrange: '#FF9F08',
+      customOrange: "#FF9F08",
       green: "#13ce66",
       "gray-dark": "#000000AD",
       gray: "#80808063",
@@ -66,6 +66,10 @@ module.exports = {
       },
       fontSize: {
         // "1xl": ".87vw",
+      },
+      screens: {
+        "tablet-small": { min: "768px", max: "868px" },
+        "tablet-big": { min: "868px", max: "1065px" }, // Between sm and lg
       },
     },
   },

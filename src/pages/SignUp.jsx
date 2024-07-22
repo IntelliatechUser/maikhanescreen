@@ -160,7 +160,7 @@ const SignUp = () => {
   return (
     <Layout>
       <div className="grid min-h-[70vh] gap-y-2">
-        <div className="grid md:min-h-[40vh] md:grid-cols-[70%_30%]">
+        <div className="grid md:min-h-[40vh] md:grid-cols-[70%_30%] gap-4">
           <div className="grid md:grid-rows-[10%_20%_auto]">
             <div className="text-xl font-bold">
               Why Use Maikhane Business Platform
@@ -179,9 +179,9 @@ const SignUp = () => {
                 <div className="relative h-[230px] w-full flex">
                   <img
                     src={restaurantbar}
-                    className="absolute top-0 left-0 w-[70%] h-full object-cover rounded-lg"
+                    className="absolute top-0 left-0 w-[70%] h-full object-cover rounded-lg "
                   />
-                  <div className="absolute left-[75%] text-sm flex flex-col h-full">
+                  <div className="absolute left-[75%] text-sm flex flex-col h-full tablet-small:text-[9px] tablet-big:text-[11px]">
                     <p className="flex-1 font-bold">Other features</p>{" "}
                     <p className="flex-1">Inventory management</p>{" "}
                     <p className="flex-1">Attendence report</p>
@@ -225,6 +225,7 @@ const SignUp = () => {
                       setSubmitting(false);
                     } else {
                       onSubmit(values);
+                      navigate("/");
                     }
                   }}
                 >

@@ -154,7 +154,7 @@ const Login = () => {
   return (
     <Layout>
       <div class="grid   min-h-[70vh]  gap-y-2 ">
-        <div className="grid md:min-h-[40vh] md:grid-cols-[70%_30%]">
+        <div className="grid md:min-h-[40vh] md:grid-cols-[70%_30%] gap-4">
           <div className="grid   md:grid-rows-[10%_20%_auto] ">
             <div className="text-xl font-bold">
               Why Use Maikhane Business Platform
@@ -176,7 +176,7 @@ const Login = () => {
                     className="absolute top-0 left-0 w-[70%] h-full object-cover rounded-lg"
                   />
 
-                  <div className="absolute left-[75%] text-sm flex flex-col h-full">
+                  <div className="absolute left-[75%] text-sm flex flex-col h-full tablet-small:text-[9px] tablet-big:text-[11px]">
                     <p className="flex-1 font-bold">Other features</p>{" "}
                     <p className="flex-1">Inventory management</p>{" "}
                     <p className="flex-1">Attendence report</p>
@@ -259,7 +259,7 @@ const Login = () => {
                 </div>
               </div>
               <div className="flex-[30%]  flex flex-col px-6 gap-4">
-                <div className="flex justify-between text-xs pl-2">
+                <div className="flex justify-between text-xs pl-2 tablet-small:text-[9px] tablet-big:text-[10px]">
                   <div>Remember Me</div>
                   <div className="text-yellow-dark">Forgot Password</div>
                 </div>
