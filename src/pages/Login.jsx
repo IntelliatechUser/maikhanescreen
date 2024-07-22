@@ -154,9 +154,11 @@ const Login = () => {
   return (
     <Layout>
       <div class="grid   min-h-[70vh]  gap-y-2 ">
-        <div className="grid md:min-h-[40vh] md:grid-cols-[70%_30%]">
-          <div className="grid   md:grid-rows-[10%_20%_200px] ">
-            <div className="font-bold">Why Use Maikhane Business Platform</div>
+        <div className="grid md:min-h-[40vh] md:grid-cols-[70%_30%] gap-4">
+          <div className="grid   md:grid-rows-[10%_20%_auto] ">
+            <div className="text-xl font-bold">
+              Why Use Maikhane Business Platform
+            </div>
             <div className=" flex pb-4 w-[70%] text-sm">
               <Commonheading
                 heading={"Restaurant Bar"}
@@ -166,15 +168,15 @@ const Login = () => {
               <Commonheading heading={"Liquor Brand"} img={liquorbrand} />
               <Commonheading heading={"Liquor Store"} img={liquorstore} />
             </div>
-            <div className="grid grid-cols-1 h-[200px] ">
-              <Slider {...settings1} className="h-200px">
-                <div className="relative h-[200px] w-full flex ">
+            <div className="grid grid-cols-1 ">
+              <Slider {...settings1} className="">
+                <div className="relative h-[230px] w-full flex ">
                   <img
                     src={restaurantbar}
-                    className="absolute top-0 left-0 w-[70%] h-full object-cover"
+                    className="absolute top-0 left-0 w-[70%] h-full object-cover rounded-lg"
                   />
 
-                  <div className="absolute left-[75%] text-sm flex flex-col h-full">
+                  <div className="absolute left-[75%] text-sm flex flex-col h-full tablet-small:text-[9px] tablet-big:text-[11px]">
                     <p className="flex-1 font-bold">Other features</p>{" "}
                     <p className="flex-1">Inventory management</p>{" "}
                     <p className="flex-1">Attendence report</p>
@@ -193,12 +195,9 @@ const Login = () => {
             </div>
           </div>
           <div>
-            <div className="flex flex-col h-full justify-start gap-5">
-              <div className="flex-[70%] ">
+            <div className="flex flex-col h-full justify-start gap-2 py-8 shadow-lg">
+              <div className="">
                 <div className=" rounded-lg shadow-md px-6 w-full max-w-md">
-                  <h1 className="text-2xl font-semibold mb-6 text-center">
-                    Login
-                  </h1>
                   <Formik
                     initialValues={initialValues}
                     validationSchema={validationSchema}
@@ -206,12 +205,18 @@ const Login = () => {
                   >
                     {({ isSubmitting }) => (
                       <Form>
-                        <div className="flex flex-col gap-10">
+                        <div className="flex flex-col ">
+                          <label
+                            className="block text-black font-bold"
+                            htmlFor="username"
+                          >
+                            Username
+                          </label>
                           <Field
                             type="text"
                             name="username"
                             placeholder="Username"
-                            className="w-full p-2 rounded border-2 border-yellow-dark focus:border-4 focus:outline-0 focus:border-yellow"
+                            className="w-full p-2 rounded border-0  focus:border-0 focus:outline-0 focus:border-yellow"
                           />
                           <ErrorMessage
                             name="username"
@@ -220,11 +225,17 @@ const Login = () => {
                           />
                         </div>
                         <div className="my-2">
+                          <label
+                            className="block text-black font-bold"
+                            htmlFor="password"
+                          >
+                            Password
+                          </label>
                           <Field
                             type="password"
                             name="password"
                             placeholder="Password"
-                            className="w-full p-2 rounded border-2 border-yellow-dark focus:border-4 focus:outline-0 focus:border-yellow"
+                            className="w-full p-2 rounded border-0  focus:border-0 focus:outline-0 focus:border-yellow"
                           />
                           <ErrorMessage
                             name="password"
@@ -237,7 +248,7 @@ const Login = () => {
                             type="submit"
                             onClick={() => navigate("/dashboard")}
                             disabled={isSubmitting}
-                            className=" bg-customOrange w-full text-white py-1 rounded-full hover:bg-indigo-700  border border-2 mb-10"
+                            className=" bg-customOrange w-full text-white py-1 rounded-full hover:bg-indigo-700  border border-2 "
                           >
                             Login
                           </button>
@@ -247,12 +258,12 @@ const Login = () => {
                   </Formik>
                 </div>
               </div>
-              <div className="flex-[30%]  flex flex-col px-6">
-                <div className="flex justify-between text-xs pl-2">
+              <div className="flex-[30%]  flex flex-col px-6 gap-4">
+                <div className="flex justify-between text-xs pl-2 tablet-small:text-[9px] tablet-big:text-[10px]">
                   <div>Remember Me</div>
                   <div className="text-yellow-dark">Forgot Password</div>
                 </div>
-                <div className="flex flex-col justify-center items-center text-xs ">
+                <div className="flex flex-col justify-center items-center text-xs gap-4 ">
                   <div className="text-center mb-2">
                     if you have dont have account yet
                   </div>
