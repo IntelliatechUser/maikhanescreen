@@ -6,7 +6,7 @@ export const Commonheading = ({
 }) => {
   return (
     <div className="p-1 flex-1 tablet-small:text-[9px] tablet-big:text-[11px]">
-      <img width="50px" src={img} className="rounded max-h-[30px] mb-2" />
+      <img width="70px" src={img} className="rounded h-[50px] mb-2" />
       <p>{heading}</p>
     </div>
   );

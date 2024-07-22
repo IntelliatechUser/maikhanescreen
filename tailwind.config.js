@@ -60,6 +60,7 @@ module.exports = {
       boxShadow: {
         "1xl": "0px 0px 5px 3px #FF980459",
         "2xl": "0px 0px 5px 3px #707070",
+        "gray": "0px 0px 10px 1px orange",
       },
       dropShadow: {
         "1xl": "0px 5px 2px #FF9804 ",
