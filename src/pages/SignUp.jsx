@@ -633,7 +633,7 @@ const SignUp = () => {
     <Layout>
       <div className="grid min-h-[70vh] gap-y-2">
         <div className="grid md:min-h-[40vh] md:grid-cols-[60%_40%] gap-10 ">
-          <div className="grid md:grid-rows-[8%_12%_43%_13%_auto] "><div className="font-bold text-2xl ">Sign Up Help</div>
+          <div className="grid md:grid-rows-[8%_13%_43%_14%_auto] "><div className="font-bold text-2xl ">Sign Up Help</div>
             <div className="flex  w-[70%] text-sm mb-10">
               <Commonheading heading={"Restaurant Bar"} img={restaurantbarsmall} />
               <Commonheading heading={"Hotels"} img={hotels} />
@@ -721,7 +721,7 @@ https:/ /www.maikhane.com/businessplatform/stafflogin user name and password for
                             type="text"
                             name="fullName"
                             placeholder="Full Name"
-                            className="w-full p-2 rounded border-0  focus:border-0 focus:outline-0 focus:border-yellow bg-[#f4f4f4]"
+                            className="w-full p-2 rounded border-0  focus:border-0 focus:outline-0 focus:border-yellow bg-[#eeecec]"
                           />
                           <ErrorMessage
                             name="fullName"
@@ -740,7 +740,7 @@ https:/ /www.maikhane.com/businessplatform/stafflogin user name and password for
                             type="text"
                             name="phoneNumber"
                             placeholder="Phone Number"
-                            className="w-full p-2 rounded border-0  focus:border-0 focus:outline-0 focus:border-yellow bg-[#f4f4f4]"
+                            className="w-full p-2 rounded border-0  focus:border-0 focus:outline-0 focus:border-yellow bg-[#eeecec]"
                           />
                           <ErrorMessage
                             name="phoneNumber"
@@ -759,7 +759,7 @@ https:/ /www.maikhane.com/businessplatform/stafflogin user name and password for
                             type="email"
                             name="email"
                             placeholder="Email"
-                            className="w-full p-2 rounded border-0  focus:border-0 focus:outline-0 focus:border-yellow bg-[#f4f4f4]"
+                            className="w-full p-2 rounded border-0  focus:border-0 focus:outline-0 focus:border-yellow bg-[#eeecec]"
                           />
                           <ErrorMessage
                             name="email"
@@ -778,7 +778,7 @@ https:/ /www.maikhane.com/businessplatform/stafflogin user name and password for
                             type="password"
                             name="password"
                             placeholder="Password"
-                            className="w-full p-2 rounded border-0  focus:border-0 focus:outline-0 focus:border-yellow bg-[#f4f4f4]"
+                            className="w-full p-2 rounded border-0  focus:border-0 focus:outline-0 focus:border-yellow bg-[#eeecec]"
                           />
                           <ErrorMessage
                             name="password"
@@ -797,7 +797,7 @@ https:/ /www.maikhane.com/businessplatform/stafflogin user name and password for
                             type="password"
                             name="confirmPassword"
                             placeholder="Confirm Password"
-                            className="w-full p-2 rounded border-0  focus:border-0 focus:outline-0 focus:border-yellow bg-[#f4f4f4]"
+                            className="w-full p-2 rounded border-0  focus:border-0 focus:outline-0 focus:border-yellow bg-[#eeecec]"
                           />
                           <ErrorMessage
                             name="confirmPassword"
@@ -815,7 +815,7 @@ https:/ /www.maikhane.com/businessplatform/stafflogin user name and password for
                           <Field
                             as="select"
                             name="role"
-                            className="w-full p-2 rounded border-0  focus:border-0 focus:outline-0 focus:border-yellow bg-[#f4f4f4]"
+                            className="w-full p-2 rounded border-0  focus:border-0 focus:outline-0 focus:border-yellow bg-[#eeecec]"
                           >
                             <option value="" label="Select your role" />
                             <option value="Owner" label="Owner" />

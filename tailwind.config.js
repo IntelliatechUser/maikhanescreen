@@ -60,7 +60,7 @@ module.exports = {
       boxShadow: {
         "1xl": "0px 0px 5px 3px #FF980459",
         "2xl": "0px 0px 5px 3px #707070",
-        "gray": "0px 0px 10px 1px orange",
+        "gray": "0px 0px 5px 1px #707070",
       },
       dropShadow: {
         "1xl": "0px 5px 2px #FF9804 ",
@@ -69,8 +69,8 @@ module.exports = {
         // "1xl": ".87vw",
       },
       screens: {
-        "tablet-small": { min: "768px", max: "868px" },
-        "tablet-big": { min: "868px", max: "1065px" }, // Between sm and lg
+        "tablet-small": { min: "768px", max: "868px" }, //Between sm and lg
+        "tablet-big": { min: "868px", max: "1065px" },  // Between sm and lg
       },
     },
   },

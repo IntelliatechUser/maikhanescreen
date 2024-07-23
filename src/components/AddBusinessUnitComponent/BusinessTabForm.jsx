@@ -165,7 +165,7 @@ const BusinessTabForm = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-3 gap-6 mb-6">
+      <div className="grid grid-cols-3 tablet-small:grid-cols-2 tablet-big:grid-cols-2 gap-6 mb-6 b border border-indigo-600">
         <div>
           <input
             type="text"

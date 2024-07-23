@@ -508,16 +508,16 @@ const Login = () => {
     <Layout>
       <div className="grid min-h-[70vh] gap-y-2">
         <div className="grid md:min-h-[40vh] md:grid-cols-[70%_30%] gap-4">
-          <div className="grid md:grid-rows-[10%_30%_auto] items-start">
+          <div className="grid md:grid-rows-[10%_25%_auto] items-start">
             <div className="text-xl font-bold">Why Use Maikhane Business Platform</div>
-            <div className="flex pb-4 w-[70%] text-sm">
+            <div className="flex pb-2 w-[70%] text-sm">
               <Commonheading heading={"Restaurant Bar"} img={restaurantbarsmall} />
               <Commonheading heading={"Hotels"} img={hotels} />
               <Commonheading heading={"Liquor Brand"} img={liquorbrand} />
               <Commonheading heading={"Liquor Store"} img={liquorstore} />
             </div>
-            <div className="grid grid-cols-1">
-              <Slider {...settings1} className="shadow-gray rounded-lg">
+            <div className="grid grid-cols-1 shadow-gray rounded-lg p-4">
+              <Slider {...settings1} className="">
                 <div className="relative h-[230px] w-full flex">
                   <img
                     src={restaurantbar}
@@ -545,13 +545,13 @@ const Login = () => {
             <div className="flex flex-col h-full justify-start gap-2  shadow-gray rounded-lg ">
               <div className="tabs flex gap-4 mb-4 rounded-tl-lg">
               <button
-                  className={`tab-button ${tab === "manager" ? "active bg-customOrange text-white" : ""} p-3 rounded-tl-lg text-sm font-bold`}
+                  className={`tab-button ${tab === "manager" ? "active bg-customOrange text-white" : ""} p-3 rounded-tl-lg text-xs font-bold`}
                   onClick={() => setTab("manager")}
                 >
                   BU Owner/Manager JcR Login
                 </button>
                 <button
-                  className={`tab-button ${tab === "simple" ? "active bg-customOrange text-white" : ""} p-3 rounded-tr-lg text-sm font-bold `}
+                  className={`tab-button ${tab === "simple" ? "active bg-customOrange text-white" : ""} p-3 rounded-tr-lg text-xs font-bold `}
                   onClick={() => setTab("simple")}
                 >
                   BU Staff Login
@@ -576,7 +576,7 @@ const Login = () => {
                              type="text"
                              name="username"
                              placeholder="Username"
-                             className="w-full p-2 rounded border-0 focus:border-0 focus:outline-0 focus:border-yellow"
+                             className="w-full p-2 rounded border-0 focus:border-0 focus:outline-0 focus:border-yellow bg-[#eeecec]"
                            />
                            <ErrorMessage
                              name="username"
@@ -592,7 +592,7 @@ const Login = () => {
                              type="password"
                              name="password"
                              placeholder="Password"
-                             className="w-full p-2 rounded border-0 focus:border-0 focus:outline-0 focus:border-yellow"
+                             className="w-full p-2 rounded border-0 focus:border-0 focus:outline-0 focus:border-yellow bg-[#eeecec]"
                            />
                            <ErrorMessage
                              name="password"
@@ -629,7 +629,7 @@ const Login = () => {
                             type="text"
                             name="username"
                             placeholder="Username"
-                            className="w-full p-2 rounded border-0 focus:border-0 focus:outline-0 focus:border-yellow"
+                            className="w-full p-2 rounded border-0 focus:border-0 focus:outline-0 focus:border-yellow bg-[#eeecec]"
                           />
                           <ErrorMessage
                             name="username"
@@ -645,7 +645,7 @@ const Login = () => {
                             type="password"
                             name="password"
                             placeholder="Password"
-                            className="w-full p-2 rounded border-0 focus:border-0 focus:outline-0 focus:border-yellow"
+                            className="w-full p-2 rounded border-0 focus:border-0 focus:outline-0 focus:border-yellow bg-[#eeecec]"
                           />
                           <ErrorMessage
                             name="password"
@@ -660,7 +660,7 @@ const Login = () => {
                           <Field
                             as="select"
                             name="role"
-                            className="w-full p-2 rounded border-0 focus:border-0 focus:outline-0 focus:border-yellow"
+                            className="w-full p-2 rounded border-0 focus:border-0 focus:outline-0 focus:border-yellow bg-[#eeecec]"
                           >
                             <option value="" label="Select role" />
                             <option value="manager" label="Manager" />
