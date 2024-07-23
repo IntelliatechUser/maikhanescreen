@@ -633,7 +633,7 @@ const SignUp = () => {
     <Layout>
       <div className="grid min-h-[70vh] gap-y-2">
         <div className="grid md:min-h-[40vh] md:grid-cols-[60%_40%] gap-10 ">
-          <div className="grid md:grid-rows-[8%_13%_43%_14%_auto] gap-y-2 p-2 "><div className="font-bold text-2xl ">Sign Up Help</div>
+          <div className="grid md:grid-rows-[8%_13%_41%_14%_auto] gap-y-2 p-2 "><div className="font-bold text-2xl ">Sign Up Help</div>
             <div className="flex  w-[70%] text-sm mb-10">
               <Commonheading heading={"Restaurant Bar"} img={restaurantbarsmall} />
               <Commonheading heading={"Hotels"} img={hotels} />
