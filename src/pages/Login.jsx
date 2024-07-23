@@ -195,13 +195,13 @@ const Login = () => {
             <div className="flex flex-col h-full justify-start gap-2  shadow-gray rounded-lg ">
               <div className="tabs w-full flex gap-4 mb-4 rounded-tl-lg">
                 <button
-                  className={`tab-button ${tab === "manager" ? "active bg-customOrange text-white" : ""} p-3 rounded-tl-lg text-xs font-bold`}
+                  className={`tab-button ${tab === "manager" ? "active bg-customOrange text-white" : ""} p-5 rounded-tl-lg text-xs font-bold`}
                   onClick={() => setTab("manager")}
                 >
                   BU Owner/Manager JcR Login
                 </button>
                 <button
-                  className={`tab-button ${tab === "simple" ? "active bg-customOrange text-white" : ""} p-3 rounded-tr-lg text-xs font-bold flex-1`}
+                  className={`tab-button ${tab === "simple" ? "active bg-customOrange text-white" : ""} p-5 rounded-tr-lg text-xs font-bold flex-1`}
                   onClick={() => setTab("simple")}
                 >
                   BU Staff Login
