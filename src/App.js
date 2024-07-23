@@ -1,13 +1,14 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import {
   Header,
-  Errorpage,
+  
   Register,
   AddBusinessUnitGrid,
   Ownerdatail,
   BusinessDetail,
   TeamBusiness,
 } from "./components/index.js";
+import Errorpage from "./components/Error.jsx";
 import Login from "./pages/Login.jsx";
 import Dashboard from "./pages/DashboardPage.jsx";
 import BusinessUnit from "./pages/AddBusinessUnitPage.jsx";
@@ -51,6 +52,10 @@ const router = createBrowserRouter([
     path: "/modaltest",
     element: <ModelTest />,
     errorElement: <Errorpage />,
+  },
+  {
+    path: "*",
+    element: <Errorpage />,
   },
 ]);
 export default function App() {

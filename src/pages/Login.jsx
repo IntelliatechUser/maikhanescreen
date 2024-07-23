@@ -544,7 +544,7 @@ const Login = () => {
           <div>
             <div className="flex flex-col h-full justify-start gap-2  shadow-gray rounded-lg ">
               <div className="tabs w-full flex gap-4 mb-4 rounded-tl-lg">
-              <button
+                <button
                   className={`tab-button ${tab === "manager" ? "active bg-customOrange text-white" : ""} p-3 rounded-tl-lg text-xs font-bold`}
                   onClick={() => setTab("manager")}
                 >
@@ -556,136 +556,136 @@ const Login = () => {
                 >
                   BU Staff Login
                 </button>
-                
+
               </div>
               <div className="">
                 <div className="rounded-lg  px-6 w-full max-w-md">
                   {tab === "simple" ? (
-                     <Formik
-                     initialValues={initialValues}
-                     validationSchema={validationSchema}
-                     onSubmit={handleLogin}
-                   >
-                     {({ isSubmitting }) => (
-                       <Form>
-                         <div className="flex flex-col">
-                           <label className="block text-black font-bold" htmlFor="username">
-                             Username
-                           </label>
-                           <Field
-                             type="text"
-                             name="username"
-                             placeholder="Username"
-                             className="w-full p-2 rounded border-0 focus:border-0 focus:outline-0 focus:border-yellow bg-[#eeecec]"
-                           />
-                           <ErrorMessage
-                             name="username"
-                             component="div"
-                             className="text-red-600 mt-1 text-sm"
-                           />
-                         </div>
-                         <div className="my-2">
-                           <label className="block text-black font-bold" htmlFor="password">
-                             Password
-                           </label>
-                           <Field
-                             type="password"
-                             name="password"
-                             placeholder="Password"
-                             className="w-full p-2 rounded border-0 focus:border-0 focus:outline-0 focus:border-yellow bg-[#eeecec]"
-                           />
-                           <ErrorMessage
-                             name="password"
-                             component="div"
-                             className="text-red-600 mt-1 text-sm"
-                           />
-                         </div>
-                         <div>
-                           <button
-                             type="submit"
-                             disabled={isSubmitting}
-                             className="bg-customOrange w-full text-white py-1 rounded-full hover:bg-indigo-700 border border-2"
-                           >
-                             Login
-                           </button>
-                         </div>
-                       </Form>
-                     )}
-                   </Formik>
+                    <Formik
+                      initialValues={initialValues}
+                      validationSchema={validationSchema}
+                      onSubmit={handleLogin}
+                    >
+                      {({ isSubmitting }) => (
+                        <Form>
+                          <div className="flex flex-col">
+                            <label className="block text-black font-bold" htmlFor="username">
+                              Username
+                            </label>
+                            <Field
+                              type="text"
+                              name="username"
+                              placeholder="Username"
+                              className="w-full p-2 rounded border-0 focus:border-0 focus:outline-0 focus:border-yellow bg-[#eeecec]"
+                            />
+                            <ErrorMessage
+                              name="username"
+                              component="div"
+                              className="text-red-600 mt-1 text-sm"
+                            />
+                          </div>
+                          <div className="my-2">
+                            <label className="block text-black font-bold" htmlFor="password">
+                              Password
+                            </label>
+                            <Field
+                              type="password"
+                              name="password"
+                              placeholder="Password"
+                              className="w-full p-2 rounded border-0 focus:border-0 focus:outline-0 focus:border-yellow bg-[#eeecec]"
+                            />
+                            <ErrorMessage
+                              name="password"
+                              component="div"
+                              className="text-red-600 mt-1 text-sm"
+                            />
+                          </div>
+                          <div>
+                            <button
+                              type="submit"
+                              disabled={isSubmitting}
+                              className="bg-customOrange w-full text-white py-1 rounded-full hover:bg-indigo-700 border border-2"
+                            >
+                              Login
+                            </button>
+                          </div>
+                        </Form>
+                      )}
+                    </Formik>
                   ) : (
 
-<Formik
-                    initialValues={managerInitialValues}
-                    validationSchema={managerValidationSchema}
-                    onSubmit={handleLogin}
-                  >
-                    {({ isSubmitting }) => (
-                      <Form>
-                        <div className="flex flex-col">
-                          <label className="block text-black font-bold" htmlFor="username">
-                            Username
-                          </label>
-                          <Field
-                            type="text"
-                            name="username"
-                            placeholder="Username"
-                            className="w-full p-2 rounded border-0 focus:border-0 focus:outline-0 focus:border-yellow bg-[#eeecec]"
-                          />
-                          <ErrorMessage
-                            name="username"
-                            component="div"
-                            className="text-red-600 mt-1 text-sm"
-                          />
-                        </div>
-                        <div className="my-2">
-                          <label className="block text-black font-bold" htmlFor="password">
-                            Password
-                          </label>
-                          <Field
-                            type="password"
-                            name="password"
-                            placeholder="Password"
-                            className="w-full p-2 rounded border-0 focus:border-0 focus:outline-0 focus:border-yellow bg-[#eeecec]"
-                          />
-                          <ErrorMessage
-                            name="password"
-                            component="div"
-                            className="text-red-600 mt-1 text-sm"
-                          />
-                        </div>
-                        <div className="my-2">
-                          <label className="block text-black font-bold" htmlFor="role">
-                            Role
-                          </label>
-                          <Field
-                            as="select"
-                            name="role"
-                            className="w-full p-2 rounded border-0 focus:border-0 focus:outline-0 focus:border-yellow bg-[#eeecec]"
-                          >
-                            <option value="" label="Select role" />
-                            <option value="manager" label="Manager" />
-                            <option value="owner" label="Owner" />
-                          </Field>
-                          <ErrorMessage
-                            name="role"
-                            component="div"
-                            className="text-red-600 mt-1 text-sm"
-                          />
-                        </div>
-                        <div>
-                          <button
-                            type="submit"
-                            disabled={isSubmitting}
-                            className="bg-customOrange w-full text-white py-1 rounded-full hover:bg-indigo-700 border border-2"
-                          >
-                            Login
-                          </button>
-                        </div>
-                      </Form>
-                    )}
-                  </Formik>
-                   
-                    
+                    <Formik
+                      initialValues={managerInitialValues}
+                      validationSchema={managerValidationSchema}
+                      onSubmit={handleLogin}
+                    >
+                      {({ isSubmitting }) => (
+                        <Form>
+                          <div className="flex flex-col">
+                            <label className="block text-black font-bold" htmlFor="username">
+                              Username
+                            </label>
+                            <Field
+                              type="text"
+                              name="username"
+                              placeholder="Username"
+                              className="w-full p-2 rounded border-0 focus:border-0 focus:outline-0 focus:border-yellow bg-[#eeecec]"
+                            />
+                            <ErrorMessage
+                              name="username"
+                              component="div"
+                              className="text-red-600 mt-1 text-sm"
+                            />
+                          </div>
+                          <div className="my-2">
+                            <label className="block text-black font-bold" htmlFor="password">
+                              Password
+                            </label>
+                            <Field
+                              type="password"
+                              name="password"
+                              placeholder="Password"
+                              className="w-full p-2 rounded border-0 focus:border-0 focus:outline-0 focus:border-yellow bg-[#eeecec]"
+                            />
+                            <ErrorMessage
+                              name="password"
+                              component="div"
+                              className="text-red-600 mt-1 text-sm"
+                            />
+                          </div>
+                          <div className="my-2">
+                            <label className="block text-black font-bold" htmlFor="role">
+                              Role
+                            </label>
+                            <Field
+                              as="select"
+                              name="role"
+                              className="w-full p-2 rounded border-0 focus:border-0 focus:outline-0 focus:border-yellow bg-[#eeecec]"
+                            >
+                              <option value="" label="Select role" />
+                              <option value="manager" label="Manager" />
+                              <option value="owner" label="Owner" />
+                            </Field>
+                            <ErrorMessage
+                              name="role"
+                              component="div"
+                              className="text-red-600 mt-1 text-sm"
+                            />
+                          </div>
+                          <div>
+                            <button
+                              type="submit"
+                              disabled={isSubmitting}
+                              className="bg-customOrange w-full text-white py-1 rounded-full hover:bg-indigo-700 border border-2"
+                            >
+                              Login
+                            </button>
+                          </div>
+                        </Form>
+                      )}
+                    </Formik>
+
+
                   )}
                 </div>
               </div>
