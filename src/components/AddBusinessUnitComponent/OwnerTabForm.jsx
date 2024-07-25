@@ -102,7 +102,7 @@ const OwnerTabForm = () => {
                 </p>
             </div>
 
-            <div className="grid grid-cols-3 gap-6 mb-6">
+            <div className="grid md:grid-cols-3 gap-6 mb-6">
                 <div>
                     <input type="text" className="w-full p-3 border border-customOrange outline-none rounded"
                         placeholder="Name" name="name" onChange={(e) => handleOnInputChange(e)} value={inputValues?.name || ''} />
@@ -114,9 +114,9 @@ const OwnerTabForm = () => {
                 </div>
                 <div>
                     <label className="block text-gray-600 mb-2" htmlFor="contactNumber">Owner Member Contact Number</label>
-                    <div className="flex items-center">
-                        <div className="flex space-x-4">
-                            <CustomRadioButton
+                    <div className="flex  items-center ">
+                        <div className="flex flex-col lg:flex-row gap-2 lg:gap-0">
+                          <CustomRadioButton
                                 id="mobile"
                                 name="contact"
                                 value="mobile"
@@ -146,7 +146,7 @@ const OwnerTabForm = () => {
 
             </div>
 
-            <div className="grid grid-cols-3 gap-6 mb-6">
+            <div className="grid md:grid-cols-3 gap-6 mb-6">
                 <div>
                     <input type="text" className="w-full p-3 border border-customOrange outline-none rounded"
                         name="dob" onChange={(e) => handleOnInputChange(e)} placeholder="Date of Birth" value={inputValues?.dob || ''} />
@@ -160,7 +160,7 @@ const OwnerTabForm = () => {
                 </div>
                 {selectedValue === 'mobile' ? (<div>
                     <label className="block text-gray-600 mb-2" htmlFor="mobileNumber">Mobile Number (OTP Verification Via SMS)</label>
-                    <div className="flex items-center">
+                    <div className="flex flex-col items-start gap-2 lg:gap-0 lg:flex-row lg:items-center">
                         <select className="p-3 border border-customOrange outline-none rounded mr-2">
                             <option>IND +91</option>
                             <option>USA +1</option>
@@ -182,7 +182,7 @@ const OwnerTabForm = () => {
                         <div>
                             <div>
                                 <label className="block text-gray-600 mb-2" htmlFor="mobileNumber">Mobile Number (OTP Verification Via SMS)</label>
-                                <div className="flex items-center">
+                                <div className="flex flex-col items-start gap-2 lg:gap-0 lg:flex-row lg:items-center">
                                     <select className="p-3 border border-customOrange outline-none rounded mr-2">
                                         <option>IND +91</option>
                                         <option>USA +1</option>

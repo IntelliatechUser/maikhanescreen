@@ -19,7 +19,7 @@ const CustomRadioButton = ({ id, name, value, checked, onChange, label }) => {
                     <span className="absolute inset-0 bg-customOrange m-1 rounded-sm"></span>
                 )}
             </span>
-            <span className={`ml-2 mr-[2.5rem] flex-wrap max-w-[75%]`}>{label}</span>
+            <span className={`ml-2 mr-[.5rem] flex-wrap max-w-[75%]`}>{label}</span>
         </label>
     );
 };
