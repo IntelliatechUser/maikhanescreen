@@ -36,7 +36,7 @@ const AddBusinessUnitPage = () => {
 
     return (
         <Layout>
-            <h2 className="text-3xl font-bold text-gray-700 mb-6 text-center">Add New Business Unit</h2>
+            <h2 className="text-3xl  font-bold text-gray-700 mb-6 text-center">Add New Business Unit</h2>
             <StepProgressBar currentStep={currentStep} />
             <div className="bg-white p-8 rounded-lg shadow-xl">
                 {renderStepContent()}

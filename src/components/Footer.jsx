@@ -5,7 +5,7 @@ const Footer = () => {
   return (
     <div className="grid grid-flow-col gap-x-4 pt-10 w-[95%] mx-auto ">
       <div>
-        <img className="h-20" src={logo} />
+        <img className="h-20 object-contain " src={logo} />
 
         <div className="text-poppins text-regular text-[1vw] text-mediumText">
           HKBR private limited
@@ -38,7 +38,7 @@ const Footer = () => {
           list={["Partner with Us", "Feature for You"]}
         />
       </div>
-      <div>
+      <div >
         <SocialLinks />
       </div>
     </div>
