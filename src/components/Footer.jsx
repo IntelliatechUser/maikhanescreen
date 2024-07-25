@@ -25,7 +25,7 @@ const Footer = () => {
           list={["Partner with Us", "Feature for You"]}
         />
       </div>
-      <div className="grid ">
+      <div className="grid">
         <FooterComponentLinks
           title={"For Restaurant"}
           list={["Partner with Us", "Feature for You"]}
@@ -33,7 +33,7 @@ const Footer = () => {
       </div>
 
       <div className="grid ">
-        <FooterComponentLinks
+        <FooterComponentLinks 
           title={"For Restaurant"}
           list={["Partner with Us", "Feature for You"]}
         />
