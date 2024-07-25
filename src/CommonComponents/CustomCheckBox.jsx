@@ -11,7 +11,7 @@ const CustomCheckbox = ({ label }) => {
                 {checked && (<div className="w-3 h-3 bg-customOrange rounded-sm"></div>)}
             </div>
             <label
-                className={`ml-2 mr-[2.5rem] text-[#80808063]`}
+                className={`ml-2 mr-[2.5rem] text-secondary`}
                 onClick={() => setChecked(!checked)}
             >
                 {label}

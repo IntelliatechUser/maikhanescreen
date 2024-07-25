@@ -506,7 +506,7 @@ const Login = () => {
 
   return (
     <Layout>
-      <div className="grid min-h-[70vh] gap-y-2">
+      <div className="grid min-h-[70vh] gap-y-2 pb-8 ">
         <div className="grid md:min-h-[40vh] md:grid-cols-[70%_30%] gap-4">
           <div className="grid md:grid-rows-[10%_25%_auto] items-start">
             <div className="text-xl font-bold">Why Use Maikhane Business Platform</div>
@@ -516,8 +516,8 @@ const Login = () => {
               <Commonheading heading={"Liquor Brand"} img={liquorbrand} />
               <Commonheading heading={"Liquor Store"} img={liquorstore} />
             </div>
-            <div className="grid grid-cols-1 shadow-gray rounded-lg p-4">
-              <Slider {...settings1} className="">
+            <div className="grid grid-cols-1 shadow-gray rounded-lg p-4 pb-8">
+              <Slider {...settings1} >
                 <div className="relative h-[230px] w-full flex">
                   <img
                     src={restaurantbar}
@@ -567,7 +567,7 @@ const Login = () => {
                      onSubmit={handleLogin}
                    >
                      {({ isSubmitting }) => (
-                       <Form>
+                       <Form >
                          <div className="flex flex-col">
                            <label className="block text-black font-bold" htmlFor="username">
                              Username
@@ -621,7 +621,7 @@ const Login = () => {
                   >
                     {({ isSubmitting }) => (
                       <Form>
-                        <div className="flex flex-col">
+                        <div className="flex flex-col ">
                           <label className="block text-black font-bold" htmlFor="username">
                             Username
                           </label>
@@ -694,11 +694,11 @@ const Login = () => {
                   <div>Remember Me</div>
                   <div className="text-yellow-dark">Forgot Password</div>
                 </div>
-                <div className="flex flex-col justify-center items-center text-xs gap-4">
+                <div className="flex flex-col justify-center items-center text-xs pb-2 gap-2">
                   <div className="text-center mb-2">If you don't have an account yet</div>
                   <button
                     type="submit"
-                    className="w-full h-10 bg-gray-dark text-white flex justify-center items-center p-1 rounded-full border border-2"
+                    className="w-full h-10 bg-gray-dark text-white flex justify-center items-center p-1 rounded-full border-2"
                     onClick={() => navigate("/signup")}
                   >
                     SignUp
