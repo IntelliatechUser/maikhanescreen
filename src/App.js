@@ -53,10 +53,10 @@ const router = createBrowserRouter([
     element: <ModelTest />,
     errorElement: <Errorpage />,
   },
-  {
-    path: "*",
-    element: <Errorpage />,
-  },
+  // {
+  //   path: "*",
+  //   element: <Errorpage />,
+  // },
 ]);
 export default function App() {
   return (

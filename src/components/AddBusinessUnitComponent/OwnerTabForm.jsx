@@ -102,8 +102,8 @@ const OwnerTabForm = () => {
                 </p>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-6 mb-6">
-                <div>
+            <div className="grid md:grid-cols-[70%_30%] gap-6 mb-6 items-start ">
+              <div className="grid md:grid-cols-2 gap-6  ">  <div>
                     <input type="text" className="w-full p-3 border border-customOrange outline-none rounded"
                         placeholder="Name" name="name" onChange={(e) => handleOnInputChange(e)} value={inputValues?.name || ''} />
                 </div>
@@ -113,9 +113,20 @@ const OwnerTabForm = () => {
                         name="designation" onChange={(e) => handleOnInputChange(e)} value={inputValues?.designation || ''} />
                 </div>
                 <div>
+                    <input type="text" className="w-full p-3 border border-customOrange outline-none rounded"
+                        name="dob" onChange={(e) => handleOnInputChange(e)} placeholder="Date of Birth" value={inputValues?.dob || ''} />
+                </div>
+                <div>
+                    <div className="flex">
+                        <input type="email" className="w-full p-3 border border-customOrange outline-none rounded"
+                            placeholder="Email" name="email" onChange={(e) => handleOnInputChange(e)} value={inputValues?.email || ''} />
+                        <button className="ml-2 text-[#FF9F08] py-2 px-4">Verify</button>
+                    </div>
+                </div></div>
+                <div>
                     <label className="block text-gray-600 mb-2" htmlFor="contactNumber">Owner Member Contact Number</label>
-                    <div className="flex  items-center ">
-                        <div className="flex flex-col lg:flex-row gap-2 lg:gap-0">
+                    <div className="flex flex-col lg:items-center ">
+                        <div className="flex flex-col lg:flex-row gap-2 lg:gap-0 ">
                           <CustomRadioButton
                                 id="mobile"
                                 name="contact"
@@ -142,23 +153,8 @@ const OwnerTabForm = () => {
                             />
                         </div>
                     </div>
-                </div>
 
-            </div>
-
-            <div className="grid md:grid-cols-3 gap-6 mb-6">
-                <div>
-                    <input type="text" className="w-full p-3 border border-customOrange outline-none rounded"
-                        name="dob" onChange={(e) => handleOnInputChange(e)} placeholder="Date of Birth" value={inputValues?.dob || ''} />
-                </div>
-                <div>
-                    <div className="flex">
-                        <input type="email" className="w-full p-3 border border-customOrange outline-none rounded"
-                            placeholder="Email" name="email" onChange={(e) => handleOnInputChange(e)} value={inputValues?.email || ''} />
-                        <button className="ml-2 text-[#FF9F08] py-2 px-4">Verify</button>
-                    </div>
-                </div>
-                {selectedValue === 'mobile' ? (<div>
+                    <div>  {selectedValue === 'mobile' ? (<div>
                     <label className="block text-gray-600 mb-2" htmlFor="mobileNumber">Mobile Number (OTP Verification Via SMS)</label>
                     <div className="flex flex-col items-start gap-2 lg:gap-0 lg:flex-row lg:items-center">
                         <select className="p-3 border border-customOrange outline-none rounded mr-2">
@@ -200,7 +196,66 @@ const OwnerTabForm = () => {
                             </div>
                         </div>
                     )
-                )}
+                )}</div>
+                </div>
+
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-6 mb-6">
+                {/* <div>
+                    <input type="text" className="w-full p-3 border border-customOrange outline-none rounded"
+                        name="dob" onChange={(e) => handleOnInputChange(e)} placeholder="Date of Birth" value={inputValues?.dob || ''} />
+                </div>
+                <div>
+                    <div className="flex">
+                        <input type="email" className="w-full p-3 border border-customOrange outline-none rounded"
+                            placeholder="Email" name="email" onChange={(e) => handleOnInputChange(e)} value={inputValues?.email || ''} />
+                        <button className="ml-2 text-[#FF9F08] py-2 px-4">Verify</button>
+                    </div>
+                </div> */}
+                {/* {selectedValue === 'mobile' ? (<div>
+                    <label className="block text-gray-600 mb-2" htmlFor="mobileNumber">Mobile Number (OTP Verification Via SMS)</label>
+                    <div className="flex flex-col items-start gap-2 lg:gap-0 lg:flex-row lg:items-center">
+                        <select className="p-3 border border-customOrange outline-none rounded mr-2">
+                            <option>IND +91</option>
+                            <option>USA +1</option>
+                            <option>UK +44</option>
+                        </select>
+                        <input className="w-full p-3 border border-customOrange outline-none rounded" type="text" id="mobileNumber" placeholder="Mobile Number"
+                            name="mobile" onChange={(e) => handleOnInputChange(e)} value={inputValues?.mobile || ''} />
+                        <button className="ml-2 py-3 px-6 text-[#FF9F08]">Verify Number</button>
+                    </div>
+                </div>) : (
+                    selectedValue === 'landline' ? (
+                        <div>
+                            <label className="block text-gray-600 mb-2" htmlFor="mobileNumber">Landline Number</label>
+                            <div className="flex items-center">
+                                <input className="w-full p-3 border border-customOrange outline-none rounded" type="text" id="landlineNumber" placeholder="Landline Number" />
+                            </div>
+                        </div>
+                    ) : (
+                        <div>
+                            <div>
+                                <label className="block text-gray-600 mb-2" htmlFor="mobileNumber">Mobile Number (OTP Verification Via SMS)</label>
+                                <div className="flex flex-col items-start gap-2 lg:gap-0 lg:flex-row lg:items-center">
+                                    <select className="p-3 border border-customOrange outline-none rounded mr-2">
+                                        <option>IND +91</option>
+                                        <option>USA +1</option>
+                                        <option>UK +44</option>
+                                    </select>
+                                    <input className="w-full p-3 border border-customOrange outline-none rounded" type="text" id="mobileNumber" placeholder="Mobile Number" />
+                                    <button className="ml-2 py-3 px-6 text-[#FF9F08]">Verify Number</button>
+                                </div>
+                            </div>
+                            <div className="mt-5">
+                                <label className="block text-gray-600 mb-2" htmlFor="mobileNumber">Landline Number</label>
+                                <div className="flex items-center">
+                                    <input className="w-full p-3 border border-customOrange outline-none rounded" type="text" id="landlineNumber" placeholder="Landline Number" />
+                                </div>
+                            </div>
+                        </div>
+                    )
+                )} */}
             </div>
             <OTPModal
                 isOpen={isModalOpen}
