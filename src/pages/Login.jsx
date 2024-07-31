@@ -444,6 +444,7 @@ import Footer from "../components/Footer";
 import Layout from "../components/Layout";
 import axios from 'axios';
 import useAuthStore from "../store/useAuthStore";
+import getProfile from "../store/getProfile";
 const options = [
   { value: "option1", label: "Option 1", countryCode: "US" },
   { value: "option2", label: "Option 2", countryCode: "CA" },
@@ -453,9 +454,9 @@ const options = [
 const Login = () => {
   const navigate = useNavigate();
   const [tab, setTab] = useState("manager");
-  
 
-  const { isLoading, error, success, setLoading, setUser, user,setError } = useAuthStore(); // Destructure the login function and state from the store
+const {setProfile }=getProfile();
+  const { isLoading, error, success, setLoading, setUser, user, setError } = useAuthStore(); // Destructure the login function and state from the store
   console.log(">>>>>>>>>>>>>>isloading", isLoading);
   console.log(">>>>>>>>>>>>>>error", error);
   console.log(">>>>>>>>>>>>>>success", success, user);
@@ -491,12 +492,16 @@ const Login = () => {
 
 
 
-useEffect(()=>{
-return () =>{
-  setUser(null);
-  setError(null);
-}
-},[])
+  useEffect(() => {
+  let token =localStorage.getItem("token");
+    if(token){
+      navigate("./dashboard");
+    }
+    return () => {
+      
+       setError(null);
+    }
+  }, [])
 
 
 
@@ -631,23 +636,45 @@ return () =>{
 
   const handleLogin = async (values) => {
     try {
-      const response = await axios.post('http://192.168.1.15:8091/user/login', { email:values.username, password:values.password }, {
+      const response = await axios.post('http://43.204.36.147:8067/user/login', { email: values.username, password: values.password }, {
         headers: {
           'Content-Type': 'application/json',
         },
       });
       console.log("checking for the response", response)
       if (response?.data?.status != 200) {
-       
+
 
         throw new Error(response?.data?.message || 'Failed to login');
       }
       else {
+   console.log(">>>>>>>userId",response?.data?.response.userDto.id)
+        console.log(">>>>>>>>>>>>>>>>token11", response?.data?.response.userDto.token)
+        let token=response?.data?.response.userDto.token;
+        let userid=response?.data?.response.userDto.id;
+       
+        try {
 
-console.log(">>>>>>>>>>>>>>>>token",response?.data?.response.userDto.token)
-        setUser({ user: response?.data?.response, error: null, success: true });
-        localStorage.setItem("token",response?.data?.response.userDto.token)
-        navigate("./dashboard")
+        
+          const response = await axios.get(`http://43.204.36.147:8067/user/profile?userId=${userid}`, {
+           
+            headers: { Authorization: `Bearer ${token}` },
+          });
+
+          setProfile(response);
+          setUser({ user: response?.data?.response, error: null, success: true });
+         
+          localStorage.setItem("token", token)
+         
+          localStorage.setItem("profile", JSON.stringify(response));
+         
+         
+          navigate("./dashboard")
+        
+        } catch (error) {
+          console.log("Error occur in getting the profile");
+        
+        }
       }
 
     } catch (error) {
@@ -656,11 +683,9 @@ console.log(">>>>>>>>>>>>>>>>token",response?.data?.response.userDto.token)
     } finally {
       setLoading(false);
     }
-    // await login(values.username, values.password);
+   
     console.log(">>>>>>>>>>>login boole", success)
-    // if (success) {
-    //   navigate("./dashboard")
-    // }
+   
   };
 
   return (
@@ -780,7 +805,7 @@ console.log(">>>>>>>>>>>>>>>>token",response?.data?.response.userDto.token)
                       {({ isSubmitting }) => (
                         <Form>
                           <div className="flex flex-col">
-                          {error && <div className="text-red-600 mt-1 text-sm text-red">{error}</div>}
+                            {error && <div className="text-red-600 mt-1 text-sm text-red">{error}</div>}
                             <label className="block text-black font-bold" htmlFor="username">
                               Username
                             </label>
@@ -812,7 +837,7 @@ console.log(">>>>>>>>>>>>>>>>token",response?.data?.response.userDto.token)
                               className="text-red-600 mt-1 text-sm"
                             />
                           </div>
-                         
+
                           <div>
                             <button
                               type="submit"

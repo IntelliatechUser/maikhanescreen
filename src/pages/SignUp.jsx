@@ -987,7 +987,7 @@ const SignUp = () => {
     // setPassword(values.password);
     // setConfirmPassword(values.confirmPassword);
     try {
-      const response = await axios.post('http://192.168.1.15:8091/user/signup', {
+      const response = await axios.post('http://43.204.36.147:8067/user/signup', {
         email: 
         values.email,
 fullName

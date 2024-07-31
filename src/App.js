@@ -14,6 +14,7 @@ import Dashboard from "./pages/DashboardPage.jsx";
 import BusinessUnit from "./pages/AddBusinessUnitPage.jsx";
 import SignUp from "./pages/SignUp.jsx";
 import ModelTest from "./ModelTest.jsx";
+import PrivateRoute from "./components/authenticationRoute/PrivateRoute.jsx";
 const router = createBrowserRouter([
   // { path: "/DatePicker", element: <DatePicker /> },
   { path: "/businessGrid", element: <BusinessDetail /> },
@@ -34,6 +35,8 @@ const router = createBrowserRouter([
     path: "/addBusinessUnit",
     element: <BusinessUnit />,
   },
+
+  
   {
     path: "/teambusiness",
     element: <TeamBusiness />,
@@ -48,6 +51,13 @@ const router = createBrowserRouter([
     element: <SignUp />,
     errorElement: <Errorpage />,
   },
+  // {
+  //   element: <PrivateRoute />,
+  //   children: [
+  //     { path: '/dashboard', element: <Dashboard /> },
+  //     { path: '/addBusinessUnit', element: <BusinessUnit /> },
+  //   ],
+  // },
   {
     path: "/modaltest",
     element: <ModelTest />,

@@ -29,9 +29,9 @@ export const FooterComponentLinks = ({ title, list }) => {
 export const SocialLinks = () => {
   return (
     <div className="flex flex-col gap-2">
-      <div className="flex justify-end gap-2">
+      {/* <div className="flex justify-end gap-2">
         <Countryandlanguage />
-      </div>
+      </div> */}
       <div className="text-poppins text-[1.30vw] text-regular text-black">
         Social Links{" "}
       </div>
