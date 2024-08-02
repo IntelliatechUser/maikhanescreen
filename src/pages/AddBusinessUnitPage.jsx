@@ -4,13 +4,42 @@ import StepProgressBar from '../components/StepProgressBar';
 import UnitDetails from '../components/AddBusinessUnitComponent/UnitDetails';
 import businessLogicStore from "../store/BusinessLogicStore";
 import OwnershipAndLicenceDetails from '../components/AddBusinessUnitComponent/OwnerShipDetails';
-
+import useStore from "../store/UnitDetail";
 const AddBusinessUnitPage = () => {
+    const { allformdata, setAllFormdata } = useStore();
+    const [formData, setFormData] = useState(null);
 
+    const onSubmitBusiness = (business) => {
+
+        console.log(">>>>>>>>>>>business data", business);
+        alert("hello");
+        setFormData(prevData => ({ ...prevData, business: business }));
+        setAllFormdata({...allformdata,business})
+        setCurrentStep(1);
+
+    }
+
+    const onSubmitOwner = (Ownerdata) => {
+        console.log(">>>>>>>>>>>Owner data", Ownerdata);
+        alert("hello");
+        setFormData(prevData => ({ ...prevData, owner: Ownerdata }));
+        setAllFormdata({...allformdata,Ownerdata})
+        setCurrentStep(1);
+    }
+
+    const onSubmitLicence = (licencedata) => {
+        console.log(">>>>>>>>>>>Licence data", licencedata);
+        alert("hello");
+        setFormData(prevData => ({ ...prevData, license: licencedata }));
+        setAllFormdata({...allformdata,licencedata})
+        
+        setCurrentStep(1);
+    }
     const { currentStep, setCurrentStep, currentTab, setCurrentTab } = businessLogicStore();
 
-    const handleNext = () => {
+    const handleNext = (data) => {
         if (currentStep < 2) {
+            setFormData(data);
             setCurrentStep(currentStep + 1);
         }
     };
@@ -23,17 +52,20 @@ const AddBusinessUnitPage = () => {
         switch (currentStep) {
             case 1:
                 return (
-                    <UnitDetails />
+                    <UnitDetails onNext={handleNext} />
                 );
             case 2:
                 return (
-                    <OwnershipAndLicenceDetails currentTab={currentTab} handleTabChange={handleTabChange} />
+                    // <OwnershipAndLicenceDetails currentTab={currentTab} handleTabChange={handleTabChange} formData={formData}  />
+                    <OwnershipAndLicenceDetails currentTab={currentTab} handleTabChange={handleTabChange} formData={formData} onSubmitBusiness={onSubmitBusiness} onSubmitOwner={onSubmitOwner} onSubmitLicence={onSubmitLicence} />
+
                 );
             default:
                 return null;
         }
     };
-
+    console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>formdata", formData);
+    console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>allformdata", allformdata);
     return (
         <Layout>
             <h2 className="text-3xl  font-bold text-gray-700 mb-6 text-center">Add New Business Unit</h2>
@@ -41,7 +73,7 @@ const AddBusinessUnitPage = () => {
             <div className="bg-white p-8 rounded-lg shadow-xl">
                 {renderStepContent()}
             </div>
-            {currentStep === 1 ? <div className="flex justify-end mt-6">
+            {/* {currentStep == 1 ? <div className="flex justify-end mt-6">
                 <button
                     type="button"
                     onClick={handleNext}
@@ -57,8 +89,16 @@ const AddBusinessUnitPage = () => {
                 >
                     Back
                 </button>
-            </div>}
-
+            </div>} */}
+            {/* {(currentStep == 2) && <div className="flex justify-start mt-6">
+                <button
+                    type="button"
+                    onClick={() => setCurrentStep(1)}
+                    className="py-3 px-6 bg-customOrange text-white rounded-[1.5rem] mb-10"
+                >
+                    Back
+                </button>
+            </div>} */}
             {(currentTab === 3) && currentStep === 2 && <div className="flex justify-end mt-6">
                 <button
                     type="button"

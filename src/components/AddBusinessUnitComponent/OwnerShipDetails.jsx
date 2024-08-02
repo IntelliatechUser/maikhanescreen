@@ -4,7 +4,7 @@ import OwnerTabForm from "./OwnerTabForm";
 import LicenseTabForm from "./LicenseTabForm";
 import TeamTabForm from "./TeamTabForm";
 
-const OwnershipAndLicenceDetails = ({ currentTab, handleTabChange }) => {
+const OwnershipAndLicenceDetails = ({ currentTab, handleTabChange,onSubmitOwner,onSubmitBusiness,onSubmitLicence}) => {
     return (
         <div>
             <h3 className="text-2xl font-semi text-gray-700 mb-6 text-center">Ownership and Licence Details</h3>
@@ -46,9 +46,9 @@ const OwnershipAndLicenceDetails = ({ currentTab, handleTabChange }) => {
             </div>
 
             <div className="mt-6">
-                {currentTab === 1 && <BusinessTabForm />}
-                {currentTab === 2 && <OwnerTabForm />}
-                {currentTab === 3 && <LicenseTabForm />}
+                {currentTab === 1 && <BusinessTabForm onSubmitBusiness={onSubmitBusiness} />}
+                {currentTab === 2 && <OwnerTabForm onSubmitOwner={onSubmitOwner} />}
+                {currentTab === 3 && <LicenseTabForm onSubmitLicence={onSubmitLicence} />}
                 {currentTab === 4 && <TeamTabForm />}
             </div>
         </div>
