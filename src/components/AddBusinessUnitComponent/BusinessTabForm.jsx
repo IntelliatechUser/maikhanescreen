@@ -367,7 +367,7 @@
 // // 				</div>
 // // 			</div>
 
-	
+
 // // 		</div>
 // // 	);
 // // };
@@ -406,10 +406,10 @@
 //         // addressLine2: Yup.string().required('Required'),
 //         // city: Yup.string().required('Required'),
 //         // state: Yup.string().required('Required'),
-       
-		
-		
-		
+
+
+
+
 // 		// zipCode: Yup.string().required('Required'),
 //         // email: Yup.string().required('Required'),
 //         // // mobile: Yup.string().required('Required'),
@@ -421,7 +421,7 @@
 //             initialValues={businessDetails}
 //              validationSchema={validationSchema}
 //             onSubmit={(values) => {
-				
+
 // 				setBusinessDetails(values);
 // 				console.log(">>>>>>hi submit method works")
 //                 // Call the parent component's callback with form values
@@ -1101,10 +1101,10 @@
 //     });
 
 //     const handleValidate = async (idType, idDocumentNumber, setFieldValue) => {
-       
+
 // 		if(idType!="PAN"){
 // 		try {
-			
+
 //             const response = await axios.post('http://43.204.36.147:8067/businessVerification', {
 //                 useCase: idType,
 //                 documentId: idDocumentNumber
@@ -1125,7 +1125,7 @@
 
 
 // 			try {
-			
+
 // 				const response = await axios.post('http://43.204.36.147:8067/userVerification', {
 // 					useCase: idType,
 // 					documentId: idDocumentNumber
@@ -1694,10 +1694,12 @@ import * as Yup from "yup";
 import axios from "axios";
 import CustomRadioButton from "../../CommonComponents/CustomRadioButton";
 import useStore from "../../store/UnitDetail";
-
+import { useState } from "react"
+import businessLogicStore from "../../store/BusinessLogicStore"
 const BusinessTabForm = ({ onSubmitBusiness }) => {
     const { businessDetails, setBusinessDetails } = useStore();
-
+    const [selectedIdType, setSelectedIdType] = useState(businessDetails.idType);
+    const { currentTab, setCurrentTab } = businessLogicStore();
     const validationSchema = Yup.object({
         // idType: Yup.string().required('Required'),
         // idDocumentNumber: Yup.string().required('Required'),
@@ -1740,20 +1742,33 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
         setSelectedValue(event.target.value);
     };
 
-    const handleFileChange = (event, setFieldValue) => {
+    const handleFileChange = (event, setFieldValue, fieldName) => {
         const file = event.currentTarget.files[0];
         if (file) {
-            setFieldValue('businessLogo', file);
+          setFieldValue(fieldName, file);
         }
+      };
+    const handleIdTypeChange = (event, setFieldValue) => {
+        const idType = event.target.value;
+        setSelectedIdType(idType);
+        setFieldValue("idType", idType);
     };
-
     return (
         <Formik
             initialValues={businessDetails}
             validationSchema={validationSchema}
             onSubmit={(values) => {
-                setBusinessDetails(values);
-                onSubmitBusiness(values);
+                let savebutton = document.activeElement.id
+                if (savebutton == "businessdatasave") {
+                    setBusinessDetails(values);
+                    let tab = currentTab;
+                    setCurrentTab(tab + 1)
+                } else {
+                    setBusinessDetails(values);
+                    onSubmitBusiness(values);
+                    
+
+                }
             }}
         >
             {({ setFieldValue, values }) => (
@@ -1761,8 +1776,13 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                     <div className="mt-15 mr-7">
                         <div className="grid md:grid-cols-[60%_40%] gap-6 mb-6">
                             <div>
-                                <label className="block text-gray-600 mb-2">Photo Id Type</label>
-                                <Field as="select" name="idType" className="w-full p-3 border border-customOrange outline-none rounded">
+                                <label className="block text-gray-600 mb-2">Business ID Type</label>
+                                <Field as="select" name="idType" className="w-full p-3 border border-customOrange outline-none rounded" onChange={(event) => {
+
+                                    setFieldValue('legallyRegisteredName', "");
+                                    setFieldValue('addressLine1', "");
+                                    handleIdTypeChange(event, setFieldValue)
+                                }}>
                                     <option value="">Select Category</option>
                                     <option value="PAN">PAN</option>
                                     <option value="GST">GST</option>
@@ -1885,11 +1905,12 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                         type="file"
                                         name="businessLogo"
                                         accept="image/*"
-                                        onChange={(event) => handleFileChange(event, setFieldValue)}
+                                        onChange={(event) => handleFileChange(event, setFieldValue,"businessLogo")}
                                         className="w-full p-3 border border-customOrange outline-none rounded"
                                     />
                                     <ErrorMessage name="businessLogo" component="div" className="text-red-500 text-xs mt-1" />
                                 </div>
+
                             </div>
 
                             <div className="flex flex-col gap-3">
@@ -1898,11 +1919,11 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                         type="email"
                                         name="email"
                                         className="w-full p-3 border border-customOrange outline-none rounded"
-                                        placeholder="Email Verify Option"
+                                        placeholder="Email ID"
                                     />
-                                    <button type="button" className="ml-2 text-[#FF9F08] py-2 px-4">
+                                    {/* <button type="button" className="ml-2 text-[#FF9F08] py-2 px-4">
                                         Verify
-                                    </button>
+                                    </button> */}
                                     <ErrorMessage name="email" component="div" className="text-red-500 text-xs mt-1" />
                                 </div>
 
@@ -1940,47 +1961,155 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                     </div>
                                 </div>
 
-                                {selectedValue === "mobile" && (
-                                    <Field
-                                        type="text"
-                                        name="contactNumber"
-                                        className="w-full p-3 border border-customOrange outline-none rounded"
-                                        placeholder="Enter Mobile Number"
-                                    />
-                                )}
-                                {selectedValue === "landline" && (
-                                    <Field
-                                        type="text"
-                                        name="contactNumber"
-                                        className="w-full p-3 border border-customOrange outline-none rounded"
-                                        placeholder="Enter Landline Number"
-                                    />
-                                )}
-                                {selectedValue === "both" && (
-                                    <div>
-                                        <Field
-                                            type="text"
-                                            name="mobileNumber"
-                                            className="w-full p-3 border border-customOrange outline-none rounded mb-2"
-                                            placeholder="Enter Mobile Number"
-                                        />
-                                        <Field
-                                            type="text"
-                                            name="landlineNumber"
-                                            className="w-full p-3 border border-customOrange outline-none rounded"
-                                            placeholder="Enter Landline Number"
-                                        />
-                                    </div>
-                                )}
+
                                 <ErrorMessage name="contactNumber" component="div" className="text-red-500 text-xs mt-1" />
                             </div>
+
                         </div>
-                        <button
+                        {selectedIdType === "PAN" && (
+                            <div className="grid grid-cols-3 gap-6 mb-6">
+                                <div>
+                                    <label className="block text-gray-600 mb-2">GST Document Upload</label>
+                                    <div className="flex">
+                                        <input
+                                            type="file"
+                                            name="gstdocument"
+                                            accept="image/*"
+                                            onChange={(event) => handleFileChange(event, setFieldValue,"gstdocument")}
+                                            className="w-full p-3 border border-customOrange outline-none rounded"
+                                        />
+                                    </div>
+                                    <ErrorMessage name="gst" component="div" className="text-red-500 text-xs mt-1" />
+                                </div>
+                                <div>
+                                    <label className="block text-gray-600 mb-2">CIN Document Upload</label>
+                                    <div className="flex">
+                                        <input
+                                            type="file"
+                                            name="cindocument"
+                                            accept="image/*"
+                                            onChange={(event) => handleFileChange(event, setFieldValue,"cindocument")}
+                                            className="w-full p-3 border border-customOrange outline-none rounded"
+                                        />
+                                    </div>
+                                    <ErrorMessage name="cin" component="div" className="text-red-500 text-xs mt-1" />
+                                </div>
+                                <div>
+                                    <label className="block text-gray-600 mb-2">PAN Document Upload</label>
+                                    <div className="flex">
+                                        <input
+                                            type="file"
+                                            name="pandocument"
+                                            accept="image/*"
+                                            onChange={(event) => handleFileChange(event, setFieldValue,"pandocument")}
+                                            className="w-full p-3 border border-customOrange outline-none rounded"
+                                        />
+                                    </div>
+                                    <ErrorMessage name="cin" component="div" className="text-red-500 text-xs mt-1" />
+                                </div>
+                            </div>
+                        )}
+
+                        {selectedIdType === "GST" && (
+                            <div className="grid grid-cols-3 gap-6 mb-6">
+                                <div>
+                                    <label className="block text-gray-600 mb-2">PAN Document Upload</label>
+                                    <div className="flex">
+                                        <input
+                                            type="file"
+                                            name="pandocument"
+                                            accept="image/*"
+                                            onChange={(event) => handleFileChange(event, setFieldValue,"pandocument")}
+                                            className="w-full p-3 border border-customOrange outline-none rounded"
+                                        />
+                                    </div>
+                                    <ErrorMessage name="pan" component="div" className="text-red-500 text-xs mt-1" />
+                                </div>
+                                <div>
+                                    <label className="block text-gray-600 mb-2">CIN Document Upload</label>
+                                    <div className="flex">
+                                        <input
+                                            type="file"
+                                            name="cindocument"
+                                            accept="image/*"
+                                            onChange={(event) => handleFileChange(event, setFieldValue,"cindocument")}
+                                            className="w-full p-3 border border-customOrange outline-none rounded"
+                                        />
+                                    </div>
+                                    <ErrorMessage name="cin" component="div" className="text-red-500 text-xs mt-1" />
+                                </div>
+                                <div>
+                                    <label className="block text-gray-600 mb-2">GST Document Upload</label>
+                                    <div className="flex">
+                                        <input
+                                            type="file"
+                                            name="gstdocument"
+                                            accept="image/*"
+                                            onChange={(event) => handleFileChange(event, setFieldValue,"gstdocument")}
+                                            className="w-full p-3 border border-customOrange outline-none rounded"
+                                        />
+                                    </div>
+                                    <ErrorMessage name="cin" component="div" className="text-red-500 text-xs mt-1" />
+                                </div>
+                            </div>
+                        )}
+
+                        {selectedIdType === "CIN" && (
+                            <div className="grid grid-cols-3 gap-6 mb-6">
+                                <div>
+                                    <label className="block text-gray-600 mb-2">GST Document Upload</label>
+                                    <div className="flex">
+                                        <input
+                                            type="file"
+                                            name="gstdocument"
+                                            accept="image/*"
+                                            onChange={(event) => handleFileChange(event, setFieldValue,"gstdocument")}
+                                            className="w-full p-3 border border-customOrange outline-none rounded"
+                                        />
+                                    </div>
+                                    <ErrorMessage name="gst" component="div" className="text-red-500 text-xs mt-1" />
+                                </div>
+                                <div>
+                                    <label className="block text-gray-600 mb-2">PAN Document Upload</label>
+                                    <div className="flex">
+                                        <input
+                                            type="file"
+                                            name="pandocument"
+                                            accept="image/*"
+                                            onChange={(event) => handleFileChange(event, setFieldValue,"pandocument")}
+                                            className="w-full p-3 border border-customOrange outline-none rounded"
+                                        />
+                                    </div>
+                                    <ErrorMessage name="pan" component="div" className="text-red-500 text-xs mt-1" />
+                                </div>
+                                <div>
+                                    <label className="block text-gray-600 mb-2">CIN Document Upload</label>
+                                    <div className="flex">
+                                        <input
+                                            type="file"
+                                            name="cindocument"
+                                            accept="image/*"
+                                            onChange={(event) => handleFileChange(event, setFieldValue,"cindocument")}
+                                            className="w-full p-3 border border-customOrange outline-none rounded"
+                                        />
+                                    </div>
+                                    <ErrorMessage name="cin" component="div" className="text-red-500 text-xs mt-1" />
+                                </div>
+                            </div>
+                        )}
+                      <div className="flex justify-between">  <button
                             type="submit"
                             className="mt-6 p-3 bg-customOrange text-white rounded"
                         >
                             Back
                         </button>
+                        <button
+                            type="submit" id="businessdatasave"
+                            className="mt-6 p-3 bg-customOrange text-white rounded"
+
+                        >
+                            Next
+                        </button></div>
                     </div>
                 </Form>
             )}
@@ -1989,3 +2118,7 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
 };
 
 export default BusinessTabForm;
+
+
+
+

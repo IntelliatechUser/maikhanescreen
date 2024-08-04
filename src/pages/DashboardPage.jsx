@@ -9,9 +9,11 @@ import SalesSupportIcon from "../assets/icons/salesSupportIcon.svg";
 import BillingSupportIcon from "../assets/icons/billingSupportIcon.svg";
 import OperationSupportIcon from "../assets/icons/operationSupportIcon.svg";
 import { useNavigate } from "react-router-dom";
-
+import businessLogicStore from "../store/BusinessLogicStore";
 
 const Dashboard = () => {
+    const { currentStep, setCurrentStep, currentTab, setCurrentTab } = businessLogicStore();
+    
     const navigate = useNavigate();
     return (
         <Layout>
@@ -19,7 +21,12 @@ const Dashboard = () => {
                 <div className="mx-auto">
                     <h2 className="text-2xl font-bold text-gray-700 mb-6">Your Dashboard</h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 mb-12 gap-6">
-                        <SupportCard title="Create Business Unit" description="Create a business Unit" Icon={BusinessUnitIcon} handleRedirect={() => navigate("/addBusinessUnit")} />
+                        <SupportCard title="Create Business Unit" description="Create a business Unit" Icon={BusinessUnitIcon} handleRedirect={() => {
+                            
+                            navigate("/addBusinessUnit")
+                            setCurrentStep(1);
+                            
+                            }} />
                         <SupportCard title="In-Process Business Unit" description="Submit a sales request or connect with a sales associates." Icon={ProcessUnitIcon} number={4} />
                         <SupportCard title="Registered Business Unit" description="Submit a sales request or connect with a sales associates." Icon={RegisteredUnitIcon} number={3} />
                     </div>

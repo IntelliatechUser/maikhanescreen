@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Layout from '../components/Layout';
 import StepProgressBar from '../components/StepProgressBar';
 import UnitDetails from '../components/AddBusinessUnitComponent/UnitDetails';
@@ -8,34 +8,37 @@ import useStore from "../store/UnitDetail";
 const AddBusinessUnitPage = () => {
     const { allformdata, setAllFormdata } = useStore();
     const [formData, setFormData] = useState(null);
-
+    const { currentStep, setCurrentStep, currentTab, setCurrentTab } = businessLogicStore();
     const onSubmitBusiness = (business) => {
 
         console.log(">>>>>>>>>>>business data", business);
-        alert("hello");
+        // alert("hello");
         setFormData(prevData => ({ ...prevData, business: business }));
         setAllFormdata({...allformdata,business})
         setCurrentStep(1);
+        setCurrentTab(1);
 
     }
+    
 
     const onSubmitOwner = (Ownerdata) => {
         console.log(">>>>>>>>>>>Owner data", Ownerdata);
-        alert("hello");
+        // alert("hello");
         setFormData(prevData => ({ ...prevData, owner: Ownerdata }));
         setAllFormdata({...allformdata,Ownerdata})
         setCurrentStep(1);
+        setCurrentTab(1);
     }
 
     const onSubmitLicence = (licencedata) => {
         console.log(">>>>>>>>>>>Licence data", licencedata);
-        alert("hello");
+        // alert("hello");
         setFormData(prevData => ({ ...prevData, license: licencedata }));
         setAllFormdata({...allformdata,licencedata})
-        
+        setCurrentTab(1);
         setCurrentStep(1);
     }
-    const { currentStep, setCurrentStep, currentTab, setCurrentTab } = businessLogicStore();
+  
 
     const handleNext = (data) => {
         if (currentStep < 2) {
@@ -47,17 +50,17 @@ const AddBusinessUnitPage = () => {
     const handleTabChange = (tabIndex) => {
         setCurrentTab(tabIndex);
     };
-
+console.log(">>>>>>>>>>>>>currentstep",currentStep);
     const renderStepContent = () => {
         switch (currentStep) {
             case 1:
                 return (
-                    <UnitDetails onNext={handleNext} />
+                    <UnitDetails onNext={handleNext}  />
                 );
             case 2:
                 return (
                     // <OwnershipAndLicenceDetails currentTab={currentTab} handleTabChange={handleTabChange} formData={formData}  />
-                    <OwnershipAndLicenceDetails currentTab={currentTab} handleTabChange={handleTabChange} formData={formData} onSubmitBusiness={onSubmitBusiness} onSubmitOwner={onSubmitOwner} onSubmitLicence={onSubmitLicence} />
+                    <OwnershipAndLicenceDetails currentTab={currentTab} handleTabChange={handleTabChange}  onSubmitBusiness={onSubmitBusiness} onSubmitOwner={onSubmitOwner} onSubmitLicence={onSubmitLicence} />
 
                 );
             default:
@@ -99,7 +102,7 @@ const AddBusinessUnitPage = () => {
                     Back
                 </button>
             </div>} */}
-            {(currentTab === 3) && currentStep === 2 && <div className="flex justify-end mt-6">
+            {/* {(currentTab === 3) && currentStep === 2 && <div className="flex justify-end mt-6">
                 <button
                     type="button"
                     onClick={handleNext}
@@ -107,7 +110,7 @@ const AddBusinessUnitPage = () => {
                 >
                     SUBMIT FOR REGISTRATION
                 </button>
-            </div>}
+            </div>} */}
 
         </Layout>
     );

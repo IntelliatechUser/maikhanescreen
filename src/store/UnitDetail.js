@@ -38,7 +38,10 @@ const useStore = create((set) => ({
     email: '',
     mobileNumber: '',   // Updated field name
     contact: 'mobile',
-    landlineNumber: ''  // Updated field name
+    landlineNumber: '' , 
+    gstdocument: null, 
+    cindocument: null, 
+    pandocument: null, 
   },
   setBusinessDetails: (data) => set((state) => ({
     businessDetails: { ...state.businessDetails, ...data }

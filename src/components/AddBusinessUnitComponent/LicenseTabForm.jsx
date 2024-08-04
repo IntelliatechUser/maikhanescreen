@@ -95,7 +95,7 @@ import CustomRadioButton from "../../CommonComponents/CustomRadioButton";
 import useStore from "../../store/UnitDetail"; // Adjust the import based on your store file location
 
 const LicenseTabForm = ({ onSubmitLicence }) => {
-    const { licenseForm, setLicenseForm } = useStore();
+    const { licenseForm, setLicenseForm,unitDetails,businessDetails,ownerDetails } = useStore();
 
     const initialValues = {
         licenseNumber: licenseForm.licenseNumber || '',
@@ -109,13 +109,13 @@ const LicenseTabForm = ({ onSubmitLicence }) => {
     };
 
     const validationSchema = Yup.object({
-        licenseNumber: Yup.string().required('License Number is required'),
-        validFrom: Yup.date().required('Valid From is required'),
-        validUpto: Yup.date().required('Valid Upto is required'),
-        licenseCategory: Yup.string().required('License Category/Type Name is required'),
-        issuingAuthority: Yup.string().required('License Issuing Authority is required'),
-        licenseOwner: Yup.string().required('License Owner details are required'),
-        licenseCertificate: Yup.mixed().required('Liquor Service License Certificate is required'),
+        // licenseNumber: Yup.string().required('License Number is required'),
+        // validFrom: Yup.date().required('Valid From is required'),
+        // validUpto: Yup.date().required('Valid Upto is required'),
+        // licenseCategory: Yup.string().required('License Category/Type Name is required'),
+        // issuingAuthority: Yup.string().required('License Issuing Authority is required'),
+        // licenseOwner: Yup.string().required('License Owner details are required'),
+        // licenseCertificate: Yup.mixed().required('Liquor Service License Certificate is required'),
     });
 
     return (
@@ -123,8 +123,156 @@ const LicenseTabForm = ({ onSubmitLicence }) => {
             initialValues={initialValues}
             validationSchema={validationSchema}
             onSubmit={(values) => {
+
+                let submitforregistration = document.activeElement.id
+                if("submitforregistration"==submitforregistration){
+                    console.log(">>>>>>>>>>>>>>>>>>>>>unitDetails",unitDetails);
+                    console.log(">>>>>>>>>>>>>>>>>>>>>businessDetails",businessDetails);
+                    console.log(">>>>>>>>>>>>>>>>>>>>>ownerDetails",ownerDetails);
+                    console.log(">>>>>>>>>>>>>>>>>>>>>licenseForm",licenseForm);
+                   let unitDetails= {
+                        unitRegistrationCountry: "",
+                        categorySelected: "",
+                        ownershipMode: "",
+                        unitName: "",
+                        subarea: "",
+                        locality: "",
+                        shopCategory: "",
+                        address: "",
+                        acceptedCurrency: "",
+                        openTime: "09:00",
+                        closeTime: "23:45",
+                        contactType: "mobile",
+                        contactNumber: "",
+                        paymentMode: "cash",
+                       
+                      }
+                     let businessDetails= {
+                        idType: '',
+                        idDocumentNumber: '',
+                        legallyRegisteredName: '',
+                        businessEntityRegistrationCountry: 'India',
+                        addressLine1: '',
+                        addressLine2: '',
+                        city: '',
+                        state: '',
+                        zipCode: '',
+                        gpsLocation: '',
+                        businessLogo: null,
+                        email: '',
+                        mobileNumber: '',   // Updated field name
+                        contact: 'mobile',
+                        landlineNumber: '' , 
+                        gstdocument: null, 
+                        cindocument: null, 
+                        pandocument: null, 
+                      }
+               
+                  let businessUnitDetailDto = {
+                        unitName: "Ocean View Resort",
+                        businessCategory: "Hospitality",
+                        ownershipMode: "Private",
+                        email: "contact@oceanviewresort.com",
+                        isEmail: true,
+                        contactNoType: "Mobile",
+                        contact_no: "9876543210",
+                        isContactNo: true,
+                        registerCountry: "Maldives",
+                        society: "Beachside",
+                        locality: "Island Haven",
+                        registerAddress: "456 Beach Road",
+                        shopFor: ["Accommodation", "Dining", "Tours"],
+                        shopCategory: "Luxury",
+                        openTime: "24/7",
+                        closeTime: "24/7",
+                        paymentModepaymentModepaymentMode: ["Credit Card", "Debit Card", "Cash", "Online Payment"],
+                        photoIdType: "Passport",
+                        photoIdNo: "P987654321",
+                        legalBusinessName: "Ocean View Resort Pvt Ltd",
+                        country: "Maldives",
+                        address1: "456 Beach Road",
+                        address2: "Suite 200",
+                        city: "Malé",
+                        state: "North Malé Atoll",
+                        postalCode: "20222",
+                        gpsLocation: "4.1755, 73.5094",
+                        postalAddress: "PO Box 5678",
+                        logo: "oceanview_logo.png",
+                        uploadGst: "gst_certificate_maldives.pdf",
+                        uploadCin: "cin_certificate_maldives.pdf",
+                        users: [
+                          {
+                            name: "John Doe",
+                            mobileNo: "1234567890",
+                            isNoVerified: true,
+                            contactNoType: "Mobile",
+                            dateOfBirth: "1980-07-15",
+                            email: "john.doe@oceanviewresort.com",
+                            isEmail: true,
+                            idType: "Passport",
+                            documentNo: "P123456789",
+                            isDocVerified: true,
+                            status: "Active",
+                            role: "Manager"
+                          },
+                          {
+                            name: "Jane Smith",
+                            mobileNo: "0987654321",
+                            isNoVerified: false,
+                            contactNoType: "Mobile",
+                            dateOfBirth: "1990-05-22",
+                            email: "jane.smith@oceanviewresort.com",
+                            isEmail: true,
+                            idType: "Driver's License",
+                            documentNo: "DL98765432",
+                            isDocVerified: false,
+                            status: "Pending",
+                            role: "Receptionist"
+                          }
+                        ],
+                        currencies: [
+                          {
+                            currencyAccepted: "USD",
+                            country: "United States"
+                          },
+                          {
+                            currencyAccepted: "MVR",
+                            country: "Maldives"
+                          }
+                        ],
+                        members: [
+                          {
+                            name: "Alice Brown",
+                            email: "alice.brown@oceanviewresort.com",
+                            dateOfBirth: "1985-03-30",
+                            designation: "General Manager",
+                            contactNo: "1231231234"
+                          },
+                          {
+                            name: "Bob White",
+                            email: "bob.white@oceanviewresort.com",
+                            dateOfBirth: "1988-11-05",
+                            designation: "Head Chef",
+                            contactNo: "3213214321"
+                          }
+                        ],
+                        licenseDto: [
+                          {
+                            licenseCategory: "Tourism",
+                            licenseNo: 987654321,
+                            validFrom: "2023-01-01",
+                            validTo: "2025-01-01",
+                            issuingAuthority: "Maldives Tourism Authority",
+                            certificate: "tourism_license_certificate.pdf",
+                            ownerDetail: "John Doe"
+                          }
+                        ]
+                      }
+                      
+                }else{
                 setLicenseForm(values);
                 onSubmitLicence(values);
+                }
             }}
         >
             {({ setFieldValue, values }) => (
@@ -237,12 +385,19 @@ const LicenseTabForm = ({ onSubmitLicence }) => {
                                 <ErrorMessage name="licenseCertificate" component="div" className="text-red-500 text-xs mt-1" />
                             </div>
                         </div>
-                        <button
+                        <div className="flex justify-between"><button
                             type="submit"
                             className="mt-4 py-2 px-4 bg-[#FF9F08] text-white rounded-md"
                         >
-                            Submit
+                            Back
                         </button>
+                        <button
+                            type="submit" id="submitforregistration"
+                            className="mt-4 py-2 px-4 bg-[#FF9F08] text-white rounded-md"
+                        >
+                            Submit For Registration
+                        </button>
+                        </div>
                     </div>
                 </Form>
             )}
