@@ -879,11 +879,11 @@
 //                 setTransactionId(transaction_id);
 //                 setIsModalOpen(true);
 //             }
-           
+
 //         } catch (error) {
 //             console.error('Error fetching document details:', error);
 //         }
-        
+
 //     };
 
 //     const handleCloseModal = () => {
@@ -928,7 +928,7 @@
 //                 // Update other fields if necessary
 //             });
 
-            
+
 //             alert("otp api");
 //         } catch (error) {
 //             console.error("Error verifying OTP:", error);
@@ -1152,25 +1152,26 @@
 // export default OwnerTabForm;
 
 import React, { useState } from 'react';
-import { Formik, Field, Form,Error } from 'formik';
+import { Formik, Field, Form, Error } from 'formik';
 import * as Yup from 'yup';
 import CustomRadioButton from "../../CommonComponents/CustomRadioButton";
 import OTPModal from '../../CommonComponents/Modal';
 import useStore from "../../store/UnitDetail";
 import axios from 'axios';
-
+import businessLogicStore from "../../store/BusinessLogicStore"
 // Validation schema using Yup
 const validationSchema = Yup.object({
-    idType: Yup.string().required('Required'),
-    idDocumentNumber: Yup.string().required('Required'),
-    name: Yup.string().required('Required'),
-    dob: Yup.string().required('Required'),
-    email: Yup.string().required('Required'),
-    designation: Yup.string().required('Required'),
-    mobile: Yup.string().required('Required'),
+    // idType: Yup.string().required('Required'),
+    // idDocumentNumber: Yup.string().required('Required'),
+    // name: Yup.string().required('Required'),
+    // dob: Yup.string().required('Required'),
+    // email: Yup.string().required('Required'),
+    // designation: Yup.string().required('Required'),
+    // mobile: Yup.string().required('Required'),
 });
 
 const OwnerTabForm = ({ onSubmitOwner }) => {
+
     const { ownerDetails, setOwnerDetails } = useStore();
     const [selectedValue, setSelectedValue] = React.useState('mobile');
     const [isModalOpen, setIsModalOpen] = React.useState(false);
@@ -1179,10 +1180,10 @@ const OwnerTabForm = ({ onSubmitOwner }) => {
     const [transactionId, setTransactionId] = useState("");
     const [useCase, setUseCase] = useState("");
     const [documentId, setDocumentId] = useState("");
-
+    const { currentTab, setCurrentTab } = businessLogicStore();
     // Function to fetch document details
     const fetchDocumentDetails = async (idType, idDocumentNumber, actions, setFieldValue) => {
-        
+
         let token = localStorage.getItem("token");
         setFieldValue('dob', "");
         setFieldValue('name', "");
@@ -1200,8 +1201,8 @@ const OwnerTabForm = ({ onSubmitOwner }) => {
                 setFieldValue('dob', dob);
             } else if (idType === "AADHAR_REQUEST_OTP") {
                 const { reference_id, transaction_id } = response.data.data;
-                setFieldValue("idType",idType);
-                setFieldValue("idDocumentNumber",idDocumentNumber);
+                setFieldValue("idType", idType);
+                setFieldValue("idDocumentNumber", idDocumentNumber);
                 // setUseCase(idType);
                 // setDocumentId(idDocumentNumber);
                 // setReferenceId(reference_id);
@@ -1222,7 +1223,7 @@ const OwnerTabForm = ({ onSubmitOwner }) => {
         setDocumentId("");
     };
 
-    const handleSubmitOTP = async (actions, otp,idDocumentNumber) => {
+    const handleSubmitOTP = async (actions, otp, idDocumentNumber) => {
         let token = localStorage.getItem("token");
         try {
             const response = await axios.post('http://43.204.36.147:8067/aadharValidateOtp', {
@@ -1237,24 +1238,28 @@ const OwnerTabForm = ({ onSubmitOwner }) => {
 
             const data1 = response.data;
             let responseData = data1.data;
-console.log(">>>>>>>>>>>>>>>name",responseData.name);
+            console.log(">>>>>>>>>>>>>>>name", responseData.name);
             // actions.setValues({
             //     ...actions.values,
             //     name: responseData.name,
             //     dob: responseData.dob
             //     // Update other fields if necessary
             // });
-            actions.setFieldValue("idType","AADHAR_REQUEST_OTP");
-            actions.setFieldValue("idDocumentNumber",idDocumentNumber);
-          
-            actions.setFieldValue("dob", responseData.dob);
-            actions.setFieldValue("name",responseData.name);
-           
+
+
+            actions.setFieldValue("idType", "AADHAR_REQUEST_OTP");
+            actions.setFieldValue("idDocumentNumber", idDocumentNumber);
+            let dob = responseData.dob;
+            let name = responseData.name;
+            actions.setFieldValue("dob", dob);
+
+            actions.setFieldValue("name", name);
+
             actions.setOtpSubmitted(true);
             setTimeout(() => {
                 actions.validateForm();
-            }, 1000);
-    
+            }, 2000);
+
         } catch (error) {
             console.error("Error verifying OTP:", error);
         }
@@ -1280,9 +1285,18 @@ console.log(">>>>>>>>>>>>>>>name",responseData.name);
                 initialValues={ownerDetails}
                 validationSchema={validationSchema}
                 onSubmit={(values, actions) => {
-                    console.log('Form submitted with values:', values);
-                    onSubmitOwner(values);
-                    setOwnerDetails(values);
+                    let savebutton = document.activeElement.id
+                    if (savebutton == "ownerdatasave") {
+                        setOwnerDetails(values);
+                        let tab = currentTab;
+                        setCurrentTab(tab + 1)
+                    } else {
+                        console.log('Form submitted with values:', values);
+                        onSubmitOwner(values);
+                        // let tab=currentTab;
+                        // setCurrentTab(tab-1);
+                        setOwnerDetails(values);
+                    }
                     // if (otpSubmitted) {
                     //     actions.setSubmitting(false);
                     // }
@@ -1312,16 +1326,19 @@ console.log(">>>>>>>>>>>>>>>name",responseData.name);
                     // }
                 }}
             >
-                {({ errors, touched, values, setFieldValue, setValues, validateForm  }) => (
+                {({ errors, touched, values, setFieldValue, setValues, validateForm }) => (
                     <Form>
                         <div className="grid md:grid-cols-[60%_40%] gap-6 mb-6">
                             <div>
                                 <label className="block text-gray-600 mb-2">Photo Id Type</label>
-                                <Field as="select" name="idType" className="w-full p-3 border border-customOrange outline-none rounded">
+                                <Field as="select" name="idType" className="w-full p-3 border border-customOrange outline-none rounded" onClick={() => {
+                                    setFieldValue("dob", "");
+                                    setFieldValue("name", "");
+                                }}>
                                     <option value="">Select Category</option>
                                     <option value="PAN">PAN</option>
                                     <option value="AADHAR_REQUEST_OTP">Aadhar</option>
-                                    <option value="DIL">Driving Licence</option>
+                                    {/* <option value="DIL">Driving Licence</option> */}
                                 </Field>
                                 {errors.idType && touched.idType && <div className="text-red-600">{errors.idType}</div>}
                             </div>
@@ -1362,7 +1379,7 @@ console.log(">>>>>>>>>>>>>>>name",responseData.name);
                         <div className="grid md:grid-cols-[70%_30%] gap-6 mb-6 items-start">
                             <div className="grid md:grid-cols-2 gap-6">
                                 <div>
-                                    <Field type="text" name="name" className="w-full p-3 border border-customOrange outline-none rounded" placeholder="Name" />
+                                    <Field type="text" name="name" className="w-full p-3 border border-customOrange outline-none rounded" placeholder="Name" disabled={true} />
                                     {errors.name && touched.name && <div className="text-red-600">{errors.name}</div>}
                                 </div>
                                 <div>
@@ -1376,7 +1393,7 @@ console.log(">>>>>>>>>>>>>>>name",responseData.name);
                                 <div>
                                     <div className="flex">
                                         <Field type="email" name="email" className="w-full p-3 border border-customOrange outline-none rounded" placeholder="Email" />
-                                        <button type="button" className="ml-2 text-[#FF9F08] py-2 px-4">Verify</button>
+                                        {/* <button type="button" className="ml-2 text-[#FF9F08] py-2 px-4">Verify</button> */}
                                     </div>
                                     {errors.email && touched.email && <div className="text-red-600">{errors.email}</div>}
                                 </div>
@@ -1423,7 +1440,7 @@ console.log(">>>>>>>>>>>>>>>name",responseData.name);
                                                     <option>UK +44</option>
                                                 </Field>
                                                 <Field type="text" name="mobile" className="w-full p-3 border border-customOrange outline-none rounded" placeholder="Mobile Number" />
-                                                <button type="button" className="ml-2 py-3 px-6 text-[#FF9F08]">Verify Number</button>
+                                                {/* <button type="button" className="ml-2 py-3 px-6 text-[#FF9F08]">Verify Number</button> */}
                                             </div>
                                         </div>
                                     )}
@@ -1457,18 +1474,30 @@ console.log(">>>>>>>>>>>>>>>name",responseData.name);
                                     )}
                                 </div>
                             </div>
-                            <button
+                          
+                        </div>
+                        <div className='flex justify-between'> <button
                                 type="submit"
-                                className="w-[20%] mt-4 py-2 px-4 bg-[#FF9F08] text-white rounded-md"
+                                className="w-fit mt-4 py-2 px-4 bg-[#FF9F08] text-white rounded-md"
                             >
                                 Back
                             </button>
-                        </div>
+                            <button
+                                type="submit" id="ownerdatasave"
+                                className="mt-6 p-3 bg-customOrange text-white rounded"
+                                onClick={() => {
 
+                                    let tab = currentTab;
+                                    setCurrentTab(tab + 1)
+
+                                }}
+                            >
+                                Next
+                            </button></div>
                         <OTPModal
                             isOpen={isModalOpen}
                             onClose={handleCloseModal}
-                            onSubmitOTP={(otp) => handleSubmitOTP({ setValues, validateForm  ,setFieldValue}, otp,values.idDocumentNumber)}
+                            onSubmitOTP={(otp) => handleSubmitOTP({ setValues, validateForm, setFieldValue }, otp, values.idDocumentNumber)}
                         />
                     </Form>
                 )}

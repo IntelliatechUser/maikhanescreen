@@ -630,7 +630,7 @@ import * as Yup from "yup";
 import CustomCheckbox from "../../CommonComponents/CustomCheckBox";
 import CustomRadioButton from "../../CommonComponents/CustomRadioButton";
 import useStore from "../../store/UnitDetail";
-
+import { useEffect } from "react";
 const UnitDetails = ({ onNext }) => {
 	const { unitDetails, setUnitDetails } = useStore();
 	const [selectedValue, setSelectedValue] = React.useState(unitDetails.contactType || "mobile");
@@ -661,7 +661,7 @@ const UnitDetails = ({ onNext }) => {
 		// contactType: Yup.string().required("Required"),
 		// contactNumber: Yup.string().required("Required"),
 	});
-
+	
 	return (
 		<Formik
 			initialValues={unitDetails}
@@ -915,9 +915,9 @@ const UnitDetails = ({ onNext }) => {
 											name="mobileNumber"
 											placeholder="Mobile Number"
 										/>
-										<button className="ml-2 pl-0 lg:py-3 lg:px-6 text-[#FF9F08]">
+										{/* <button className="ml-2 pl-0 lg:py-3 lg:px-6 text-[#FF9F08]">
 											Verify Number
-										</button>
+										</button> */}
 									</div>
 									<ErrorMessage name="mobileNumber" component="div" className="text-red-500 text-sm" />
 								</div>

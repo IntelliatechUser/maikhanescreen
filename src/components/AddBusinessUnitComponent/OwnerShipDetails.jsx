@@ -11,22 +11,22 @@ const OwnershipAndLicenceDetails = ({ currentTab, handleTabChange,onSubmitOwner,
             <div className="flex">
                 <div className={`flex border-gray-200 h-20 rounded-md bg-[#8080801a] justify-start ${currentTab === 4 || currentTab === 2 ? 'w-[80%]' : 'w-full'}`}>
                     <button
-                        onClick={() => handleTabChange(1)}
+                        // onClick={() => handleTabChange(1)}
                         className={`py-2 px-6 ${currentTab === 1 ? 'text-[#FF9F08] border-orange-500 font-bold' : 'font-bold text-black'}`}>
                         Business
                     </button>
                     <button
-                        onClick={() => handleTabChange(2)}
+                        // onClick={() => handleTabChange(2)}
                         className={`py-2 px-6 ${currentTab === 2 ? 'text-[#FF9F08] border-orange-500 font-bold' : 'font-bold text-black'}`}>
                         Owner
                     </button>
                     <button
-                        onClick={() => handleTabChange(3)}
+                        // onClick={() => handleTabChange(3)}
                         className={`py-2 px-6 ${currentTab === 3 ? 'text-[#FF9F08] border-orange-500 font-bold' : 'font-bold text-black'}`}>
                         License
                     </button>
                     <button
-                        onClick={() => handleTabChange(4)}
+                        // onClick={() => handleTabChange(4)}
                         className={`py-2 px-6 ${currentTab === 4 ? 'text-[#FF9F08] border-orange-500 font-bold' : 'font-bold text-black'}`}>
                         Team
                     </button>
