@@ -267,7 +267,9 @@ import logo from "../assets/logo/logo.png";
 import useAuthStore from "../store/useAuthStore";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from 'react-router-dom';
+import businessLogicStore from "../store/BusinessLogicStore";
 const Header = () => {
+  const { currentTab, setCurrentTab } = businessLogicStore();
   const location = useLocation();
   const { user, setUser } = useAuthStore();
   const [profileName, setProfileName] = useState(null);
@@ -311,6 +313,7 @@ const Header = () => {
 
   const handleProfileAction = (event) => {
     if (event.target.value === "logout") {
+      setCurrentTab(1);
       handleLogout();
       navigate("/");
     } else if (event.target.value === "profile") {

@@ -67,8 +67,8 @@ console.log(">>>>>>>>>>>>>currentstep",currentStep);
                 return null;
         }
     };
-    console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>formdata", formData);
-    console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>allformdata", allformdata);
+    // console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>formdata", formData);
+    // console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>allformdata", allformdata);
     return (
         <Layout>
             <h2 className="text-3xl  font-bold text-gray-700 mb-6 text-center">Add New Business Unit</h2>
