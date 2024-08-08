@@ -221,7 +221,7 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                     <input
                                         type="file"
                                         name="businessLogo"
-                                        accept="image/*"
+                                        accept=".pdf"
                                         onChange={(event) => handleFileChange(event, setFieldValue, "businessLogo")}
                                         className="w-full p-3 border border-customOrange outline-none rounded"
                                     />
@@ -385,7 +385,7 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                         <input
                                             type="file"
                                             name="gstdocument"
-                                            accept="pdf/*"
+                                            accept=".pdf"
                                             onChange={(event) => handleFileChange(event, setFieldValue, "gstdocument")}
                                             className="w-full p-3 border border-customOrange outline-none rounded"
                                         />
@@ -398,7 +398,7 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                         <input
                                             type="file"
                                             name="cindocument"
-                                            accept="pdf/*"
+                                            accept=".pdf"
                                             onChange={(event) => handleFileChange(event, setFieldValue, "cindocument")}
                                             className="w-full p-3 border border-customOrange outline-none rounded"
                                         />
@@ -411,7 +411,7 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                         <input
                                             type="file"
                                             name="pandocument"
-                                            accept="pdf/*"
+                                           accept=".pdf"
                                             onChange={(event) => handleFileChange(event, setFieldValue, "pandocument")}
                                             className="w-full p-3 border border-customOrange outline-none rounded"
                                         />
@@ -429,7 +429,7 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                         <input
                                             type="file"
                                             name="pandocument"
-                                            accept="pdf/*"
+                                             accept=".pdf"
                                             onChange={(event) => handleFileChange(event, setFieldValue, "pandocument")}
                                             className="w-full p-3 border border-customOrange outline-none rounded"
                                         />
@@ -442,7 +442,7 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                         <input
                                             type="file"
                                             name="cindocument"
-                                            accept="pdf/*"
+                                          accept=".pdf"
                                             onChange={(event) => handleFileChange(event, setFieldValue, "cindocument")}
                                             className="w-full p-3 border border-customOrange outline-none rounded"
                                         />
@@ -455,7 +455,7 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                         <input
                                             type="file"
                                             name="gstdocument"
-                                            accept="pdf/*"
+                                            accept=".pdf"
                                             onChange={(event) => handleFileChange(event, setFieldValue, "gstdocument")}
                                             className="w-full p-3 border border-customOrange outline-none rounded"
                                         />
@@ -473,7 +473,7 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                         <input
                                             type="file"
                                             name="gstdocument"
-                                            accept="pdf/*"
+                                            accept=".pdf"
                                             onChange={(event) => handleFileChange(event, setFieldValue, "gstdocument")}
                                             className="w-full p-3 border border-customOrange outline-none rounded"
                                         />
@@ -486,7 +486,7 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                         <input
                                             type="file"
                                             name="pandocument"
-                                            accept="pdf/*"
+                                          accept=".pdf"
                                             onChange={(event) => handleFileChange(event, setFieldValue, "pandocument")}
                                             className="w-full p-3 border border-customOrange outline-none rounded"
                                         />
@@ -499,7 +499,7 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                         <input
                                             type="file"
                                             name="cindocument"
-                                            accept="pdf/*"
+                                          accept=".pdf"
                                             onChange={(event) => handleFileChange(event, setFieldValue, "cindocument")}
                                             className="w-full p-3 border border-customOrange outline-none rounded"
                                         />

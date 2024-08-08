@@ -47,6 +47,7 @@ const LicenseTabForm = ({ onSubmitLicence }) => {
                 
                 let submitforregistration = document.activeElement.id
                 if ("submitforregistration" == submitforregistration) {
+                    // alert("running");
                     setLicenseForm(values);
                     // alert("api merchant");
                     console.log(">>>>>>>>>>>>>>>>>>>>>unitDetails", unitDetails);
@@ -158,22 +159,24 @@ const LicenseTabForm = ({ onSubmitLicence }) => {
                                 "documentNo": ownerDetails?.idDocumentNumber,
                                 "isDocVerified": true,
                                 "status": "Active",
-                                "role": ownerDetails?.designation
-                              },
-                              {
-                                "name": "Jane Smith",
-                                "mobileNo": "0987654321",
-                                "isNoVerified": false,
-                                "contactNoType": "Mobile",
-                                "dateOfBirth": "1990-05-22",
-                                "email": "jane.smith@oceanviewresort.com",
-                                "isEmail": true,
-                                "idType": "Driver's License",
-                                "documentNo": "DL98765432",
-                                "isDocVerified": false,
-                                "status": "Pending",
-                                "role": "Owner"
-                              }
+                                "role": "Owner",
+                                "designation":ownerDetails?.designation
+                            }
+                            //   },
+                            //   {
+                            //     "name": "Jane Smith",
+                            //     "mobileNo": "0987654321",
+                            //     "isNoVerified": false,
+                            //     "contactNoType": "Mobile",
+                            //     "dateOfBirth": "1990-05-22",
+                            //     "email": "jane.smith@oceanviewresort.com",
+                            //     "isEmail": true,
+                            //     "idType": "Driver's License",
+                            //     "documentNo": "DL98765432",
+                            //     "isDocVerified": false,
+                            //     "status": "Pending",
+                            //     "role": "Owner"
+                            //   }
                             ],
                             "currencies": [
                               {
@@ -227,28 +230,12 @@ const LicenseTabForm = ({ onSubmitLicence }) => {
 
 
                     let token = localStorage.getItem("token");
-                    // alert("running");
-                    // try {
-                    //     const response = await axios.post(`http://192.168.1.19:8083/businessController/registerBusiness`, {
-                    //         merchantsignup
-                    //     }, {
-                    //         headers: {
-                    //             'Authorization': `Bearer ${token}`,
-                    //             // 'Content-Type': 'multipart/form-data'
-                    //         }
-                    //     });
-                    //     const responseData = response.data.data;
-                    //     console.log('Data successfully sent to backend', responseData);
-                    //     // setFieldValue('legallyRegisteredName', responseData.name);
-                    //     // setFieldValue('addressLine1', responseData.address);
-                    // } catch (error) {
-                    //     console.error("Error in data submission", error);
-                    // }
+                   
                     if (!(businessDetails.businessLogo instanceof File) || !(businessDetails.gstdocument instanceof File) || !(businessDetails.cindocument instanceof File) || !(licenseForm.licenseCertificate instanceof File)) {
                         console.error('One or more files are not valid File objects');
                         return;
                     }
-                    console.log(">>>>>>>>>>>>>merchantsignup", merchantsignup);
+                    console.log(">>>>>>>>>>>>>merchantsignup.businessUnitDetailDto", merchantsignup.businessUnitDetailDto);
 
                     const formData = new FormData();
                     const jsonBlob = new Blob([JSON.stringify(merchantsignup.businessUnitDetailDto)], { type: 'application/json' });
@@ -395,7 +382,7 @@ const LicenseTabForm = ({ onSubmitLicence }) => {
                                 <input
                                     type="file"
                                     name="licenseCertificate"
-                                    accept="pdf/*"
+ accept=".pdf"
                                     onChange={(event) => handleFileChange(event, setFieldValue, "licenseCertificate")}
                                     className="w-full p-3 border border-customOrange outline-none rounded"
                                 />

@@ -136,6 +136,7 @@ const OwnerTabForm = ({ onSubmitOwner }) => {
                 onSubmit={(values, actions) => {
                     let savebutton = document.activeElement.id
                     if (savebutton == "ownerdatasave") {
+                       
                         setOwnerDetails(values);
                         let tab = currentTab;
                         setCurrentTab(tab + 1)
@@ -288,7 +289,7 @@ const OwnerTabForm = ({ onSubmitOwner }) => {
                                                     <option>USA +1</option>
                                                     <option>UK +44</option>
                                                 </Field>
-                                                <Field type="text" name="mobile" className="w-full p-3 border border-customOrange outline-none rounded" placeholder="Mobile Number" />
+                                                <Field type="text" name="mobileNumber" className="w-full p-3 border border-customOrange outline-none rounded" placeholder="Mobile Number" />
                                                 {/* <button type="button" className="ml-2 py-3 px-6 text-[#FF9F08]">Verify Number</button> */}
                                             </div>
                                         </div>
@@ -297,7 +298,7 @@ const OwnerTabForm = ({ onSubmitOwner }) => {
                                     {values.contact === 'landline' && (
                                         <div>
                                             <label className="block text-gray-600 mb-2">Landline Number</label>
-                                            <Field type="text" name="landline" className="w-full p-3 border border-customOrange outline-none rounded" placeholder="Landline Number" />
+                                            <Field type="text" name="landlineNumber" className="w-full p-3 border border-customOrange outline-none rounded" placeholder="Landline Number" />
                                         </div>
                                     )}
 
@@ -311,13 +312,13 @@ const OwnerTabForm = ({ onSubmitOwner }) => {
                                                         <option>USA +1</option>
                                                         <option>UK +44</option>
                                                     </Field>
-                                                    <Field type="text" name="mobile" className="w-full p-3 border border-customOrange outline-none rounded" placeholder="Mobile Number" />
+                                                    <Field type="text" name="mobileNumber" className="w-full p-3 border border-customOrange outline-none rounded" placeholder="Mobile Number" />
                                                     <button type="button" className="ml-2 py-3 px-6 text-[#FF9F08]">Verify Number</button>
                                                 </div>
                                             </div>
                                             <div className="mt-5">
                                                 <label className="block text-gray-600 mb-2">Landline Number</label>
-                                                <Field type="text" name="landline" className="w-full p-3 border border-customOrange outline-none rounded" placeholder="Landline Number" />
+                                                <Field type="text" name="landlineNumber" className="w-full p-3 border border-customOrange outline-none rounded" placeholder="Landline Number" />
                                             </div>
                                         </div>
                                     )}
@@ -334,12 +335,12 @@ const OwnerTabForm = ({ onSubmitOwner }) => {
                             <button
                                 type="submit" id="ownerdatasave"
                                 className="mt-6 p-3 bg-customOrange text-white rounded"
-                                onClick={() => {
+                                // onClick={() => {
 
-                                    let tab = currentTab;
-                                    setCurrentTab(tab + 1)
+                                //     let tab = currentTab;
+                                //     setCurrentTab(tab + 1)
 
-                                }}
+                                // }}
                             >
                                 Next
                             </button></div>
