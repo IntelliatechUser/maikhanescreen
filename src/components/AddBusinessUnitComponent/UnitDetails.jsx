@@ -659,7 +659,7 @@ const UnitDetails = ({ onNext }) => {
 		// openTime: Yup.string().required("Required"),
 		// closeTime: Yup.string().required("Required"),
 		// contactType: Yup.string().required("Required"),
-		// contactNumber: Yup.string().required("Required"),
+		// mobileNumber: Yup.string().required("Required"),
 	});
 	
 	return (

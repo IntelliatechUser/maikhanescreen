@@ -3,8 +3,32 @@ import BusinessTabForm from "./BusinessTabForm";
 import OwnerTabForm from "./OwnerTabForm";
 import LicenseTabForm from "./LicenseTabForm";
 import TeamTabForm from "./TeamTabForm";
-
+import { useState } from "react";
+import useStore from "../../store/UnitDetail";
 const OwnershipAndLicenceDetails = ({ currentTab, handleTabChange,onSubmitOwner,onSubmitBusiness,onSubmitLicence}) => {
+    const { ownerDetails, setOwnerDetails } = useStore();
+    const [formdisplay, setFormdisplay] = useState(ownerDetails);
+    
+    const addNewMember = () => {
+        // setOwnerDetails({
+        //     idType: "",
+        //     idDocumentNumber: "",
+        //     name: "",
+        //     dob: "",
+        //     email: "",
+        //     designation: "",
+        //     mobile: "",
+        // });
+        setFormdisplay([...formdisplay,{
+                idType: "",
+                idDocumentNumber: "",
+                name: "",
+                dob: "",
+                email: "",
+                designation: "",
+                mobile: "",
+            }]);  // Update formdisplay to reflect the new member
+    };
     return (
         <div>
             <h3 className="text-2xl font-semi text-gray-700 mb-6 text-center">Ownership and Licence Details</h3>
@@ -40,14 +64,14 @@ const OwnershipAndLicenceDetails = ({ currentTab, handleTabChange,onSubmitOwner,
                 {currentTab === 2 ?
                     <button className="flex items-center text-[#FF9F08] py-2 px-4 rounded-full">
                         <span className="flex items-center justify-center bg-[#FF9F08] font-semibold text-[36px] text-white rounded-full h-10 w-10 p-1 mr-2">+</span>
-                        <span className="text-[20px] font-bold">Add Owner</span>
+                        <span className="text-[20px] font-bold" onClick={addNewMember}>Add Owner</span>
                     </button>
                     : <></>}
             </div>
 
             <div className="mt-6">
                 {currentTab === 1 && <BusinessTabForm onSubmitBusiness={onSubmitBusiness} />}
-                {currentTab === 2 && <OwnerTabForm onSubmitOwner={onSubmitOwner} />}
+                {currentTab === 2 && <OwnerTabForm onSubmitOwner={onSubmitOwner} formdisplay={formdisplay} ownerDetails={ownerDetails} setOwnerDetails={setOwnerDetails} setFormdisplay={setFormdisplay} />}
                 {currentTab === 3 && <LicenseTabForm onSubmitLicence={onSubmitLicence} />}
                 {currentTab === 4 && <TeamTabForm />}
             </div>

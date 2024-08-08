@@ -33,6 +33,9 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
     const handleValidate = async (idType, idDocumentNumber, setFieldValue) => {
         setFieldValue('legallyRegisteredName', "");
         setFieldValue('addressLine1', "");
+        setFieldValue('city', "");
+        setFieldValue('state', "");
+        setFieldValue('postalCode', "");
         let token = localStorage.getItem("token");
         const endpoint = idType === "PAN" ? 'userVerification' : 'businessVerification';
         try {
@@ -47,6 +50,9 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
             const responseData = response.data.data;
             setFieldValue('legallyRegisteredName', responseData.name);
             setFieldValue('addressLine1', responseData.address);
+            setFieldValue('city',  responseData.city);
+            setFieldValue('state', responseData.state);
+            setFieldValue('zipCode', responseData.postalCode);
         } catch (error) {
             console.error("Validation error:", error);
         }

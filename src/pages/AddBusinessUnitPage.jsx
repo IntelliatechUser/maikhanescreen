@@ -13,8 +13,8 @@ const AddBusinessUnitPage = () => {
 
         console.log(">>>>>>>>>>>business data", business);
         // alert("hello");
-        setFormData(prevData => ({ ...prevData, business: business }));
-        setAllFormdata({...allformdata,business})
+        // setFormData(prevData => ({ ...prevData, business: business }));
+        // setAllFormdata({...allformdata,business})
         setCurrentStep(1);
         setCurrentTab(1);
 
@@ -24,17 +24,17 @@ const AddBusinessUnitPage = () => {
     const onSubmitOwner = (Ownerdata) => {
         console.log(">>>>>>>>>>>Owner data", Ownerdata);
         // alert("hello");
-        setFormData(prevData => ({ ...prevData, owner: Ownerdata }));
-        setAllFormdata({...allformdata,Ownerdata})
+        // setFormData(prevData => ({ ...prevData, owner: Ownerdata }));
+        // setAllFormdata({...allformdata,Ownerdata})
         setCurrentStep(1);
         setCurrentTab(1);
     }
 
     const onSubmitLicence = (licencedata) => {
         console.log(">>>>>>>>>>>Licence data", licencedata);
-        // alert("hello");
-        setFormData(prevData => ({ ...prevData, license: licencedata }));
-        setAllFormdata({...allformdata,licencedata})
+         
+        // setFormData(prevData => ({ ...prevData, license: licencedata }));
+        // setAllFormdata({...allformdata,licencedata})
         setCurrentTab(1);
         setCurrentStep(1);
     }

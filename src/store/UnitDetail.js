@@ -46,20 +46,53 @@ const useStore = create((set) => ({
   setBusinessDetails: (data) => set((state) => ({
     businessDetails: { ...state.businessDetails, ...data }
   })),
-  ownerDetails: {
-    idType: '',
-    idDocumentNumber: '',
-    name: '',
-    dob: '',
-    email: '',
-    designation: '',
-    mobileNumber: '',   // Updated field name
-    landlineNumber: '', // Updated field name
-    contact: 'mobile',
-  },
-  setOwnerDetails: (data) => set((state) => ({
-    ownerDetails: { ...state.ownerDetails, ...data }
-  })),
+  // ownerDetails: {
+  //   idType: '',
+  //   idDocumentNumber: '',
+  //   name: '',
+  //   dob: '',
+  //   email: '',
+  //   designation: '',
+  //   mobileNumber: '',   // Updated field name
+  //   landlineNumber: '', // Updated field name
+  //   contact: 'mobile',
+  // },
+
+  ownerDetails:[],
+//   setOwnerDetails: (data) => set((state) => ({
+//     ownerDetails: [...state.ownerDetails, data]
+// })),
+
+setOwnerDetails: (email, data) => set((state) => {
+  console.log(data)
+
+  const owner = state.ownerDetails.find((o) => o.email === email);
+
+
+  if (owner) {
+    const updatedOwners = state.ownerDetails.map((owner) => 
+      owner.email === email ? { ...owner, ...data } : owner
+    );
+     return { ownerDetails: updatedOwners };
+  } else {
+    return { ownerDetails: [...state.ownerDetails, {
+      
+    
+          idType: '',
+          idDocumentNumber: '',
+          name: '',
+          dob: '',
+          email: '',
+          designation: '',
+          mobileNumber: '',   // Updated field name
+          landlineNumber: '', // Updated field name
+          contact: 'mobile',
+ 
+      
+      ...data}] };
+  }
+ 
+}),
   licenseForm: {
     licenseNumber: '',
     validFrom: '',
