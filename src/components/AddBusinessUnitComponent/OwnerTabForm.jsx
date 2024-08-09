@@ -566,10 +566,21 @@ const OwnerTabForm = ({ onSubmitOwner, formdisplay, ownerDetails, setOwnerDetail
                         // contact: 'mobile'
 
                         //                 }
+
+
                         console.log(">>>>>>>>>>>values ownertabform", values);
                         let savebutton = document.activeElement.id
                         if (savebutton === "ownerdatasave") {
+                           if(! ownerDetails.find((owner)=>owner.email.includes(values.email)))
+                          { 
+                            values.validate="Validated"
                             setOwnerDetails(values.email, values);
+
+
+                          }
+                           else{
+
+                           }
                             // let tab = currentTab;
                             // setCurrentTab(tab + 1)
                         } else {
@@ -745,12 +756,9 @@ const OwnerTabForm = ({ onSubmitOwner, formdisplay, ownerDetails, setOwnerDetail
                                 <button
                                     type="submit" id="ownerdatasave"
                                     className="mt-6 p-3 bg-customOrange text-white rounded"
-                               onClick={()=>{
-
-                                // ownerDetails.find((o) => o.email === values.email) ? setValidate("Validated"):setValidate("Validated This Member")
-                               }}
+                       
                                 >
-                               {/* {validate} */}
+                           { values.validate?values.validate:"Validate This Member"}
                                 </button></div>
                             <OTPModal
                                 isOpen={isModalOpen}
@@ -795,6 +803,7 @@ const OwnerTabForm = ({ onSubmitOwner, formdisplay, ownerDetails, setOwnerDetail
                             email: "",
                             designation: "",
                             mobile: "",
+                            validate:"Validate This Member"
                         }])
                     }
                 </div>
@@ -819,7 +828,7 @@ const OwnerTabForm = ({ onSubmitOwner, formdisplay, ownerDetails, setOwnerDetail
                         let tab = currentTab;
                         setCurrentTab(tab + 1);
                   }else{
-                    alert("not equal")
+                    alert("Please Validate all members")
                   }
                     }}>Next</button>
 

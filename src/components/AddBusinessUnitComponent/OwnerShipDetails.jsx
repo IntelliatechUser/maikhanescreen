@@ -27,6 +27,7 @@ const OwnershipAndLicenceDetails = ({ currentTab, handleTabChange,onSubmitOwner,
                 email: "",
                 designation: "",
                 mobile: "",
+                validate:"Validate This Member"
             }]);  // Update formdisplay to reflect the new member
     };
     return (
