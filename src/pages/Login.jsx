@@ -445,6 +445,7 @@ import Layout from "../components/Layout";
 import axios from 'axios';
 import useAuthStore from "../store/useAuthStore";
 import getProfile from "../store/getProfile";
+import { toast } from 'react-toastify';
 const options = [
   { value: "option1", label: "Option 1", countryCode: "US" },
   { value: "option2", label: "Option 2", countryCode: "CA" },
@@ -455,7 +456,7 @@ const Login = () => {
   const navigate = useNavigate();
   const [tab, setTab] = useState("manager");
 
-const {setProfile }=getProfile();
+  const { setProfile } = getProfile();
   const { isLoading, error, success, setLoading, setUser, user, setError } = useAuthStore(); // Destructure the login function and state from the store
   console.log(">>>>>>>>>>>>>>isloading", isLoading);
   console.log(">>>>>>>>>>>>>>error", error);
@@ -493,13 +494,13 @@ const {setProfile }=getProfile();
 
 
   useEffect(() => {
-  let token =localStorage.getItem("token");
-    if(token){
+    let token = localStorage.getItem("token");
+    if (token) {
       navigate("./dashboard");
     }
     return () => {
-      
-       setError(null);
+
+      setError(null);
     }
   }, [])
 
@@ -641,39 +642,42 @@ const {setProfile }=getProfile();
           'Content-Type': 'application/json',
         },
       });
+      
       console.log("checking for the response", response)
+     
       if (response?.data?.status != 200) {
-
+        toast.error('Invalid Login');
 
         throw new Error(response?.data?.message || 'Failed to login');
       }
       else {
-   console.log(">>>>>>>userId",response?.data?.response.userDto.id)
+        //  toast.success('success');
+        console.log(">>>>>>>userId", response?.data?.response.userDto.id)
         console.log(">>>>>>>>>>>>>>>>token11", response?.data?.response.userDto.token)
-        let token=response?.data?.response.userDto.token;
-        let userid=response?.data?.response.userDto.id;
-       
+        let token = response?.data?.response.userDto.token;
+        let userid = response?.data?.response.userDto.id;
+
         try {
 
-        
+
           const response = await axios.get(`http://43.204.36.147:8067/user/profile?userId=${userid}`, {
-           
+
             headers: { Authorization: `Bearer ${token}` },
           });
 
           setProfile(response);
           setUser({ user: response?.data?.response, error: null, success: true });
-         
+
           localStorage.setItem("token", token)
-         
+
           localStorage.setItem("profile", JSON.stringify(response));
-         
-         
+
+
           navigate("./dashboard")
-        
+
         } catch (error) {
           console.log("Error occur in getting the profile");
-        
+
         }
       }
 
@@ -683,9 +687,9 @@ const {setProfile }=getProfile();
     } finally {
       setLoading(false);
     }
-   
+
     console.log(">>>>>>>>>>>login boole", success)
-   
+
   };
 
   return (

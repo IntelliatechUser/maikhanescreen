@@ -631,47 +631,137 @@ import CustomCheckbox from "../../CommonComponents/CustomCheckBox";
 import CustomRadioButton from "../../CommonComponents/CustomRadioButton";
 import useStore from "../../store/UnitDetail";
 import { useEffect } from "react";
+import OTPModal from '../../CommonComponents/Modal';
+import axios from "axios";
+import { useState } from "react";
+import localStorageUtil from "../../utility/utility";
 const UnitDetails = ({ onNext }) => {
+	const [category, setCategorySelected] = useState("Select Category");
+	const [verify, setVerify] = useState("");
+	const [isModalOpen, setIsModalOpen] = React.useState(false);
 	const { unitDetails, setUnitDetails } = useStore();
 	const [selectedValue, setSelectedValue] = React.useState(unitDetails.contactType || "mobile");
-    const [selectedPaymentMode, setSelectedPaymentMode] = React.useState(unitDetails.paymentMode || "cash");
-	const handleRadioChange = (event,setFieldValue) => {
+	const [selectedPaymentMode, setSelectedPaymentMode] = React.useState(unitDetails.paymentMode || "cash");
+	const handleRadioChange = (event, setFieldValue) => {
 		setSelectedValue(event.target.value);
 		setFieldValue("contactType", event.target.value);
 	};
+	const handleCheckboxChange = (event, setFieldValue) => {
+		const { value, checked } = event.target;
+		console.log(">>>>>>>>>>>>unitDetails.shopFor",unitDetails.shopFor);
+        setFieldValue("shopFor", checked
+            ? [...unitDetails.shopFor, value]
+            : unitDetails.shopFor.filter(item => item !== value)
+        );
+		
+	};
+	// const handleVerifyOtp = async (otp) => {
+	// 	try {
+	// 		// Make an API call to verify the OTP
+	// 		await fetch('/api/verify-otp', {
+	// 			method: 'POST',
+	// 			headers: {
+	// 				'Content-Type': 'application/json',
+	// 			},
+	// 			body: JSON.stringify({ otp }),
+	// 		});
+	// 		setIsModalOpen(false);
+	// 	} catch (error) {
+	// 		console.error('Error verifying OTP:', error);
+	// 	}
+	// };
+
+	const fetchDocumentDetails = async (countryCode, mobileNumber, actions, setFieldValue) => {
+
+		setIsModalOpen(true);
+		try {
+			let token = localStorage.getItem("token");
+			const response = await axios.get('http://43.204.36.147:8067/otp/generateOtpForUser', {
+				params: {
+					countryCode: "+91",
+					mobileNumber: mobileNumber
+				},
+				headers: {
+					'Authorization': `Bearer ${token}`
+				}
+			});
 
 
+
+
+
+		} catch (error) {
+			console.error('Error in getting otp', error);
+		}
+	};
+	const handleSubmitOTP = async (actions, otp, mobileNumber) => {
+		let token = localStorage.getItem("token");
+		try {
+			const response = await axios.post(
+				'http://43.204.36.147:8067/otp/validateOtpForUser',
+				{
+					mobileNumber: mobileNumber,
+					otp: otp
+				},
+				{
+					headers: { Authorization: `Bearer ${token}` }
+				}
+			);
+			const data = response?.data;
+			console.log(">>>>>>>>>>>>responseData", data.status);
+			if (data.status == 200) {
+				setVerify("Mobile is Verified");
+				localStorageUtil.setItem("mobileverify", "Mobile is Verified")
+			}
+
+
+
+		} catch (error) {
+			console.error("Error verifying OTP:", error);
+		} finally {
+			setIsModalOpen(false);
+		}
+
+
+
+
+	};
 	const handlePaymentModeChange = (event, setFieldValue) => {
 		setSelectedPaymentMode(event.target.value);
 		setFieldValue("paymentMode", event.target.value);
 	};
 
 	const validationSchema = Yup.object({
-		// unitRegistrationCountry: Yup.string().required("Required"),
-		// categorySelected: Yup.string().required("Required"),
-		// ownershipMode: Yup.string().required("Required"),
-		// unitName: Yup.string().required("Required"),
-		// subarea: Yup.string().required("Required"),
-		// locality: Yup.string().required("Required"),
-		// shopCategory: Yup.string().required("Required"),
-		// address: Yup.string().required("Required"),
-		// acceptedCurrency: Yup.string().required("Required"),
-		// openTime: Yup.string().required("Required"),
-		// closeTime: Yup.string().required("Required"),
+		unitRegistrationCountry: Yup.string().required("Required"),
+		categorySelected: Yup.string().required("Required"),
+		ownershipMode: Yup.string().required("Required"),
+		unitName: Yup.string().required("Required"),
+		shopFor: Yup.array()
+			.min(1, "Select at least one option")
+			.required("Required"), // Add this validation
+		subarea: Yup.string().required("Required"),
+		locality: Yup.string().required("Required"),
+		shopCategory: Yup.string().required("Required"),
+		address: Yup.string().required("Required"),
+		acceptedCurrency: Yup.string().required("Required"),
+		openTime: Yup.string().required("Required"),
+		closeTime: Yup.string().required("Required"),
 		// contactType: Yup.string().required("Required"),
-		// contactNumber: Yup.string().required("Required"),
+		mobileNumber: Yup.string().required("Required"),
+
 	});
-	
+
 	return (
 		<Formik
 			initialValues={unitDetails}
 			validationSchema={validationSchema}
 			onSubmit={(values) => {
+				console.log(">>>>>>>>>>>>>>>>values.shopFor",values);
 				onNext(values);
 				setUnitDetails(values);
 			}}
 		>
-			{({ values, setFieldValue }) => (
+			{({ errors, touched, values, setFieldValue, setValues, validateForm }) => (
 				<Form>
 					<h3 className="text-2xl font-semibold text-gray-700 mb-6 text-center">
 						Unit Details
@@ -687,20 +777,22 @@ const UnitDetails = ({ onNext }) => {
 								<option value="USA">USA</option>
 								<option value="UK">UK</option>
 							</Field>
-							<ErrorMessage name="unitRegistrationCountry" component="div" className="text-red-500 text-sm" />
+							<ErrorMessage name="unitRegistrationCountry" component="div" className="text-darkred text-sm font-medium " />
 						</div>
 
 						<div>
 							<label className="block text-sm text-gray-600 mb-2" htmlFor="categorySelected">
 								Category Selected
 							</label>
-							<Field as="select" name="categorySelected" className="w-full p-3 border border-customOrange outline-none rounded">
-								<option value="">Select Category</option>
+							<Field as="select" name="categorySelected" className="w-full p-3 border border-customOrange outline-none rounded" onClick={(e) => {
+								setCategorySelected(e.target.value)
+							}}>
+								<option value="Select Category">Select Category</option>
 								<option value="Liquor">Liquor</option>
 								<option value="Wine Shop">Wine Shop</option>
 								<option value="Restaurant & Bar">Restaurant & Bar</option>
 							</Field>
-							<ErrorMessage name="categorySelected" component="div" className="text-red-500 text-sm" />
+							<ErrorMessage name="categorySelected" component="div" className="text-darkred text-sm font-medium " />
 						</div>
 
 						<div>
@@ -717,32 +809,62 @@ const UnitDetails = ({ onNext }) => {
 								<option value="Sole Proprietorship">Sole Proprietorship</option>
 								<option value="Section 8 Company">Section 8 Company</option>
 							</Field>
-							<ErrorMessage name="ownershipMode" component="div" className="text-red-500 text-sm" />
+							<ErrorMessage name="ownershipMode" component="div" className="text-darkred text-sm font-medium " />
 						</div>
 
 						<div>
 							<label className="block text-gray-600 mb-2" htmlFor="unitName">
 								Business Unit Name
 							</label>
-							<Field className="w-full p-3 border border-customOrange outline-none rounded" type="text" name="unitName" placeholder="English Wine Shop" />
-							<ErrorMessage name="unitName" component="div" className="text-red-500 text-sm" />
+							<Field className="w-full p-3 border border-customOrange outline-none rounded" type="text" name="unitName" placeholder={category} />
+							<ErrorMessage name="unitName" component="div" className="text-darkred text-sm font-medium " />
 						</div>
 
 						<div>
 							<label className="block text-gray mb-2" htmlFor="shopFor">
 								Shop For
 							</label>
-							<div className="flex flex-col items-start gap-2 lg:flex-row lg:gap-0 lg:items-center">
+							<div
+								role="group"
+								aria-labelledby="checkbox-group"
+								className="flex flex-col items-start gap-2 lg:flex-row lg:gap-2 lg:items-center"
+							>
 								<div className="flex gap-2">
-									<CustomCheckbox label="Liquor" />
+								<CustomCheckbox
+										id="liquor"
+										name="shopFor"
+										value="Liquor"
+										checked={values.shopFor.includes("Liquor")}
+										onChange={(e) => handleCheckboxChange(e, setFieldValue)}
+										label="Liquor"
+									/>
 								</div>
 								<div className="flex gap-2">
-									<CustomCheckbox label="Beer" />
+								<CustomCheckbox
+										id="beer"
+										name="shopFor"
+										value="Beer"
+										checked={values.shopFor.includes("Beer")}
+										onChange={(e) => handleCheckboxChange(e, setFieldValue)}
+										label="Beer"
+									/>
 								</div>
 								<div className="flex gap-2">
-									<CustomCheckbox label="Wine" />
+								<CustomCheckbox
+										id="wine"
+										name="shopFor"
+										value="Wine"
+										checked={values.shopFor.includes("Wine")}
+										onChange={(e) => handleCheckboxChange(e, setFieldValue)}
+										label="Wine"
+									/>
 								</div>
 							</div>
+							<ErrorMessage
+								name="shopFor"
+								component="div"
+								className="text-darkred text-sm font-medium "
+							/>
 						</div>
 
 						<div>
@@ -750,7 +872,7 @@ const UnitDetails = ({ onNext }) => {
 								Subarea/Society/Landmark
 							</label>
 							<Field className="w-full p-3 border border-customOrange outline-none rounded" type="text" name="subarea" placeholder="Enter Area Name" />
-							<ErrorMessage name="subarea" component="div" className="text-red-500 text-sm" />
+							<ErrorMessage name="subarea" component="div" className="text-darkred text-sm font-medium " />
 						</div>
 
 						<div>
@@ -758,7 +880,7 @@ const UnitDetails = ({ onNext }) => {
 								Locality/Area Name
 							</label>
 							<Field className="w-full p-3 border border-customOrange outline-none rounded" type="text" name="locality" placeholder="Enter Area Name" />
-							<ErrorMessage name="locality" component="div" className="text-red-500 text-sm" />
+							<ErrorMessage name="locality" component="div" className="text-darkred text-sm font-medium " />
 						</div>
 
 						<div>
@@ -770,7 +892,7 @@ const UnitDetails = ({ onNext }) => {
 								<option value="Counter Store">Counter Store</option>
 								<option value="Online Store">Online Store</option>
 							</Field>
-							<ErrorMessage name="shopCategory" component="div" className="text-red-500 text-sm" />
+							<ErrorMessage name="shopCategory" component="div" className="text-darkred text-sm font-medium " />
 						</div>
 
 						<div>
@@ -778,7 +900,7 @@ const UnitDetails = ({ onNext }) => {
 								Address
 							</label>
 							<Field className="w-full p-3 border border-customOrange outline-none rounded" type="text" name="address" placeholder="Select Address" />
-							<ErrorMessage name="address" component="div" className="text-red-500 text-sm" />
+							<ErrorMessage name="address" component="div" className="text-darkred text-sm font-medium " />
 						</div>
 
 						<div className="grid-cols-1 md:grid-cols-3 md:h-[230px]">
@@ -795,7 +917,7 @@ const UnitDetails = ({ onNext }) => {
 									<option value="GBP">British Pounds : GBD</option>
 									<option value="JPY">Japanese Yen : JPY</option>
 								</Field>
-								<ErrorMessage name="acceptedCurrency" component="div" className="text-red-500 text-sm" />
+								<ErrorMessage name="acceptedCurrency" component="div" className="text-darkred text-sm font-medium " />
 							</div>
 						</div>
 
@@ -806,56 +928,56 @@ const UnitDetails = ({ onNext }) => {
 										Open Time
 									</label>
 									<Field className="w-full p-3 border border-customOrange outline-none rounded" type="time" name="openTime" />
-									<ErrorMessage name="openTime" component="div" className="text-red-500 text-sm" />
+									<ErrorMessage name="openTime" component="div" className="text-darkred text-sm font-medium " />
 								</div>
 								<div className="w-full">
 									<label className="block text-gray-700 mb-2" htmlFor="closeTime">
 										Close Time
 									</label>
 									<Field className="w-full p-3 border border-customOrange outline-none rounded" type="time" name="closeTime" />
-									<ErrorMessage name="closeTime" component="div" className="text-red-500 text-sm" />
+									<ErrorMessage name="closeTime" component="div" className="text-darkred text-sm font-medium " />
 								</div>
 							</div>
-                            <div className="grid grid-cols-1 text-sm md:grid-cols-3 gap-6">
-						{/* Existing form fields here */}
-						
-						{/* Payment Mode Section */}
-						<div className="md:col-span-2">
-							<label className="block text-gray-600 mb-2" htmlFor="paymentMode">
-								Payment Mode
-							</label>
-							<div className="flex flex-col lg:flex-row gap-2">
-								<CustomRadioButton
-									id="cash"
-									name="paymentMode"
-									value="cash"
-									checked={selectedPaymentMode === "cash"}
-									onChange={(e) => handlePaymentModeChange(e, setFieldValue)}
-									label="Cash"
-								/>
-								<CustomRadioButton
-									id="card"
-									name="paymentMode"
-									value="card"
-									checked={selectedPaymentMode === "card"}
-									onChange={(e) => handlePaymentModeChange(e, setFieldValue)}
-									label="Card"
-								/>
-								<CustomRadioButton
-									id="mobile"
-									name="paymentMode"
-									value="mobile"
-									checked={selectedPaymentMode === "mobile"}
-									onChange={(e) => handlePaymentModeChange(e, setFieldValue)}
-									label="Mobile"
-								/>
-							</div>
-							<ErrorMessage name="paymentMode" component="div" className="text-red-500 text-sm" />
-						</div>
+							<div className="grid grid-cols-1 text-sm md:grid-cols-3 gap-6">
+								{/* Existing form fields here */}
 
-						{/* Existing form fields here */}
-						
-					</div>
+								{/* Payment Mode Section */}
+								<div className="md:col-span-2">
+									<label className="block text-gray-600 mb-2" htmlFor="paymentMode">
+										Payment Mode
+									</label>
+									<div className="flex flex-col lg:flex-row gap-2">
+										<CustomRadioButton
+											id="cash"
+											name="paymentMode"
+											value="cash"
+											checked={selectedPaymentMode === "cash"}
+											onChange={(e) => handlePaymentModeChange(e, setFieldValue)}
+											label="Cash"
+										/>
+										<CustomRadioButton
+											id="card"
+											name="paymentMode"
+											value="card"
+											checked={selectedPaymentMode === "card"}
+											onChange={(e) => handlePaymentModeChange(e, setFieldValue)}
+											label="Card"
+										/>
+										<CustomRadioButton
+											id="mobile"
+											name="paymentMode"
+											value="mobile"
+											checked={selectedPaymentMode === "mobile"}
+											onChange={(e) => handlePaymentModeChange(e, setFieldValue)}
+											label="Mobile"
+										/>
+									</div>
+									<ErrorMessage name="paymentMode" component="div" className="text-darkred text-sm font-medium " />
+								</div>
+
+								{/* Existing form fields here */}
+
+							</div>
 						</div>
 
 						<div className="grid-cols-1 md:grid-cols-3">
@@ -871,7 +993,7 @@ const UnitDetails = ({ onNext }) => {
 											name="contactType"
 											value="mobile"
 											checked={selectedValue === "mobile"}
-											onChange={ (e) => handleRadioChange(e, setFieldValue)}
+											onChange={(e) => handleRadioChange(e, setFieldValue)}
 											label="Mobile"
 										/>
 										<CustomRadioButton
@@ -879,7 +1001,7 @@ const UnitDetails = ({ onNext }) => {
 											name="contactType"
 											value="landline"
 											checked={selectedValue === "landline"}
-											onChange={ (e) => handleRadioChange(e, setFieldValue)}
+											onChange={(e) => handleRadioChange(e, setFieldValue)}
 											label="Landline"
 										/>
 										<CustomRadioButton
@@ -887,7 +1009,7 @@ const UnitDetails = ({ onNext }) => {
 											name="contactType"
 											value="both"
 											checked={selectedValue === "both"}
-											onChange={ (e) => handleRadioChange(e, setFieldValue)}
+											onChange={(e) => handleRadioChange(e, setFieldValue)}
 											label="Both"
 										/>
 									</div>
@@ -914,12 +1036,38 @@ const UnitDetails = ({ onNext }) => {
 											type="text"
 											name="mobileNumber"
 											placeholder="Mobile Number"
+										// disabled={localStorageUtil.getItem("mobileverify")=="Mobile is Verified" ? true :false}
 										/>
-										{/* <button className="ml-2 pl-0 lg:py-3 lg:px-6 text-[#FF9F08]">
-											Verify Number
-										</button> */}
+										{localStorageUtil.getItem("mobileverify") !== "Mobile is Verified" ? <button type="button" className=" pl-0 lg:py-3 lg:px-6 text-[#FF9F08]" onClick={(event) => {
+
+
+											fetchDocumentDetails(values.countryCode, values.mobileNumber, { setValues }, setFieldValue)
+
+
+
+
+										}
+
+
+
+
+										}
+
+
+										>
+											Verify
+										</button> :
+
+
+											<button type="button" className=" pl-0 lg:py-3 lg:px-6 text-[#FF9F08]"
+
+
+
+											>
+												MobileNumber is Verified
+											</button>}
 									</div>
-									<ErrorMessage name="mobileNumber" component="div" className="text-red-500 text-sm" />
+									<ErrorMessage name="mobileNumber" component="div" className="text-darkred text-sm font-medium " />
 								</div>
 							) : selectedValue === "landline" ? (
 								<div className="mt-5">
@@ -933,7 +1081,7 @@ const UnitDetails = ({ onNext }) => {
 											name="landlineNumber"
 											placeholder="Landline Number"
 										/>
-										<ErrorMessage name="landlineNumber" component="div" className="text-red-500 text-sm" />
+										<ErrorMessage name="landlineNumber" component="div" className="text-darkred text-sm font-medium " />
 									</div>
 								</div>
 							) : (
@@ -958,11 +1106,11 @@ const UnitDetails = ({ onNext }) => {
 												name="mobileNumber"
 												placeholder="Mobile Number"
 											/>
-											<button className="ml-2 py-3 px-6 text-[#FF9F08]">
+											{/* <button className="ml-2 py-3 px-6 text-[#FF9F08]">
 												Verify Number
-											</button>
+											</button> */}
 										</div>
-										<ErrorMessage name="mobileNumber" component="div" className="text-red-500 text-sm" />
+										<ErrorMessage name="mobileNumber" component="div" className="text-darkred text-sm font-medium " />
 									</div>
 									<div className="mt-5">
 										<label className="block text-gray-600 mb-2" htmlFor="landlineNumber">
@@ -975,7 +1123,7 @@ const UnitDetails = ({ onNext }) => {
 												name="landlineNumber"
 												placeholder="Landline Number"
 											/>
-											<ErrorMessage name="landlineNumber" component="div" className="text-red-500 text-sm" />
+											<ErrorMessage name="landlineNumber" component="div" className="text-darkred text-sm font-medium " />
 										</div>
 									</div>
 								</>
@@ -985,7 +1133,7 @@ const UnitDetails = ({ onNext }) => {
 					<div className="flex justify-end "><button type="submit" className="btn-primary mt-6 text-white bg-customOrange px-6 py-3 border border-transparent rounded-md">
 						Next
 					</button></div>
-                    {/* <div className="mt-8 text-center">
+					{/* <div className="mt-8 text-center">
                     <button
                            type="submit"
                           className="inline-flex justify-end items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-yellow-dark bg-customBlue hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -993,6 +1141,11 @@ const UnitDetails = ({ onNext }) => {
                           DDNext
                        </button>
                    </div> */}
+					<OTPModal
+						isOpen={isModalOpen}
+						onClose={() => setIsModalOpen(false)}
+						onSubmitOTP={(otp) => handleSubmitOTP({ setValues, validateForm, setFieldValue }, otp, values.mobileNumber)}
+					/>
 				</Form>
 			)}
 		</Formik>

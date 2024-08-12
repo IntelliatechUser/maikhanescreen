@@ -19,6 +19,7 @@ module.exports = {
       "acc-list": "#FF0000",
       white: "#FFFFFF",
       red: "#FF0000",
+       darkred:"#f71105"
     },
 
     fontFamily: {
@@ -42,6 +43,7 @@ module.exports = {
       gray: "#80808063",
       black: "#0F0F0F",
       "yellow-dark": "#FF9804",
+     
     },
     extend: {
       spacing: {

@@ -15,6 +15,8 @@ import BusinessUnit from "./pages/AddBusinessUnitPage.jsx";
 import SignUp from "./pages/SignUp.jsx";
 import ModelTest from "./ModelTest.jsx";
 import PrivateRoute from "./components/authenticationRoute/PrivateRoute.jsx";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const router = createBrowserRouter([
   // { path: "/DatePicker", element: <DatePicker /> },
   { path: "/businessGrid", element: <BusinessDetail /> },
@@ -70,7 +72,22 @@ const router = createBrowserRouter([
 ]);
 export default function App() {
   return (
+    <>
     <RouterProvider router={router}>
+     
     </RouterProvider>
+    <ToastContainer
+        position="top-center" // This aligns it at the top-center; custom styles will adjust further.
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={true}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        toastClassName="custom-toast" // Add this line to reference the custom styles.
+      />
+     </>
   );
 }

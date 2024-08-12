@@ -1019,9 +1019,11 @@ roleId
     
         console.log("response>>>>>>>>>>2", response);
       setSuccessMessage("Successful signup");
+      
       setLoading(false);
       setSuccess(true);
       setError("")
+      navigate("/")
        // set({ loading: false, success: true });
       }
  

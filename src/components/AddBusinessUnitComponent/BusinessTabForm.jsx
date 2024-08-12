@@ -8,7 +8,12 @@ import CustomRadioButton from "../../CommonComponents/CustomRadioButton";
 import useStore from "../../store/UnitDetail";
 import { useState } from "react"
 import businessLogicStore from "../../store/BusinessLogicStore"
+import OTPModal from '../../CommonComponents/Modal';
+import localStorageUtil from "../../utility/utility";
 const BusinessTabForm = ({ onSubmitBusiness }) => {
+    const [verify, setVerify] = useState("Verify");
+    const [isModalOpen, setIsModalOpen] = React.useState(false);
+    const [modalfor, setModalFor] = useState("");
     const { businessDetails, setBusinessDetails } = useStore();
     const [selectedIdType, setSelectedIdType] = useState(businessDetails.idType);
     const { currentTab, setCurrentTab } = businessLogicStore();
@@ -21,18 +26,106 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
         // city: Yup.string().required('Required'),
         // state: Yup.string().required('Required'),
         // zipCode: Yup.string().required('Required'),
-        // email: Yup.string().required('Required'),
+        email: Yup.string().required('Required'),
         // contactNumber: Yup.string().required('Required'),
+        mobileNumber: Yup.string().required("Required"),
         businessLogo: Yup.mixed().required('Business logo is required'),
-     pandocument: Yup.mixed().required('pandocument logo is required'),
+        pandocument: Yup.mixed().required('pandocument logo is required'),
         cindocument: Yup.mixed().required('cindocument logo is required'),
-     gstdocument: Yup.mixed().required('gstdocument logo is required')
-        
-    });
+        gstdocument: Yup.mixed().required('gstdocument logo is required')
 
+    });
+    const fetchDocumentDetails = async (cred = "mobileNumber", values, actions, setFieldValue) => {
+        let params;
+        setIsModalOpen(true);
+        if (cred == "email") {
+            setModalFor(cred)
+            params = {
+
+                email: values.email
+            }
+        } else {
+            setModalFor("mobileNumber")
+            params = {
+                countryCode: "+91",
+                mobileNumber: values.mobileNumber
+            }
+        }
+        try {
+            let token = localStorage.getItem("token");
+            const response = await axios.get('http://43.204.36.147:8067/otp/generateOtpForUser', {
+                params,
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+
+
+
+
+
+        } catch (error) {
+            console.error('Error in getting otp', error);
+        }
+    };
+    const handleSubmitOTP = async (actions, otp, values) => {
+        let params;
+        if (modalfor == "email") {
+            params =
+            {
+                email: values.email,
+                otp: otp
+            }
+
+        } else {
+            params =
+            {
+                mobileNumber: values.mobileNumber,
+                otp: otp
+            }
+        }
+        let token = localStorage.getItem("token");
+        try {
+            const response = await axios.post(
+                'http://43.204.36.147:8067/otp/validateOtpForUser',
+                params,
+                {
+                    headers: { Authorization: `Bearer ${token}` }
+                }
+            );
+            const data = response?.data;
+            console.log(">>>>>>>>>>>>responseData", data.status);
+            if (data.status == 200) {
+
+                if (modalfor == "email") {
+                    setVerify("Email is Verified");
+                    localStorageUtil.setItem("emailverify", "Email is Verified")
+                } else {
+                    setVerify("Mobile is Verified");
+                    localStorageUtil.setItem("mobileverifybusiness", "Mobile is Verified")
+                }
+
+            }
+
+
+
+        } catch (error) {
+            console.error("Error verifying OTP:", error);
+        } finally {
+            setIsModalOpen(false);
+        }
+
+
+
+
+    };
     const handleValidate = async (idType, idDocumentNumber, setFieldValue) => {
         setFieldValue('legallyRegisteredName', "");
         setFieldValue('addressLine1', "");
+        setFieldValue('city', "");
+        setFieldValue('state', "");
+        setFieldValue('zipCode', "");
         let token = localStorage.getItem("token");
         const endpoint = idType === "PAN" ? 'userVerification' : 'businessVerification';
         try {
@@ -47,6 +140,9 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
             const responseData = response.data.data;
             setFieldValue('legallyRegisteredName', responseData.name);
             setFieldValue('addressLine1', responseData.address);
+            setFieldValue('city', responseData.city);
+            setFieldValue('state', responseData.state);
+            setFieldValue('zipCode', responseData.postalCode);
         } catch (error) {
             console.error("Validation error:", error);
         }
@@ -54,12 +150,13 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
 
     const [selectedValue, setSelectedValue] = React.useState("mobile");
 
-    const handleRadioChange = (event,setFieldValue) => {
-		setSelectedValue(event.target.value);
-		setFieldValue("contact", event.target.value);
-	};
+    const handleRadioChange = (event, setFieldValue) => {
+        setSelectedValue(event.target.value);
+        setFieldValue("contact", event.target.value);
+    };
 
     const handleFileChange = (event, setFieldValue, fieldName) => {
+
         const file = event.currentTarget.files[0];
         if (file) {
             setFieldValue(fieldName, file);
@@ -81,14 +178,14 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                     let tab = currentTab;
                     setCurrentTab(tab + 1)
                 } else {
-                    setBusinessDetails(values);
-                    onSubmitBusiness(values);
+                    // setBusinessDetails(values);
+                    // onSubmitBusiness(values);
 
 
                 }
             }}
         >
-            {({ setFieldValue, values }) => (
+            {({ setFieldValue, values, setValues, validateForm }) => (
                 <Form>
                     <div className="mt-15 mr-7">
                         <div className="grid md:grid-cols-[60%_40%] gap-6 mb-6">
@@ -105,7 +202,7 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                     <option value="GST">GST</option>
                                     <option value="CIN">CIN</option>
                                 </Field>
-                                <ErrorMessage name="idType" component="div" className="text-red-500 text-xs mt-1" />
+                                <ErrorMessage name="idType" component="div"  className="text-darkred text-sm font-medium " />
                             </div>
                             <div>
                                 <label className="block text-gray-600 mb-2">Photo Id Document/Certificate Number</label>
@@ -124,12 +221,13 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                         Validate
                                     </button>
                                 </div>
-                                <ErrorMessage name="idDocumentNumber" component="div" className="text-red-500 text-xs mt-1" />
+                                <ErrorMessage name="idDocumentNumber" component="div"  className="text-darkred text-sm font-medium " />
                             </div>
                         </div>
 
-                        <div className="grid md:grid-cols-[60%_40%] gap-6 mb-6">
-                            <div>
+                        <div className="grid md:grid-cols-[60%_40%] gap-6 mb-6   items-stretch">
+                            <div  className="flex flex-col gap-4">
+                                <div>
                                 <label className="block text-gray-600 mb-2">Legally Registered Name Of Business Entity</label>
                                 <Field
                                     type="text"
@@ -137,113 +235,154 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                     className="w-full p-3 border border-customOrange outline-none rounded"
                                     placeholder="Legally Registered Name"
                                 />
-                                <ErrorMessage name="legallyRegisteredName" component="div" className="text-red-500 text-xs mt-1" />
-                                <p className="mt-1 text-xs text-gray-600">
+                                <ErrorMessage name="legallyRegisteredName" component="div"  className="text-darkred text-sm font-medium " />
+                              </div> <div>  <p className="mt-1 text-xs text-gray-600">
                                     All The Business Transactions Are Done Against The Name
                                     Of The Business Entity.
                                 </p>
+                                <div className="flex flex-col gap-4">
+                                    <div className="flex gap-4">
+                                        <div className="w-[50%]">
+                                            <Field
+                                                type="text"
+                                                name="addressLine1"
+                                                className="w-full p-3 border border-customOrange outline-none rounded"
+                                                placeholder="Address Line 01"
+                                            />
+                                            <ErrorMessage name="addressLine1" component="div" className="text-red-500 text-xs mt-1" />
+                                        </div>
+
+                                        <div className="w-[50%]">
+                                            <Field
+                                                type="text"
+                                                name="addressLine2"
+                                                className="w-full p-3 border border-customOrange outline-none rounded"
+                                                placeholder="Address Line 02"
+                                            />
+                                            <ErrorMessage name="addressLine2" component="div" className="text-darkred text-sm font-medium " />
+                                        </div>
+                                    </div>
+
+                                    <div className="flex gap-4">
+                                        <div className="w-[50%]">
+                                            <Field
+                                                type="text"
+                                                name="city"
+                                                className="w-full p-3 border border-customOrange outline-none rounded"
+                                                placeholder="Town/City"
+                                            />
+                                            <ErrorMessage name="city" component="div"  className="text-darkred text-sm font-medium " />
+                                        </div>
+                                        <div className="w-[50%]">
+                                            <Field
+                                                type="text"
+                                                name="state"
+                                                className="w-full p-3 border border-customOrange outline-none rounded"
+                                                placeholder="State/Province/Territory"
+                                            />
+                                            <ErrorMessage name="state" component="div"  className="text-darkred text-sm font-medium " />
+                                        </div>
+                                    </div>
+
+                                    <div className="flex gap-4">
+                                        <div className="w-[50%]">
+                                            <Field
+                                                type="text"
+                                                name="zipCode"
+                                                className="w-full p-3 border border-customOrange outline-none rounded"
+                                                placeholder="Postal Code"
+                                            />
+                                            <ErrorMessage name="zipCode" component="div" className="text-darkred text-sm font-medium " />
+                                        </div>
+                                        <div className="w-[50%]">
+                                            <Field
+                                                type="text"
+                                                name="gpsLocation"
+                                                className="w-full p-3 border border-customOrange outline-none rounded"
+                                                placeholder="Add GPS Location"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    {/* <div>
+                                        <label className="block text-gray-600 mb-2">Upload Business Logo</label>
+                                        <input
+                                            type="file"
+                                            name="businessLogo"
+                                            accept=".pdf"
+                                            onChange={(event) => handleFileChange(event, setFieldValue, "businessLogo")}
+                                            className="w-full p-3 border border-customOrange outline-none rounded"
+                                        />
+                                        <ErrorMessage name="businessLogo" component="div"  className="text-darkred text-sm font-medium " />
+                                    </div> */}
+
+                                </div>
+                                
+                                
+                                
+                              
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                </div>
                             </div>
-                            <div>
-                                <label className="block text-gray-600 mb-2">Business Entity Registration Country</label>
+
+                            <div className=" flex flex-col gap-4">
+                                {/* <label className="block text-gray-600 mb-2">Business Entity Registration Country</label>
                                 <Field as="select" name="businessEntityRegistrationCountry" className="w-full p-3 border border-customOrange outline-none rounded">
                                     <option value="India">India</option>
-                                </Field>
-                            </div>
-                        </div>
-
-                        <div className="grid md:grid-cols-[60%_40%] gap-6 mb-6">
-                            <div className="flex flex-col gap-4">
-                                <div className="flex gap-4">
-                                    <div className="w-[50%]">
-                                        <Field
-                                            type="text"
-                                            name="addressLine1"
+                                </Field> */}
+                                <div className="w-[70%] ">
+                                    <div>
+                                        <label className="block text-gray-600 mb-2">Email</label>
+                                        <div className="flex w-full"> <Field
+                                            type="email"
+                                            name="email"
                                             className="w-full p-3 border border-customOrange outline-none rounded"
-                                            placeholder="Address Line 01"
+                                            placeholder="Email ID"
+                                        // disabled={localStorageUtil.getItem("emailverify") == "Email is Verified" ? true : false}
                                         />
-                                        <ErrorMessage name="addressLine1" component="div" className="text-red-500 text-xs mt-1" />
-                                    </div>
 
-                                    <div className="w-[50%]">
-                                        <Field
-                                            type="text"
-                                            name="addressLine2"
-                                            className="w-full p-3 border border-customOrange outline-none rounded"
-                                            placeholder="Address Line 02"
-                                        />
-                                        <ErrorMessage name="addressLine2" component="div" className="text-red-500 text-xs mt-1" />
+
+                                        
+                                            {localStorageUtil.getItem("emailverify") !== "Email is Verified" ? <button type="button" className="ml-2 border border-customOrange text-[#FF9F08] py-2 px-4 rounded-md flex-grow" onClick={(event) => {
+
+
+                                                fetchDocumentDetails("email", values, { setValues }, setFieldValue)
+
+
+
+
+                                            }
+
+
+
+
+                                            }
+
+
+                                            >
+                                                Verify
+                                            </button> :
+
+
+                                                <button type="button" className=" pl-0 lg:py-3 lg:px-6 text-[#FF9F08]"
+
+
+
+                                                >
+                                                    Email is Verified
+                                                </button>}
+                                        </div>
                                     </div>
+                                    <ErrorMessage name="email" component="div"  className="text-darkred text-sm font-medium " />
                                 </div>
-
-                                <div className="flex gap-4">
-                                    <div className="w-[50%]">
-                                        <Field
-                                            type="text"
-                                            name="city"
-                                            className="w-full p-3 border border-customOrange outline-none rounded"
-                                            placeholder="Town/City"
-                                        />
-                                        <ErrorMessage name="city" component="div" className="text-red-500 text-xs mt-1" />
-                                    </div>
-                                    <div className="w-[50%]">
-                                        <Field
-                                            type="text"
-                                            name="state"
-                                            className="w-full p-3 border border-customOrange outline-none rounded"
-                                            placeholder="State/Province/Territory"
-                                        />
-                                        <ErrorMessage name="state" component="div" className="text-red-500 text-xs mt-1" />
-                                    </div>
-                                </div>
-
-                                <div className="flex gap-4">
-                                    <div className="w-[50%]">
-                                        <Field
-                                            type="text"
-                                            name="zipCode"
-                                            className="w-full p-3 border border-customOrange outline-none rounded"
-                                            placeholder="Postal Code"
-                                        />
-                                        <ErrorMessage name="zipCode" component="div" className="text-red-500 text-xs mt-1" />
-                                    </div>
-                                    <div className="w-[50%]">
-                                        <Field
-                                            type="text"
-                                            name="gpsLocation"
-                                            className="w-full p-3 border border-customOrange outline-none rounded"
-                                            placeholder="Add GPS Location"
-                                        />
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <label className="block text-gray-600 mb-2">Upload Business Logo</label>
-                                    <input
-                                        type="file"
-                                        name="businessLogo"
-                                        accept=".pdf"
-                                        onChange={(event) => handleFileChange(event, setFieldValue, "businessLogo")}
-                                        className="w-full p-3 border border-customOrange outline-none rounded"
-                                    />
-                                    <ErrorMessage name="businessLogo" component="div" className="text-red-500 text-xs mt-1" />
-                                </div>
-
-                            </div>
-
-                            <div className="flex flex-col gap-3">
-                                <div className="flex">
-                                    <Field
-                                        type="email"
-                                        name="email"
-                                        className="w-full p-3 border border-customOrange outline-none rounded"
-                                        placeholder="Email ID"
-                                    />
-                                    {/* <button type="button" className="ml-2 text-[#FF9F08] py-2 px-4">
-                                        Verify
-                                    </button> */}
-                                    <ErrorMessage name="email" component="div" className="text-red-500 text-xs mt-1" />
-                                </div>
-
                                 <div>
                                     <label className="block text-gray-600 mb-2" htmlFor="contactNumber">
                                         Unit/Reception Contact Number (Optional)
@@ -277,107 +416,283 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                         </div>
                                     </div>
                                 </div>
-                            <div>    {selectedValue === "mobile" ? (
-                            <div>
-                                <label
-                                    className="block text-gray-600 mb-2"
-                                    htmlFor="mobileNumber"
-                                >
-                                    Mobile Number (OTP Verification Via SMS)
-                                </label>
-                                <div className="flex flex-col items-start gap-2 lg:gap-0 lg:flex-row lg:items-center">
-                                <Field
-											as="select"
-											name="countryCode"
-											className="p-3 border border-customOrange outline-none rounded mr-2"
-										>
-											<option value="IND +91">IND +91</option>
-											<option value="USA +1">USA +1</option>
-											<option value="UK +44">UK +44</option>
-										</Field>
-										<Field
-											className="w-full p-3 border border-customOrange outline-none rounded"
-											type="text"
-											name="mobileNumber"
-											placeholder="Mobile Number"
-										/>
-                                    {/* <button className="ml-2 py-3 px-6 text-[#FF9F08]">
-                                        Verify
-                                    </button> */}
-                                </div>
-                            </div>
-                        ) : selectedValue === "landline" ? (
-                            <div>
-                                <label
-                                    className="block text-gray-600 mb-2"
-                                    htmlFor="landlineNumber"
-                                >
-                                    Landline Number
-                                </label>
-                                <div className="flex items-center">
-                                <Field
-											className="w-full p-3 border border-customOrange outline-none rounded"
-											type="text"
-											name="landlineNumber"
-											placeholder="Landline Number"
-										/>
-                                </div>
-                            </div>
-                        ) : (
-                            <div>
-                                <div>
-                                    <label
-                                        className="block text-gray-600 mb-2"
-                                        htmlFor="mobileNumber"
-                                    >
-                                        Mobile Number (OTP Verification Via SMS)
-                                    </label>
-                                    <div className="flex items-center">
-                                    <Field
-											as="select"
-											name="countryCode"
-											className="p-3 border border-customOrange outline-none rounded mr-2"
-										>
-											<option value="IND +91">IND +91</option>
-											<option value="USA +1">USA +1</option>
-											<option value="UK +44">UK +44</option>
-										</Field>
-										<Field
-											className="w-full p-3 border border-customOrange outline-none rounded"
-											type="text"
-											name="mobileNumber"
-											placeholder="Mobile Number"
-										/>
-                                        {/* <button className="ml-2 py-3 px-6 text-[#FF9F08]">
+                                <div>    {selectedValue === "mobile" ? (
+                                    <div>
+                                        <label
+                                            className="block text-gray-600 mb-2"
+                                            htmlFor="mobileNumber"
+                                        >
+                                            Mobile Number (OTP Verification Via SMS)
+                                        </label>
+                                        <div className="flex flex-col items-start gap-2 lg:gap-0 lg:flex-row lg:items-center">
+                                            <Field
+                                                as="select"
+                                                name="countryCode"
+                                                className="p-3 border border-customOrange outline-none rounded mr-2"
+                                            >
+                                                <option value="IND +91">IND +91</option>
+                                                <option value="USA +1">USA +1</option>
+                                                <option value="UK +44">UK +44</option>
+                                            </Field>
+                                            <Field
+                                                className="w-full p-3 border border-customOrange outline-none rounded"
+                                                type="text"
+                                                name="mobileNumber"
+                                                placeholder="Mobile Number"
+                                            // disabled={localStorageUtil.getItem("mobileverifybusiness")=="Mobile is Verified" ? true :false}
+                                            />
+                                            {localStorageUtil.getItem("mobileverifybusiness") !== "Mobile is Verified" ? <button type="button" className=" pl-0 lg:py-3 lg:px-6 text-[#FF9F08]" onClick={(event) => {
+
+
+                                                fetchDocumentDetails("mobileNumber", values, { setValues }, setFieldValue)
+
+
+
+
+                                            }
+
+
+
+
+                                            }
+
+
+                                            >
+                                                Verify
+                                            </button> :
+
+
+                                                <button type="button" className=" pl-0 lg:py-3 lg:px-6 text-[#FF9F08]"
+
+
+
+                                                >
+                                                    MobileNumber is Verified
+                                                </button>}
+
+                                        </div>
+                                        <ErrorMessage name="mobileNumber" component="div"  className="text-darkred text-sm font-medium " />
+                                    </div>
+                                ) : selectedValue === "landline" ? (
+                                    <div>
+                                        <label
+                                            className="block text-gray-600 mb-2"
+                                            htmlFor="landlineNumber"
+                                        >
+                                            Landline Number
+                                        </label>
+                                        <div className="flex items-center">
+                                            <Field
+                                                className="w-full p-3 border border-customOrange outline-none rounded"
+                                                type="text"
+                                                name="landlineNumber"
+                                                placeholder="Landline Number"
+                                            />
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div>
+                                        <div>
+                                            <label
+                                                className="block text-gray-600 mb-2"
+                                                htmlFor="mobileNumber"
+                                            >
+                                                Mobile Number (OTP Verification Via SMS)
+                                            </label>
+                                            <div className="flex items-center">
+                                                <Field
+                                                    as="select"
+                                                    name="countryCode"
+                                                    className="p-3 border border-customOrange outline-none rounded mr-2"
+                                                >
+                                                    <option value="IND +91">IND +91</option>
+                                                    <option value="USA +1">USA +1</option>
+                                                    <option value="UK +44">UK +44</option>
+                                                </Field>
+                                                <Field
+                                                    className="w-full p-3 border border-customOrange outline-none rounded"
+                                                    type="text"
+                                                    name="mobileNumber"
+                                                    placeholder="Mobile Number"
+                                                />
+                                                {/* <button className="ml-2 py-3 px-6 text-[#FF9F08]">
                                             Verify Number
                                         </button> */}
+                                            </div>
+                                        </div>
+                                        <div className="mt-5">
+                                            <label
+                                                className="block text-gray-600 mb-2"
+                                                htmlFor="landlineNumber"
+                                            >
+                                                Landline Number
+                                            </label>
+                                            <div className="flex items-center">
+                                                <Field
+                                                    className="w-full p-3 border border-customOrange outline-none rounded"
+                                                    type="text"
+                                                    name="landlineNumber"
+                                                    placeholder="Landline Number"
+                                                />
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="mt-5">
-                                    <label
-                                        className="block text-gray-600 mb-2"
-                                        htmlFor="landlineNumber"
-                                    >
-                                        Landline Number
-                                    </label>
-                                    <div className="flex items-center">
-                                    <Field
-											className="w-full p-3 border border-customOrange outline-none rounded"
-											type="text"
-											name="landlineNumber"
-											placeholder="Landline Number"
-										/>
-                                    </div>
-                                </div>
-                            </div>
-                        )}</div>
+                                )}</div>
 
-                                <ErrorMessage name="contactNumber" component="div" className="text-red-500 text-xs mt-1" />
+                                <ErrorMessage name="contactNumber" component="div"  className="text-darkred text-sm font-medium " />
                             </div>
-                        
                         </div>
+
+<div className="grid grid-cols-4 gap-2">
+                        <div >
+                                        <label className="block text-gray-600 mb-2">Upload Business Logo</label>
+                                        <input
+                                            type="file"
+                                            name="businessLogo"
+                                            accept=".pdf"
+                                            onChange={(event) => handleFileChange(event, setFieldValue, "businessLogo")}
+                                            className="w-full p-3 border border-customOrange outline-none rounded"
+                                        />
+                                        <ErrorMessage name="businessLogo" component="div"  className="text-darkred text-sm font-medium " />
+                                    </div>
+                                 
+                          
+                                <div>
+                                    <label className="block text-gray-600 mb-2">GST Document Upload</label>
+                                    <div className="flex">
+                                        <input
+                                            type="file"
+                                            name="gstdocument"
+                                            accept=".pdf"
+                                            onChange={(event) => handleFileChange(event, setFieldValue, "gstdocument")}
+                                            className="w-full p-3 border border-customOrange outline-none rounded"
+                                        />
+                                    </div>
+                                    <ErrorMessage name="gstdocument" component="div"  className="text-darkred text-sm font-medium " />
+                                </div>
+                                <div>
+                                    <label className="block text-gray-600 mb-2">CIN Document Upload</label>
+                                    <div className="flex">
+                                        <input
+                                            type="file"
+                                            name="cindocument"
+                                            accept=".pdf"
+                                            onChange={(event) => handleFileChange(event, setFieldValue, "cindocument")}
+                                            className="w-full p-3 border border-customOrange outline-none rounded"
+                                        />
+                                    </div>
+                                    <ErrorMessage name="cindocument" component="div"  className="text-darkred text-sm font-medium " />
+                                </div>
+                                <div>
+                                    <label className="block text-gray-600 mb-2">PAN Document Upload</label>
+                                    <div className="flex">
+                                        <input
+                                            type="file"
+                                            name="pandocument"
+                                            accept=".pdf"
+                                            onChange={(event) => handleFileChange(event, setFieldValue, "pandocument")}
+                                            className="w-full p-3 border border-customOrange outline-none rounded"
+                                        />
+                                    </div>
+                                    <ErrorMessage name="pandocument" component="div"  className="text-darkred text-sm font-medium " />
+                                </div>
+                            
+                        
+
+                      {/* <div> {selectedIdType === "GST" && (
+                            <div className=" gap-6 mb-6">
+                                <div>
+                                    <label className="block text-gray-600 mb-2">PAN Document Upload</label>
+                                    <div className="flex">
+                                        <input
+                                            type="file"
+                                            name="pandocument"
+                                            accept=".pdf"
+                                            onChange={(event) => handleFileChange(event, setFieldValue, "pandocument")}
+                                            className="w-full p-3 border border-customOrange outline-none rounded"
+                                        />
+                                    </div>
+                                    <ErrorMessage name="pandocument" component="div" className="text-red-500 text-xs mt-1" />
+                                </div>
+                                <div>
+                                    <label className="block text-gray-600 mb-2">CIN Document Upload</label>
+                                    <div className="flex">
+                                        <input
+                                            type="file"
+                                            name="cindocument"
+                                            accept=".pdf"
+                                            onChange={(event) => handleFileChange(event, setFieldValue, "cindocument")}
+                                            className="w-full p-3 border border-customOrange outline-none rounded"
+                                        />
+                                    </div>
+                                    <ErrorMessage name="cindocument" component="div" className="text-red-500 text-xs mt-1" />
+                                </div>
+                                <div>
+                                    <label className="block text-gray-600 mb-2">GST Document Upload</label>
+                                    <div className="flex">
+                                        <input
+                                            type="file"
+                                            name="gstdocument"
+                                            accept=".pdf"
+                                            onChange={(event) => handleFileChange(event, setFieldValue, "gstdocument")}
+                                            className="w-full p-3 border border-customOrange outline-none rounded"
+                                        />
+                                    </div>
+                                    <ErrorMessage name="gstdocument" component="div" className="text-red-500 text-xs mt-1" />
+                                </div>
+                            </div>
+                        )}
+</div>
+                 <div>  {selectedIdType === "CIN" && (
+                            <div className=" gap-6 mb-6">
+                                <div>
+                                    <label className="block text-gray-600 mb-2">GST Document Upload</label>
+                                    <div className="flex">
+                                        <input
+                                            type="file"
+                                            name="gstdocument"
+                                            accept=".pdf"
+                                            onChange={(event) => handleFileChange(event, setFieldValue, "gstdocument")}
+                                            className="w-full p-3 border border-customOrange outline-none rounded"
+                                        />
+                                    </div>
+                                    <ErrorMessage name="gstdocument" component="div" className="text-red-500 text-xs mt-1" />
+                                </div>
+                                <div>
+                                    <label className="block text-gray-600 mb-2">PAN Document Upload</label>
+                                    <div className="flex">
+                                        <input
+                                            type="file"
+                                            name="pandocument"
+                                            accept=".pdf"
+                                            onChange={(event) => handleFileChange(event, setFieldValue, "pandocument")}
+                                            className="w-full p-3 border border-customOrange outline-none rounded"
+                                        />
+                                    </div>
+                                    <ErrorMessage name="pandocument" component="div" className="text-red-500 text-xs mt-1" />
+                                </div>
+                                <div>
+                                    <label className="block text-gray-600 mb-2">CIN Document Upload</label>
+                                    <div className="flex">
+                                        <input
+                                            type="file"
+                                            name="cindocument"
+                                            accept=".pdf"
+                                            onChange={(event) => handleFileChange(event, setFieldValue, "cindocument")}
+                                            className="w-full p-3 border border-customOrange outline-none rounded"
+                                        />
+                                    </div>
+                                    <ErrorMessage name="cindocument" component="div" className="text-red-500 text-xs mt-1" />
+                                </div>
+                            </div>
+                        )}
+
+</div> */}
+
+</div>
                        
-                        {selectedIdType === "PAN" && (
+
+                        {/* {selectedIdType === "PAN" && (
                             <div className="grid grid-cols-3 gap-6 mb-6">
                                 <div>
                                     <label className="block text-gray-600 mb-2">GST Document Upload</label>
@@ -411,7 +726,7 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                         <input
                                             type="file"
                                             name="pandocument"
-                                           accept=".pdf"
+                                            accept=".pdf"
                                             onChange={(event) => handleFileChange(event, setFieldValue, "pandocument")}
                                             className="w-full p-3 border border-customOrange outline-none rounded"
                                         />
@@ -429,7 +744,7 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                         <input
                                             type="file"
                                             name="pandocument"
-                                             accept=".pdf"
+                                            accept=".pdf"
                                             onChange={(event) => handleFileChange(event, setFieldValue, "pandocument")}
                                             className="w-full p-3 border border-customOrange outline-none rounded"
                                         />
@@ -442,7 +757,7 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                         <input
                                             type="file"
                                             name="cindocument"
-                                          accept=".pdf"
+                                            accept=".pdf"
                                             onChange={(event) => handleFileChange(event, setFieldValue, "cindocument")}
                                             className="w-full p-3 border border-customOrange outline-none rounded"
                                         />
@@ -486,7 +801,7 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                         <input
                                             type="file"
                                             name="pandocument"
-                                          accept=".pdf"
+                                            accept=".pdf"
                                             onChange={(event) => handleFileChange(event, setFieldValue, "pandocument")}
                                             className="w-full p-3 border border-customOrange outline-none rounded"
                                         />
@@ -499,7 +814,7 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                         <input
                                             type="file"
                                             name="cindocument"
-                                          accept=".pdf"
+                                            accept=".pdf"
                                             onChange={(event) => handleFileChange(event, setFieldValue, "cindocument")}
                                             className="w-full p-3 border border-customOrange outline-none rounded"
                                         />
@@ -507,10 +822,10 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                     <ErrorMessage name="cindocument" component="div" className="text-red-500 text-xs mt-1" />
                                 </div>
                             </div>
-                        )}
+                        )} */}
                         <div className="flex justify-between">  <button
-                            type="submit"
-                            className="mt-6 p-3 bg-customOrange text-white rounded"
+                            type="button"
+                            className="mt-6 p-3 bg-customOrange text-white rounded" onClick={() => onSubmitBusiness(values)}
                         >
                             Back
                         </button>
@@ -522,6 +837,13 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                 Next
                             </button></div>
                     </div>
+                    <OTPModal
+                        isOpen={isModalOpen}
+                        onClose={() => setIsModalOpen(false)}
+                        onSubmitOTP={(otp) => handleSubmitOTP({ setValues, validateForm, setFieldValue }, otp, values)}
+
+                    />
+
                 </Form>
             )}
         </Formik>

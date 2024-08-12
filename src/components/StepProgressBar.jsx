@@ -1,16 +1,19 @@
 import React from 'react';
 
-const StepProgressBar = ({ currentStep }) => {
+const StepProgressBar = ({ currentStep,currentTab }) => {
     const steps = [
-        { id: 1, name: "Step 1" },
-        { id: 2, name: "Step 2" },
+        { id: 1, name: "Step 1",tab:-1 },
+        { id: 2, name: "Step 2",tab:1 },
+        { id: 2, name: "Step 2" ,tab:2},
+        { id: 2, name: "Step 2" ,tab:3},
     ];
+
     return (
         <div className="flex justify-center items-center my-8 gap-0">
             {steps.map((step, index) => (
                 <div key={step.id} className="flex items-center">
                     <div className="relative flex flex-col items-center">
-                        <div className={`w-7 h-7 rounded-full flex items-center justify-center text-black ${currentStep >= step.id ? 'bg-customOrange' : 'bg-gray'}`}>
+                        <div className={`w-7 h-7 rounded-full flex items-center justify-center text-black ${currentStep >= step.id && currentTab >= step.tab ? 'bg-customOrange' : 'bg-gray'}`}>
                         </div>
                     </div>
                     {index < steps.length - 1 && (

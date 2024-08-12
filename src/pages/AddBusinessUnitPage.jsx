@@ -13,8 +13,8 @@ const AddBusinessUnitPage = () => {
 
         console.log(">>>>>>>>>>>business data", business);
         // alert("hello");
-        setFormData(prevData => ({ ...prevData, business: business }));
-        setAllFormdata({...allformdata,business})
+        // setFormData(prevData => ({ ...prevData, business: business }));
+        // setAllFormdata({...allformdata,business})
         setCurrentStep(1);
         setCurrentTab(1);
 
@@ -26,7 +26,7 @@ const AddBusinessUnitPage = () => {
         // alert("hello");
         setFormData(prevData => ({ ...prevData, owner: Ownerdata }));
         setAllFormdata({...allformdata,Ownerdata})
-        setCurrentStep(1);
+        setCurrentStep(2);
         setCurrentTab(1);
     }
 
@@ -35,8 +35,8 @@ const AddBusinessUnitPage = () => {
         // alert("hello");
         setFormData(prevData => ({ ...prevData, license: licencedata }));
         setAllFormdata({...allformdata,licencedata})
-        setCurrentTab(1);
-        setCurrentStep(1);
+        setCurrentTab(2);
+        setCurrentStep(2);
     }
   
 
@@ -72,7 +72,7 @@ console.log(">>>>>>>>>>>>>currentstep",currentStep);
     return (
         <Layout>
             <h2 className="text-3xl  font-bold text-gray-700 mb-6 text-center">Add New Business Unit</h2>
-            <StepProgressBar currentStep={currentStep} />
+            <StepProgressBar currentStep={currentStep} currentTab={currentTab} />
             <div className="bg-white p-8 rounded-lg shadow-xl">
                 {renderStepContent()}
             </div>

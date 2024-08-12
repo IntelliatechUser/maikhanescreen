@@ -22,15 +22,16 @@ const LicenseTabForm = ({ onSubmitLicence }) => {
     };
 
     const validationSchema = Yup.object({
-         licenseNumber: Yup.string().required('License Number is required'),
+        licenseNumber: Yup.string().required('License Number is required'),
         // validFrom: Yup.date().required('Valid From is required'),
         // validUpto: Yup.date().required('Valid Upto is required'),
         // licenseCategory: Yup.string().required('License Category/Type Name is required'),
         // issuingAuthority: Yup.string().required('License Issuing Authority is required'),
         // licenseOwner: Yup.string().required('License Owner details are required'),
-        // licenseCertificate: Yup.mixed().required('Liquor Service License Certificate is required'),
+         licenseCertificate: Yup.mixed().required('Liquor Service License Certificate is required'),
     });
     const handleFileChange = (event, setFieldValue, fieldName) => {
+ 
         console.log(">>>>>>>", fieldName);
         const file = event.currentTarget.files[0];
         console.log(">>>>>>>>>>licenceform licence certificate", file);
@@ -44,7 +45,7 @@ const LicenseTabForm = ({ onSubmitLicence }) => {
             validationSchema={validationSchema}
             onSubmit={async (values) => {
 
-                
+
                 let submitforregistration = document.activeElement.id
                 if ("submitforregistration" == submitforregistration) {
                     // alert("running");
@@ -113,8 +114,9 @@ const LicenseTabForm = ({ onSubmitLicence }) => {
                     //     licenseOwner: 'licenseOwner',
                     //     licenseCertificate: null,
                     //   },
-                    console.log(">>>>>>>>>>>>>>>>>>values.From",values?.validFrom);
-                    console.log(">>>>>>>>>>>>>>>>>>values.validUpto",values?.validUpto);
+                    console.log(">>>>>>>>>>>>>>>>>>values.From", values?.validFrom);
+                    console.log(">>>>>>>>>>>>>>>>>>values.validUpto", values?.validUpto);
+                
                     let merchantsignup = {
                         businessUnitDetailDto: {
                             "unitName": unitDetails?.unitName,
@@ -123,7 +125,7 @@ const LicenseTabForm = ({ onSubmitLicence }) => {
                             "email": businessDetails?.email,
                             "isEmail": true,
                             "contactNoType": businessDetails?.contact,
-                            "contact_no": businessDetails?.mobileNumber || businessDetails?.landlineNumber ,
+                            "contact_no": businessDetails?.mobileNumber || businessDetails?.landlineNumber,
                             "isContactNo": true,
                             "registerCountry": unitDetails?.unitRegistrationCountry,
                             "society": "Beachside",
@@ -132,7 +134,7 @@ const LicenseTabForm = ({ onSubmitLicence }) => {
                             "shopFor": ["Accommodation", "Dining", "Tours"],
                             "shopCategory": unitDetails?.shopCategory,
                             "openTime": unitDetails?.openTime,
-                            "closeTime":unitDetails?.closeTime ,
+                            "closeTime": unitDetails?.closeTime,
                             "paymentMode": ["Credit Card", "Debit Card", "Cash", "Online Payment"],
                             "photoIdType": "Passport",
                             "photoIdNo": "P987654321",
@@ -145,84 +147,84 @@ const LicenseTabForm = ({ onSubmitLicence }) => {
                             "postalCode": "20222",
                             "gpsLocation": "4.1755, 73.5094",
                             "postalAddress": businessDetails?.zipCode,
-                            
+
                             "users": [
-                              {
-                                "name": ownerDetails?.name,
-                                "mobileNo": ownerDetails?.mobileNumber || ownerDetails?.landlineNumber,
-                                "isNoVerified": true,
-                                "contactNoType": ownerDetails?.contact,
-                                "dateOfBirth": ownerDetails?.dob,
-                                "email": ownerDetails?.email,
-                                "isEmail": true,
-                                "idType":  ownerDetails?.idType,
-                                "documentNo": ownerDetails?.idDocumentNumber,
-                                "isDocVerified": true,
-                                "status": "Active",
-                                "role": "Owner",
-                                "designation":ownerDetails?.designation
-                            }
-                            //   },
-                            //   {
-                            //     "name": "Jane Smith",
-                            //     "mobileNo": "0987654321",
-                            //     "isNoVerified": false,
-                            //     "contactNoType": "Mobile",
-                            //     "dateOfBirth": "1990-05-22",
-                            //     "email": "jane.smith@oceanviewresort.com",
-                            //     "isEmail": true,
-                            //     "idType": "Driver's License",
-                            //     "documentNo": "DL98765432",
-                            //     "isDocVerified": false,
-                            //     "status": "Pending",
-                            //     "role": "Owner"
-                            //   }
+                                {
+                                    "name": ownerDetails?.name,
+                                    "mobileNo": ownerDetails?.mobileNumber || ownerDetails?.landlineNumber,
+                                    "isNoVerified": true,
+                                    "contactNoType": ownerDetails?.contact,
+                                    "dateOfBirth": ownerDetails?.dob,
+                                    "email": ownerDetails?.email,
+                                    "isEmail": true,
+                                    "idType": ownerDetails?.idType,
+                                    "documentNo": ownerDetails?.idDocumentNumber,
+                                    "isDocVerified": true,
+                                    "status": "Active",
+                                    "role": "Owner",
+                                    "designation": ownerDetails?.designation
+                                }
+                                //   },
+                                //   {
+                                //     "name": "Jane Smith",
+                                //     "mobileNo": "0987654321",
+                                //     "isNoVerified": false,
+                                //     "contactNoType": "Mobile",
+                                //     "dateOfBirth": "1990-05-22",
+                                //     "email": "jane.smith@oceanviewresort.com",
+                                //     "isEmail": true,
+                                //     "idType": "Driver's License",
+                                //     "documentNo": "DL98765432",
+                                //     "isDocVerified": false,
+                                //     "status": "Pending",
+                                //     "role": "Owner"
+                                //   }
                             ],
                             "currencies": [
-                              {
-                                "currencyAccepted": unitDetails?.acceptedCurrency,
-                                "country": unitDetails?.unitRegistrationCountry
-                              },
-                              {
-                                "currencyAccepted": "MVR",
-                                "country": "Maldives"
-                              }
+                                {
+                                    "currencyAccepted": unitDetails?.acceptedCurrency,
+                                    "country": unitDetails?.unitRegistrationCountry
+                                },
+                                {
+                                    "currencyAccepted": "MVR",
+                                    "country": "Maldives"
+                                }
                             ],
                             "members": [
-                              {
-                                "name": "Alice Brown",
-                                "email": "alice.brown@oceanviewresort.com",
-                                "dateOfBirth": "1985-03-30",
-                                "designation": "General Manager",
-                                "contactNo": "1231231235"
-                              },
-                              {
-                                "name": "Bob White",
-                                "email": "bob.white@oceanviewresort.com",
-                                "dateOfBirth": "1988-11-05",
-                                "designation": "Head Chef",
-                                "contactNo": "3213214328"
-                              }
+                                {
+                                    "name": "Alice Brown",
+                                    "email": "alice.brown@oceanviewresort.com",
+                                    "dateOfBirth": "1985-03-30",
+                                    "designation": "General Manager",
+                                    "contactNo": "1231231235"
+                                },
+                                {
+                                    "name": "Bob White",
+                                    "email": "bob.white@oceanviewresort.com",
+                                    "dateOfBirth": "1988-11-05",
+                                    "designation": "Head Chef",
+                                    "contactNo": "3213214328"
+                                }
                             ],
                             "licenseDto": [
-                              {
-                                "licenseCategory": values?.licenseCategory,
-                                "licenseNo": values?.licenseNumber,
-                                 "validFrom": values?.validFrom,
-                                 "validTo": values?.validUpto,
-                                // "validFrom":  "2023-01-01",
-                                // "validTo": "2025-01-01",
-                                "issuingAuthority": values?.issuingAuthority,
-                               
-                                "ownerDetail": values?.licenseOwner
-                              }
+                                {
+                                    "licenseCategory": values?.licenseCategory,
+                                    "licenseNo": values?.licenseNumber,
+                                    "validFrom": values?.validFrom,
+                                    "validTo": values?.validUpto,
+                                    // "validFrom":  "2023-01-01",
+                                    // "validTo": "2025-01-01",
+                                    "issuingAuthority": values?.issuingAuthority,
+
+                                    "ownerDetail": values?.licenseOwner
+                                }
                             ]
-                          },
+                        },
                         logo: businessDetails.businessLogo,
                         uploadGst: businessDetails.gstdocument,
                         uploadCin: businessDetails.cindocument,
-                        uploadpan:businessDetails.pandocument,
-                        certificate: licenseForm.licenseCertificate,
+                        uploadpan: businessDetails.pandocument,
+                        certificate: values.licenseCertificate,
 
 
                     }
@@ -230,8 +232,8 @@ const LicenseTabForm = ({ onSubmitLicence }) => {
 
 
                     let token = localStorage.getItem("token");
-                   
-                    if (!(businessDetails.businessLogo instanceof File) || !(businessDetails.gstdocument instanceof File) || !(businessDetails.cindocument instanceof File) || !(licenseForm.licenseCertificate instanceof File)) {
+
+                    if (!(businessDetails.businessLogo instanceof File) || !(businessDetails.gstdocument instanceof File) || !(businessDetails.cindocument instanceof File) || !(values.licenseCertificate instanceof File)) {
                         console.error('One or more files are not valid File objects');
                         return;
                     }
@@ -244,19 +246,19 @@ const LicenseTabForm = ({ onSubmitLicence }) => {
                     formData.append('uploadGst', businessDetails.gstdocument);
                     formData.append('uploadCin', businessDetails.cindocument);
                     formData.append('uploadPan', businessDetails.pandocument);
-                    formData.append('certificate', licenseForm.licenseCertificate);
+                    formData.append('certificate', values.licenseCertificate);
                     // alert("api runs1");
                     try {
                         const response = await axios.post('http://43.204.36.147:8067/businessController/registerBusiness', formData, {
                             headers: {
-                                 'Accept': 'application/json, text/plain, */*',
+                                'Accept': 'application/json, text/plain, */*',
                                 // 'Accept-Language': 'en-US,en;q=0.9',
                                 'Authorization': `Bearer ${token}`,
                                 // 'Connection': 'keep-alive',
-                             
+
                                 // 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36',
-                                 'Content-Type': 'multipart/form-data'
-                              },
+                                'Content-Type': 'multipart/form-data'
+                            },
                         });
                         // alert("api runs2");
                         console.log('File uploaded successfully', response.data);
@@ -271,10 +273,12 @@ const LicenseTabForm = ({ onSubmitLicence }) => {
                     }
 
 
-                } else {
-                    setLicenseForm(values);
-                    onSubmitLicence(values);
                 }
+                // else {
+                   
+                //     // setLicenseForm(values);
+                //     onSubmitLicence(values);
+                // }
             }}
         >
             {({ setFieldValue, values }) => (
@@ -291,7 +295,7 @@ const LicenseTabForm = ({ onSubmitLicence }) => {
                                         className="w-full p-3 border border-customOrange outline-none rounded"
                                         placeholder='ABCDESZ3245'
                                     />
-                                    <ErrorMessage name="licenseNumber" component="div" className="text-red-500 text-xs mt-1" />
+                                    <ErrorMessage name="licenseNumber" component="div" className="text-darkred text-sm font-medium" />
                                 </div>
                                 <div className="grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
                                     <div className='flex items-center justify-between w-full gap-2 mt-5'>
@@ -302,7 +306,7 @@ const LicenseTabForm = ({ onSubmitLicence }) => {
                                                 name="validFrom"
                                                 className="w-full p-3 border border-customOrange outline-none rounded"
                                             />
-                                            <ErrorMessage name="validFrom" component="div" className="text-red-500 text-xs mt-1" />
+                                            <ErrorMessage name="validFrom" component="div" className="text-darkred text-sm font-medium" />
                                         </div>
                                         <div className='flex flex-col gap'>
                                             <label className="block text-gray-700 mb-2" htmlFor="validUpto">Valid Upto</label>
@@ -311,23 +315,13 @@ const LicenseTabForm = ({ onSubmitLicence }) => {
                                                 name="validUpto"
                                                 className="w-full p-3 border border-customOrange outline-none rounded"
                                             />
-                                            <ErrorMessage name="validUpto" component="div" className="text-red-500 text-xs mt-1" />
+                                            <ErrorMessage name="validUpto" component="div" className="text-darkred text-sm font-medium" />
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div className="grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                <div>
-                                    <label className="block text-gray-700 mb-2" htmlFor="licenseCategory">License Category/Type Name</label>
-                                    <Field
-                                        type="text"
-                                        name="licenseCategory"
-                                        className="w-full p-3 border border-customOrange outline-none rounded"
-                                        placeholder='Describe The License Category Type'
-                                    />
-                                    <ErrorMessage name="licenseCategory" component="div" className="text-red-500 text-xs mt-1" />
-                                </div>
-                                <div className='mt-5'>
+                        
                                     <label className="block text-gray-700 mb-2" htmlFor="issuingAuthority">License Issuing Authority</label>
                                     <div className="flex items-center mt-1">
                                         <Field
@@ -337,12 +331,26 @@ const LicenseTabForm = ({ onSubmitLicence }) => {
                                             placeholder="Enter the Name of Issuing Authority"
                                         />
                                         <Field as="select" name="issuingAuthorityCountry" className="p-3 border border-customOrange outline-none rounded ml-2 block">
+                                        <option value="">Select Country</option>
+                                            
                                             <option value="IND">IND</option>
                                             {/* Add more options as needed */}
                                         </Field>
                                     </div>
-                                    <ErrorMessage name="issuingAuthority" component="div" className="text-red-500 text-xs mt-1" />
-                                </div>
+                                    <ErrorMessage name="issuingAuthority" component="div" className="text-darkred text-sm font-medium" />
+                               
+                                    <div className='mt-5'>
+                                <label className="block text-gray-700 mb-2" htmlFor="licenseCertificate">Liquor Service License Certificate</label>
+
+                                <input
+                                    type="file"
+                                    name="licenseCertificate"
+                                    accept=".pdf"
+                                    onChange={(event) => handleFileChange(event, setFieldValue, "licenseCertificate")}
+                                    className="w-full p-3 border border-customOrange outline-none rounded"
+                                />
+                                <ErrorMessage name="licenseCertificate" component="div" className="text-darkred text-sm font-medium" />
+                            </div>
                             </div>
                             <div className="grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
                                 <label className="block text-gray-600 mb-2">License Owner Details</label>
@@ -353,7 +361,7 @@ const LicenseTabForm = ({ onSubmitLicence }) => {
                                         value="licenseOwner"
                                         checked={values.licenseOwner === 'licenseOwner'}
                                         onChange={() => setFieldValue('licenseOwner', 'licenseOwner')}
-                                        label={`License Ownership is with Business Organization Business organization : Name goes here`}
+                                        label={`License Ownership is with Business Organization Business organization`}
                                     />
                                     <CustomRadioButton
                                         id="ownerGroupMember"
@@ -361,7 +369,7 @@ const LicenseTabForm = ({ onSubmitLicence }) => {
                                         value="ownerGroupMember"
                                         checked={values.licenseOwner === 'ownerGroupMember'}
                                         onChange={() => setFieldValue('licenseOwner', 'ownerGroupMember')}
-                                        label={'License Ownership is with Owner-Group Member Owner-Group Member : Name goes here '}
+                                        label={'License Ownership is with Owner-Group Member Owner-Group Member'}
                                     />
                                     <CustomRadioButton
                                         id="thirdParty"
@@ -371,27 +379,14 @@ const LicenseTabForm = ({ onSubmitLicence }) => {
                                         onChange={() => setFieldValue('licenseOwner', 'thirdParty')}
                                         label="License Ownership is with Third-Party"
                                     />
-                                    <ErrorMessage name="licenseOwner" component="div" className="text-red-500 text-xs mt-1" />
+                                    <ErrorMessage name="licenseOwner" component="div" className="text-darkred text-sm font-medium" />
                                 </div>
                             </div>
                         </div>
-                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
-                            <div className='mt-5'>
-                                <label className="block text-gray-700 mb-2" htmlFor="licenseCertificate">Liquor Service License Certificate</label>
-
-                                <input
-                                    type="file"
-                                    name="licenseCertificate"
- accept=".pdf"
-                                    onChange={(event) => handleFileChange(event, setFieldValue, "licenseCertificate")}
-                                    className="w-full p-3 border border-customOrange outline-none rounded"
-                                />
-                                <ErrorMessage name="licenseCertificate" component="div" className="text-red-500 text-xs mt-1" />
-                            </div>
-                        </div>
+                     
                         <div className="flex justify-between"><button
-                            type="submit"
-                            className="mt-4 py-2 px-4 bg-[#FF9F08] text-white rounded-md"
+                            type="button"
+                            className="mt-4 py-2 px-4 bg-[#FF9F08] text-white rounded-md"  onClick={()=>onSubmitLicence(values)}
                         >
                             Back
                         </button>

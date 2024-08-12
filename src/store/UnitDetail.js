@@ -1,7 +1,7 @@
 import create from 'zustand';
 
 const useStore = create((set) => ({
-  allformdata:{},
+  allformdata: {},
   setAllFormdata: (allformdata) => set({ allformdata }),
   unitDetails: {
     unitRegistrationCountry: "",
@@ -18,7 +18,9 @@ const useStore = create((set) => ({
     contactType: "mobile",
     contactNumber: "",
     paymentMode: "cash",
-   
+    mobileNumber: "",
+    shopFor: []
+
   },
   setUnitDetails: (data) => set((state) => ({
     unitDetails: { ...state.unitDetails, ...data }
@@ -38,10 +40,10 @@ const useStore = create((set) => ({
     email: '',
     mobileNumber: '',   // Updated field name
     contact: 'mobile',
-    landlineNumber: '' , 
-    gstdocument: null, 
-    cindocument: null, 
-    pandocument: null, 
+    landlineNumber: '',
+    gstdocument: null,
+    cindocument: null,
+    pandocument: null,
   },
   setBusinessDetails: (data) => set((state) => ({
     businessDetails: { ...state.businessDetails, ...data }

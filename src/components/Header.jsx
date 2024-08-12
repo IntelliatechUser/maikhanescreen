@@ -263,7 +263,7 @@
 
 // export default Header;
 import React, { useState, useEffect } from "react";
-import logo from "../assets/logo/logo.png";
+import logo from "../assets/logobyclient/maikhane.jpg";
 import useAuthStore from "../store/useAuthStore";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from 'react-router-dom';
@@ -306,6 +306,8 @@ const Header = () => {
 
     setUser({});
     localStorage.removeItem("token");
+    localStorage.removeItem("mobileverify");
+    localStorage.removeItem("emailverify");
     localStorage.removeItem("profile");
     setProfileName(null);
     setRoleName(null);

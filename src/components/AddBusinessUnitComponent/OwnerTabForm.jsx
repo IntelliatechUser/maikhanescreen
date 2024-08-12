@@ -8,22 +8,29 @@ import OTPModal from '../../CommonComponents/Modal';
 import useStore from "../../store/UnitDetail";
 import axios from 'axios';
 import businessLogicStore from "../../store/BusinessLogicStore"
+import localStorageUtil from "../../utility/utility";
+
 // Validation schema using Yup
 const validationSchema = Yup.object({
     // idType: Yup.string().required('Required'),
     // idDocumentNumber: Yup.string().required('Required'),
     // name: Yup.string().required('Required'),
     // dob: Yup.string().required('Required'),
-    // email: Yup.string().required('Required'),
+    email: Yup.string().required('Required'),
     // designation: Yup.string().required('Required'),
-    // mobile: Yup.string().required('Required'),
+     mobileNumber: Yup.string().required('Required'),
 });
 
 const OwnerTabForm = ({ onSubmitOwner }) => {
+    const [modalfor, setModalFor] = useState("");
+    const [verify, setVerify] = useState("Verify");
+    const [isModalOpen, setIsModalOpen] = React.useState(false);
+    const [isModalOpenMobileEmail, setIsModalOpenMobileEmail] = React.useState(false);
+
 
     const { ownerDetails, setOwnerDetails } = useStore();
     const [selectedValue, setSelectedValue] = React.useState('mobile');
-    const [isModalOpen, setIsModalOpen] = React.useState(false);
+
     const [otpSubmitted, setOtpSubmitted] = useState(false);
     const [referenceId, setReferenceId] = useState("");
     const [transactionId, setTransactionId] = useState("");
@@ -57,6 +64,7 @@ const OwnerTabForm = ({ onSubmitOwner }) => {
                 // setReferenceId(reference_id);
                 // setTransactionId(transaction_id);
                 setIsModalOpen(true);
+
             }
         } catch (error) {
             console.error('Error fetching document details:', error);
@@ -64,12 +72,98 @@ const OwnerTabForm = ({ onSubmitOwner }) => {
     };
 
     const handleCloseModal = () => {
+
         setIsModalOpen(false);
         // Reset OTP verification state
         setReferenceId("");
         setTransactionId("");
         setUseCase("");
         setDocumentId("");
+    };
+    const getOtp = async (cred = "mobileNumber", values, actions, setFieldValue) => {
+        let params;
+        setIsModalOpenMobileEmail(true);
+        if (cred == "email") {
+            setModalFor(cred)
+            params = {
+
+                email: values.email
+            }
+        } else {
+            setModalFor("mobileNumber")
+            params = {
+                countryCode: "+91",
+                mobileNumber: values.mobileNumber
+            }
+        }
+        try {
+            let token = localStorage.getItem("token");
+            const response = await axios.get('http://43.204.36.147:8067/otp/generateOtpForUser', {
+                params,
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+
+
+
+
+
+        } catch (error) {
+            console.error('Error in getting otp', error);
+        }
+    };
+    const handleVerifyOtp = async (actions, otp, values) => {
+        let params;
+        if (modalfor == "email") {
+            params =
+            {
+                email: values.email,
+                otp: otp
+            }
+
+        } else {
+            params =
+            {
+                mobileNumber: values.mobileNumber,
+                otp: otp
+            }
+        }
+        let token = localStorage.getItem("token");
+        try {
+            const response = await axios.post(
+                'http://43.204.36.147:8067/otp/validateOtpForUser',
+                params,
+                {
+                    headers: { Authorization: `Bearer ${token}` }
+                }
+            );
+            const data = response?.data;
+            console.log(">>>>>>>>>>>>responseData", data.status);
+            if (data.status == 200) {
+
+                if (modalfor == "email") {
+                    setVerify("Email is Verified");
+                    localStorageUtil.setItem("emailverifyowner", "Email is Verified")
+                } else {
+                    setVerify("Mobile is Verified");
+                    localStorageUtil.setItem("mobileverifyowner", "Mobile is Verified")
+                }
+
+            }
+
+
+
+        } catch (error) {
+            console.error("Error verifying OTP:", error);
+        } finally {
+            setIsModalOpenMobileEmail(false);
+        }
+
+
+
+
     };
 
     const handleSubmitOTP = async (actions, otp, idDocumentNumber) => {
@@ -136,17 +230,19 @@ const OwnerTabForm = ({ onSubmitOwner }) => {
                 onSubmit={(values, actions) => {
                     let savebutton = document.activeElement.id
                     if (savebutton == "ownerdatasave") {
-                       
+
                         setOwnerDetails(values);
                         let tab = currentTab;
                         setCurrentTab(tab + 1)
-                    } else {
-                        console.log('Form submitted with values:', values);
-                        onSubmitOwner(values);
-                        // let tab=currentTab;
-                        // setCurrentTab(tab-1);
-                        setOwnerDetails(values);
+
                     }
+                    // else {
+                    //     console.log('Form submitted with values:', values);
+                    //      onSubmitOwner(values);
+                    //     // let tab=currentTab;
+                    //     // setCurrentTab(tab-1);
+                    //     // setOwnerDetails(values);
+                    // }
                     // if (otpSubmitted) {
                     //     actions.setSubmitting(false);
                     // }
@@ -178,7 +274,7 @@ const OwnerTabForm = ({ onSubmitOwner }) => {
             >
                 {({ errors, touched, values, setFieldValue, setValues, validateForm }) => (
                     <Form>
-                        <div className="grid md:grid-cols-[60%_40%] gap-6 mb-6">
+                        <div className="grid md:grid-cols-2 gap-6 mb-6 w-[72%] ">
                             <div>
                                 <label className="block text-gray-600 mb-2">Photo Id Type</label>
                                 <Field as="select" name="idType" className="w-full p-3 border border-customOrange outline-none rounded" onClick={() => {
@@ -190,12 +286,12 @@ const OwnerTabForm = ({ onSubmitOwner }) => {
                                     <option value="AADHAR_REQUEST_OTP">Aadhar</option>
                                     {/* <option value="DIL">Driving Licence</option> */}
                                 </Field>
-                                {errors.idType && touched.idType && <div className="text-red-600">{errors.idType}</div>}
+                                {errors.idType && touched.idType && <div className="text-darkred text-sm font-medium">{errors.idType}</div>}
                             </div>
                             <div>
                                 <label className="block text-gray-600 mb-2">Photo Id Document/Certificate Number</label>
-                                <div className="flex">
-                                    <Field type="text" name="idDocumentNumber" className="w-full p-3 border border-customOrange outline-none rounded" placeholder="HGEU49660T" />
+                                <div className="flex ">
+                                    <Field type="text" name="idDocumentNumber" className="w-full p-3 border border-customOrange outline-none rounded " placeholder="HGEU49660T" />
                                     {values.idType === 'AADHAR_REQUEST_OTP' ? (
                                         <button
                                             type="button"
@@ -214,7 +310,7 @@ const OwnerTabForm = ({ onSubmitOwner }) => {
                                         </button>
                                     )}
                                 </div>
-                                {errors.idDocumentNumber && touched.idDocumentNumber && <div className="text-red-600">{errors.idDocumentNumber}</div>}
+                                {errors.idDocumentNumber && touched.idDocumentNumber && <div className="text-darkred text-sm font-medium">{errors.idDocumentNumber}</div>}
                             </div>
                         </div>
 
@@ -230,27 +326,27 @@ const OwnerTabForm = ({ onSubmitOwner }) => {
                             <div className="grid md:grid-cols-2 gap-6">
                                 <div>
                                     <Field type="text" name="name" className="w-full p-3 border border-customOrange outline-none rounded" placeholder="Name" disabled={true} />
-                                    {errors.name && touched.name && <div className="text-red-600">{errors.name}</div>}
+                                    {errors.name && touched.name && <div className="text-darkred text-sm font-medium">{errors.name}</div>}
                                 </div>
                                 <div>
                                     <Field type="text" name="designation" className="w-full p-3 border border-customOrange outline-none rounded" placeholder="Designation" />
-                                    {errors.designation && touched.designation && <div className="text-red-600">{errors.designation}</div>}
+                                    {errors.designation && touched.designation && <div className="text-darkred text-sm font-medium">{errors.designation}</div>}
                                 </div>
                                 <div>
                                     <Field type="text" name="dob" className="w-full p-3 border border-customOrange outline-none rounded" placeholder="Date of Birth" />
-                                    {errors.dob && touched.dob && <div className="text-red-600">{errors.dob}</div>}
+                                    {errors.dob && touched.dob && <div className="text-darkred text-sm font-medium">{errors.dob}</div>}
                                 </div>
                                 <div>
                                     <div className="flex">
                                         <Field type="email" name="email" className="w-full p-3 border border-customOrange outline-none rounded" placeholder="Email" />
                                         {/* <button type="button" className="ml-2 text-[#FF9F08] py-2 px-4">Verify</button> */}
                                     </div>
-                                    {errors.email && touched.email && <div className="text-red-600">{errors.email}</div>}
+                                    {errors.email && touched.email && <div className="text-darkred text-sm font-medium">{errors.email}</div>}
                                 </div>
                             </div>
                             <div>
                                 <label className="block text-gray-600 mb-2">Owner Member Contact Number</label>
-                                <div className="flex flex-col lg:items-center">
+                                <div className="flex items-center">
                                     <div className="flex flex-col lg:flex-row gap-2 lg:gap-0">
                                         <CustomRadioButton
                                             id="mobile"
@@ -289,9 +385,43 @@ const OwnerTabForm = ({ onSubmitOwner }) => {
                                                     <option>USA +1</option>
                                                     <option>UK +44</option>
                                                 </Field>
-                                                <Field type="text" name="mobileNumber" className="w-full p-3 border border-customOrange outline-none rounded" placeholder="Mobile Number" />
-                                                {/* <button type="button" className="ml-2 py-3 px-6 text-[#FF9F08]">Verify Number</button> */}
+                                                <Field type="text" name="mobileNumber" className="w-full p-3 border border-customOrange outline-none rounded" placeholder="Mobile Number"
+
+
+                                                    // disabled={localStorageUtil.getItem("mobileverifyowner") == "Mobile is Verified" ? true : false}
+                                                />
+                                                {localStorageUtil.getItem("mobileverifyowner") !== "Mobile is Verified" ? <button type="button" className=" pl-0 lg:py-3 lg:px-6 text-[#FF9F08]" onClick={(event) => {
+
+
+                                                    getOtp("mobileNumber", values, { setValues }, setFieldValue)
+
+
+
+
+                                                }
+
+
+
+
+                                                }
+
+
+                                                >
+                                                    Verify
+                                                </button> :
+
+
+                                                    <button type="button" className=" pl-0 lg:py-3 lg:px-6 text-[#FF9F08]"
+
+
+
+                                                    >
+                                                        MobileNumber is Verified
+                                                    </button>}
                                             </div>
+                                          
+                                            {errors.mobileNumber && touched.mobileNumber && <div className="text-darkred text-sm font-medium">{errors.mobileNumber}</div>}
+                                        
                                         </div>
                                     )}
 
@@ -324,23 +454,23 @@ const OwnerTabForm = ({ onSubmitOwner }) => {
                                     )}
                                 </div>
                             </div>
-                          
+
                         </div>
                         <div className='flex justify-between'> <button
-                                type="submit"
-                                className="w-fit mt-4 py-2 px-4 bg-[#FF9F08] text-white rounded-md"
-                            >
-                                Back
-                            </button>
+                            type="button"
+                            className="w-fit mt-4 py-2 px-4 bg-[#FF9F08] text-white rounded-md"  onClick={()=>onSubmitOwner(values)}
+                        >
+                            Back
+                        </button>
                             <button
                                 type="submit" id="ownerdatasave"
                                 className="mt-6 p-3 bg-customOrange text-white rounded"
-                                // onClick={() => {
+                            // onClick={() => {
 
-                                //     let tab = currentTab;
-                                //     setCurrentTab(tab + 1)
+                            //     let tab = currentTab;
+                            //     setCurrentTab(tab + 1)
 
-                                // }}
+                            // }}
                             >
                                 Next
                             </button></div>
@@ -348,6 +478,12 @@ const OwnerTabForm = ({ onSubmitOwner }) => {
                             isOpen={isModalOpen}
                             onClose={handleCloseModal}
                             onSubmitOTP={(otp) => handleSubmitOTP({ setValues, validateForm, setFieldValue }, otp, values.idDocumentNumber)}
+                        />
+
+                        <OTPModal
+                            isOpen={isModalOpenMobileEmail}
+                            onClose={()=>{setIsModalOpenMobileEmail(false)}}
+                            onSubmitOTP={(otp) => handleVerifyOtp({ setValues, validateForm, setFieldValue }, otp, values)}
                         />
                     </Form>
                 )}
