@@ -639,7 +639,9 @@ const UnitDetails = ({ onNext }) => {
 	const [category, setCategorySelected] = useState("Select Category");
 	const [verify, setVerify] = useState("");
 	const [isModalOpen, setIsModalOpen] = React.useState(false);
+	
 	const { unitDetails, setUnitDetails } = useStore();
+	const [shopFor,setShopFor]=useState(unitDetails.shopFor);
 	const [selectedValue, setSelectedValue] = React.useState(unitDetails.contactType || "mobile");
 	const [selectedPaymentMode, setSelectedPaymentMode] = React.useState(unitDetails.paymentMode || "cash");
 	const handleRadioChange = (event, setFieldValue) => {
@@ -648,12 +650,17 @@ const UnitDetails = ({ onNext }) => {
 	};
 	const handleCheckboxChange = (event, setFieldValue) => {
 		const { value, checked } = event.target;
-		console.log(">>>>>>>>>>>>unitDetails.shopFor",unitDetails.shopFor);
-        setFieldValue("shopFor", checked
-            ? [...unitDetails.shopFor, value]
-            : unitDetails.shopFor.filter(item => item !== value)
-        );
-		
+		console.log(">>>>>>>>>>>>shopFor",shopFor);
+        let shopsfors=checked
+            ? [...shopFor, value]
+            : shopFor.filter(item => item !== value)
+    
+			setShopFor(shopsfors);
+			setFieldValue("shopFor", checked
+				? [...shopFor, value]
+				: shopFor.filter(item => item !== value)
+			);
+
 	};
 	// const handleVerifyOtp = async (otp) => {
 	// 	try {
@@ -710,7 +717,7 @@ const UnitDetails = ({ onNext }) => {
 			const data = response?.data;
 			console.log(">>>>>>>>>>>>responseData", data.status);
 			if (data.status == 200) {
-				setVerify("Mobile is Verified");
+				setVerify("Mobile Verified");
 				localStorageUtil.setItem("mobileverify", "Mobile is Verified")
 			}
 
@@ -757,6 +764,7 @@ const UnitDetails = ({ onNext }) => {
 			validationSchema={validationSchema}
 			onSubmit={(values) => {
 				console.log(">>>>>>>>>>>>>>>>values.shopFor",values);
+				values.shopFor=[...shopFor];
 				onNext(values);
 				setUnitDetails(values);
 			}}

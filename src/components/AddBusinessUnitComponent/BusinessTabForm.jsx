@@ -174,6 +174,7 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
             onSubmit={(values) => {
                 let savebutton = document.activeElement.id
                 if (savebutton == "businessdatasave") {
+                    console.log(">>>>>>>>>>BusinessDetails",values);
                     setBusinessDetails(values);
                     let tab = currentTab;
                     setCurrentTab(tab + 1)

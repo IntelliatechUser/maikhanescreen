@@ -139,7 +139,7 @@ const LicenseTabForm = ({ onSubmitLicence }) => {
                             "photoIdType": "Passport",
                             "photoIdNo": "P987654321",
                             "legalBusinessName": businessDetails?.legallyRegisteredName,
-                            "country": businessDetails?.businessEntityRegistrationCountry,
+                            "country": businessDetails?.businessEntityRegistrationCountry || "",
                             "address1": businessDetails?.addressLine1,
                             "address2": businessDetails?.addressLine2,
                             "city": businessDetails?.city,
@@ -208,7 +208,7 @@ const LicenseTabForm = ({ onSubmitLicence }) => {
                             ],
                             "licenseDto": [
                                 {
-                                    "licenseCategory": values?.licenseCategory,
+                                    "licenseCategory": values?.licenseCategory || "",
                                     "licenseNo": values?.licenseNumber,
                                     "validFrom": values?.validFrom,
                                     "validTo": values?.validUpto,
@@ -237,7 +237,7 @@ const LicenseTabForm = ({ onSubmitLicence }) => {
                         console.error('One or more files are not valid File objects');
                         return;
                     }
-                    console.log(">>>>>>>>>>>>>merchantsignup.businessUnitDetailDto", merchantsignup.businessUnitDetailDto);
+                    console.log(">>>>>>>>>>>>>merchantsignup", merchantsignup);
 
                     const formData = new FormData();
                     const jsonBlob = new Blob([JSON.stringify(merchantsignup.businessUnitDetailDto)], { type: 'application/json' });
