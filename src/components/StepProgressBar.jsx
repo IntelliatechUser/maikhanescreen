@@ -2,12 +2,12 @@ import React from 'react';
 
 const StepProgressBar = ({ currentStep,currentTab }) => {
     const steps = [
-        { id: 1, name: "Step 1",tab:-1 },
-        { id: 2, name: "Step 2",tab:1 },
-        { id: 2, name: "Step 2" ,tab:2},
+        { id: 2, name: "Step 1",tab:1 },
+        { id: 2, name: "Step 2",tab:2 },
         { id: 2, name: "Step 2" ,tab:3},
+        { id: 2, name: "Step 2" ,tab:4},
     ];
-
+console.log(">>>>>>>>>>>>>>>step counter",currentStep,currentTab);
     return (
         <div className="flex justify-center items-center my-8 gap-0">
             {steps.map((step, index) => (
@@ -17,7 +17,7 @@ const StepProgressBar = ({ currentStep,currentTab }) => {
                         </div>
                     </div>
                     {index < steps.length - 1 && (
-                        <div className={`flex-grow w-[150px] h-1 ${currentStep > step.id ? 'progress-bar-active' : 'progress-bar'}`}></div>
+                        <div className={`flex-grow w-[150px] h-1 ${currentStep >= step.id && currentTab > step.tab ? 'progress-bar-active' : 'progress-bar'}`}></div>
                     )}
                 </div>
             ))}

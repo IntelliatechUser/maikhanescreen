@@ -174,13 +174,12 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
             onSubmit={(values) => {
                 let savebutton = document.activeElement.id
                 if (savebutton == "businessdatasave") {
-                    console.log(">>>>>>>>>>BusinessDetails",values);
+                    console.log(">>>>>>>>>>BusinessDetails", values);
                     setBusinessDetails(values);
                     let tab = currentTab;
                     setCurrentTab(tab + 1)
                 } else {
-                    // setBusinessDetails(values);
-                    // onSubmitBusiness(values);
+
 
 
                 }
@@ -203,7 +202,7 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                     <option value="GST">GST</option>
                                     <option value="CIN">CIN</option>
                                 </Field>
-                                <ErrorMessage name="idType" component="div"  className="text-darkred text-sm font-medium " />
+                                <ErrorMessage name="idType" component="div" className="text-darkred text-sm font-medium " />
                             </div>
                             <div>
                                 <label className="block text-gray-600 mb-2">Photo Id Document/Certificate Number</label>
@@ -222,90 +221,90 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                         Validate
                                     </button>
                                 </div>
-                                <ErrorMessage name="idDocumentNumber" component="div"  className="text-darkred text-sm font-medium " />
+                                <ErrorMessage name="idDocumentNumber" component="div" className="text-darkred text-sm font-medium " />
                             </div>
                         </div>
 
                         <div className="grid md:grid-cols-[60%_40%] gap-6 mb-6   items-stretch">
-                            <div  className="flex flex-col gap-4">
+                            <div className="flex flex-col gap-4">
                                 <div>
-                                <label className="block text-gray-600 mb-2">Legally Registered Name Of Business Entity</label>
-                                <Field
-                                    type="text"
-                                    name="legallyRegisteredName"
-                                    className="w-full p-3 border border-customOrange outline-none rounded"
-                                    placeholder="Legally Registered Name"
-                                />
-                                <ErrorMessage name="legallyRegisteredName" component="div"  className="text-darkred text-sm font-medium " />
-                              </div> <div>  <p className="mt-1 text-xs text-gray-600">
+                                    <label className="block text-gray-600 mb-2">Legally Registered Name Of Business Entity</label>
+                                    <Field
+                                        type="text"
+                                        name="legallyRegisteredName"
+                                        className="w-full p-3 border border-customOrange outline-none rounded"
+                                        placeholder="Legally Registered Name"
+                                    />
+                                    <ErrorMessage name="legallyRegisteredName" component="div" className="text-darkred text-sm font-medium " />
+                                </div> <div>  <p className="mt-1 text-xs text-gray-600">
                                     All The Business Transactions Are Done Against The Name
                                     Of The Business Entity.
                                 </p>
-                                <div className="flex flex-col gap-4">
-                                    <div className="flex gap-4">
-                                        <div className="w-[50%]">
-                                            <Field
-                                                type="text"
-                                                name="addressLine1"
-                                                className="w-full p-3 border border-customOrange outline-none rounded"
-                                                placeholder="Address Line 01"
-                                            />
-                                            <ErrorMessage name="addressLine1" component="div" className="text-red-500 text-xs mt-1" />
+                                    <div className="flex flex-col gap-4">
+                                        <div className="flex gap-4">
+                                            <div className="w-[50%]">
+                                                <Field
+                                                    type="text"
+                                                    name="addressLine1"
+                                                    className="w-full p-3 border border-customOrange outline-none rounded"
+                                                    placeholder="Address Line 01"
+                                                />
+                                                <ErrorMessage name="addressLine1" component="div" className="text-red-500 text-xs mt-1" />
+                                            </div>
+
+                                            <div className="w-[50%]">
+                                                <Field
+                                                    type="text"
+                                                    name="addressLine2"
+                                                    className="w-full p-3 border border-customOrange outline-none rounded"
+                                                    placeholder="Address Line 02"
+                                                />
+                                                <ErrorMessage name="addressLine2" component="div" className="text-darkred text-sm font-medium " />
+                                            </div>
                                         </div>
 
-                                        <div className="w-[50%]">
-                                            <Field
-                                                type="text"
-                                                name="addressLine2"
-                                                className="w-full p-3 border border-customOrange outline-none rounded"
-                                                placeholder="Address Line 02"
-                                            />
-                                            <ErrorMessage name="addressLine2" component="div" className="text-darkred text-sm font-medium " />
+                                        <div className="flex gap-4">
+                                            <div className="w-[50%]">
+                                                <Field
+                                                    type="text"
+                                                    name="city"
+                                                    className="w-full p-3 border border-customOrange outline-none rounded"
+                                                    placeholder="Town/City"
+                                                />
+                                                <ErrorMessage name="city" component="div" className="text-darkred text-sm font-medium " />
+                                            </div>
+                                            <div className="w-[50%]">
+                                                <Field
+                                                    type="text"
+                                                    name="state"
+                                                    className="w-full p-3 border border-customOrange outline-none rounded"
+                                                    placeholder="State/Province/Territory"
+                                                />
+                                                <ErrorMessage name="state" component="div" className="text-darkred text-sm font-medium " />
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <div className="flex gap-4">
-                                        <div className="w-[50%]">
-                                            <Field
-                                                type="text"
-                                                name="city"
-                                                className="w-full p-3 border border-customOrange outline-none rounded"
-                                                placeholder="Town/City"
-                                            />
-                                            <ErrorMessage name="city" component="div"  className="text-darkred text-sm font-medium " />
+                                        <div className="flex gap-4">
+                                            <div className="w-[50%]">
+                                                <Field
+                                                    type="text"
+                                                    name="zipCode"
+                                                    className="w-full p-3 border border-customOrange outline-none rounded"
+                                                    placeholder="Postal Code"
+                                                />
+                                                <ErrorMessage name="zipCode" component="div" className="text-darkred text-sm font-medium " />
+                                            </div>
+                                            <div className="w-[50%]">
+                                                <Field
+                                                    type="text"
+                                                    name="gpsLocation"
+                                                    className="w-full p-3 border border-customOrange outline-none rounded"
+                                                    placeholder="Add GPS Location"
+                                                />
+                                            </div>
                                         </div>
-                                        <div className="w-[50%]">
-                                            <Field
-                                                type="text"
-                                                name="state"
-                                                className="w-full p-3 border border-customOrange outline-none rounded"
-                                                placeholder="State/Province/Territory"
-                                            />
-                                            <ErrorMessage name="state" component="div"  className="text-darkred text-sm font-medium " />
-                                        </div>
-                                    </div>
 
-                                    <div className="flex gap-4">
-                                        <div className="w-[50%]">
-                                            <Field
-                                                type="text"
-                                                name="zipCode"
-                                                className="w-full p-3 border border-customOrange outline-none rounded"
-                                                placeholder="Postal Code"
-                                            />
-                                            <ErrorMessage name="zipCode" component="div" className="text-darkred text-sm font-medium " />
-                                        </div>
-                                        <div className="w-[50%]">
-                                            <Field
-                                                type="text"
-                                                name="gpsLocation"
-                                                className="w-full p-3 border border-customOrange outline-none rounded"
-                                                placeholder="Add GPS Location"
-                                            />
-                                        </div>
-                                    </div>
-
-                                    {/* <div>
+                                        {/* <div>
                                         <label className="block text-gray-600 mb-2">Upload Business Logo</label>
                                         <input
                                             type="file"
@@ -317,20 +316,20 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                         <ErrorMessage name="businessLogo" component="div"  className="text-darkred text-sm font-medium " />
                                     </div> */}
 
-                                </div>
-                                
-                                
-                                
-                              
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                
-                                
+                                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
                                 </div>
                             </div>
 
@@ -351,7 +350,7 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                         />
 
 
-                                        
+
                                             {localStorageUtil.getItem("emailverify") !== "Email is Verified" ? <button type="button" className="ml-2 border border-customOrange text-[#FF9F08] py-2 px-4 rounded-md flex-grow" onClick={(event) => {
 
 
@@ -382,7 +381,7 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                                 </button>}
                                         </div>
                                     </div>
-                                    <ErrorMessage name="email" component="div"  className="text-darkred text-sm font-medium " />
+                                    <ErrorMessage name="email" component="div" className="text-darkred text-sm font-medium " />
                                 </div>
                                 <div>
                                     <label className="block text-gray-600 mb-2" htmlFor="contactNumber">
@@ -472,7 +471,7 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                                 </button>}
 
                                         </div>
-                                        <ErrorMessage name="mobileNumber" component="div"  className="text-darkred text-sm font-medium " />
+                                        <ErrorMessage name="mobileNumber" component="div" className="text-darkred text-sm font-medium " />
                                     </div>
                                 ) : selectedValue === "landline" ? (
                                     <div>
@@ -540,67 +539,67 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                     </div>
                                 )}</div>
 
-                                <ErrorMessage name="contactNumber" component="div"  className="text-darkred text-sm font-medium " />
+                                <ErrorMessage name="contactNumber" component="div" className="text-darkred text-sm font-medium " />
                             </div>
                         </div>
 
-<div className="grid grid-cols-4 gap-2">
-                        <div >
-                                        <label className="block text-gray-600 mb-2">Upload Business Logo</label>
-                                        <input
-                                            type="file"
-                                            name="businessLogo"
-                                            accept=".pdf"
-                                            onChange={(event) => handleFileChange(event, setFieldValue, "businessLogo")}
-                                            className="w-full p-3 border border-customOrange outline-none rounded"
-                                        />
-                                        <ErrorMessage name="businessLogo" component="div"  className="text-darkred text-sm font-medium " />
-                                    </div>
-                                 
-                          
-                                <div>
-                                    <label className="block text-gray-600 mb-2">GST Document Upload</label>
-                                    <div className="flex">
-                                        <input
-                                            type="file"
-                                            name="gstdocument"
-                                            accept=".pdf"
-                                            onChange={(event) => handleFileChange(event, setFieldValue, "gstdocument")}
-                                            className="w-full p-3 border border-customOrange outline-none rounded"
-                                        />
-                                    </div>
-                                    <ErrorMessage name="gstdocument" component="div"  className="text-darkred text-sm font-medium " />
-                                </div>
-                                <div>
-                                    <label className="block text-gray-600 mb-2">CIN Document Upload</label>
-                                    <div className="flex">
-                                        <input
-                                            type="file"
-                                            name="cindocument"
-                                            accept=".pdf"
-                                            onChange={(event) => handleFileChange(event, setFieldValue, "cindocument")}
-                                            className="w-full p-3 border border-customOrange outline-none rounded"
-                                        />
-                                    </div>
-                                    <ErrorMessage name="cindocument" component="div"  className="text-darkred text-sm font-medium " />
-                                </div>
-                                <div>
-                                    <label className="block text-gray-600 mb-2">PAN Document Upload</label>
-                                    <div className="flex">
-                                        <input
-                                            type="file"
-                                            name="pandocument"
-                                            accept=".pdf"
-                                            onChange={(event) => handleFileChange(event, setFieldValue, "pandocument")}
-                                            className="w-full p-3 border border-customOrange outline-none rounded"
-                                        />
-                                    </div>
-                                    <ErrorMessage name="pandocument" component="div"  className="text-darkred text-sm font-medium " />
-                                </div>
-                            
-                        
+                        <div className="grid grid-cols-4 gap-2">
+                            <div >
+                                <label className="block text-gray-600 mb-2">Upload Business Logo</label>
+                                <input
+                                    type="file"
+                                    name="businessLogo"
+                                    accept=".pdf"
+                                    onChange={(event) => handleFileChange(event, setFieldValue, "businessLogo")}
+                                    className="w-full p-3 border border-customOrange outline-none rounded"
+                                />
+                                <ErrorMessage name="businessLogo" component="div" className="text-darkred text-sm font-medium " />
+                            </div>
 
-                      {/* <div> {selectedIdType === "GST" && (
+
+                            <div>
+                                <label className="block text-gray-600 mb-2">GST Document Upload</label>
+                                <div className="flex">
+                                    <input
+                                        type="file"
+                                        name="gstdocument"
+                                        accept=".pdf"
+                                        onChange={(event) => handleFileChange(event, setFieldValue, "gstdocument")}
+                                        className="w-full p-3 border border-customOrange outline-none rounded"
+                                    />
+                                </div>
+                                <ErrorMessage name="gstdocument" component="div" className="text-darkred text-sm font-medium " />
+                            </div>
+                            <div>
+                                <label className="block text-gray-600 mb-2">CIN Document Upload</label>
+                                <div className="flex">
+                                    <input
+                                        type="file"
+                                        name="cindocument"
+                                        accept=".pdf"
+                                        onChange={(event) => handleFileChange(event, setFieldValue, "cindocument")}
+                                        className="w-full p-3 border border-customOrange outline-none rounded"
+                                    />
+                                </div>
+                                <ErrorMessage name="cindocument" component="div" className="text-darkred text-sm font-medium " />
+                            </div>
+                            <div>
+                                <label className="block text-gray-600 mb-2">PAN Document Upload</label>
+                                <div className="flex">
+                                    <input
+                                        type="file"
+                                        name="pandocument"
+                                        accept=".pdf"
+                                        onChange={(event) => handleFileChange(event, setFieldValue, "pandocument")}
+                                        className="w-full p-3 border border-customOrange outline-none rounded"
+                                    />
+                                </div>
+                                <ErrorMessage name="pandocument" component="div" className="text-darkred text-sm font-medium " />
+                            </div>
+
+
+
+                            {/* <div> {selectedIdType === "GST" && (
                             <div className=" gap-6 mb-6">
                                 <div>
                                     <label className="block text-gray-600 mb-2">PAN Document Upload</label>
@@ -690,8 +689,8 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
 
 </div> */}
 
-</div>
-                       
+                        </div>
+
 
                         {/* {selectedIdType === "PAN" && (
                             <div className="grid grid-cols-3 gap-6 mb-6">

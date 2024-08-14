@@ -268,7 +268,9 @@ import useAuthStore from "../store/useAuthStore";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from 'react-router-dom';
 import businessLogicStore from "../store/BusinessLogicStore";
+import useStore from "../store/UnitDetail";
 const Header = () => {
+  const { resetUnitDetails,resetLicenseDetails,resetOwnerDetails, resetBusinessDetails} = useStore();
   const { currentTab, setCurrentTab } = businessLogicStore();
   const location = useLocation();
   const { user, setUser } = useAuthStore();
@@ -305,18 +307,24 @@ const Header = () => {
   const handleLogout = () => {
 
     setUser({});
+    resetUnitDetails();
+    resetLicenseDetails();
+    resetOwnerDetails();
+    resetBusinessDetails();
     localStorage.removeItem("token");
     localStorage.removeItem("mobileverify");
     localStorage.removeItem("emailverify");
     localStorage.removeItem("profile");
     setProfileName(null);
     setRoleName(null);
+    
   };
 
   const handleProfileAction = (event) => {
     if (event.target.value === "logout") {
       setCurrentTab(1);
       handleLogout();
+     
       navigate("/");
     } else if (event.target.value === "profile") {
       window.location.href = "/profile"; // Redirect to profile page

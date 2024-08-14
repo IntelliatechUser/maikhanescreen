@@ -27,3 +27,15 @@ export const BarsOwner = () => {
     </div>
   );
 };
+
+export const HeadingUnitRegisteration = ({
+  img = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvoDpETXEh0BUvReWb7nTOygdv7ZL7Yb5MQA&s",
+  heading = "default text",
+}) => {
+  return (
+    <div className="p-1 flex-1 tablet-small:text-[9px] tablet-big:text-[11px] flex flex-col  items-center ">
+      <div><img  width={150}  src={img} className="rounded h-[90px] mb-2 rounded-3xl" /></div>
+      <p >{heading}</p>
+    </div>
+  );
+};

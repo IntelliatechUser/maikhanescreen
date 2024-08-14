@@ -3,35 +3,47 @@ import BusinessTabForm from "./BusinessTabForm";
 import OwnerTabForm from "./OwnerTabForm";
 import LicenseTabForm from "./LicenseTabForm";
 import TeamTabForm from "./TeamTabForm";
-
-const OwnershipAndLicenceDetails = ({ currentTab, handleTabChange, onSubmitOwner, onSubmitBusiness, onSubmitLicence }) => {
+import UnitDetails from "./UnitDetails";
+import UnitDetailsForm from "./UnitDetailsForm";
+import StepProgressBar from '../../components/StepProgressBar';
+import AddNewBusinessUnitHeader from "../AddNewBusinessUnitHeader";
+const OwnershipAndLicenceDetails = ({ currentTab, handleTabChange, onSubmitOwner, onSubmitBusiness, onSubmitLicence, onSubmitUnitDetail, currentStep }) => {
     return (
         <div>
-            <h3 className="text-2xl font-semi text-gray-700 mb-6 text-center">Ownership and Licence Details</h3>
+            <AddNewBusinessUnitHeader />
+            <StepProgressBar currentStep={currentStep} currentTab={currentTab} />
+            {/* <h3 className="text-2xl font-semi text-gray-700 mb-6 text-center">Ownership and Licence Details</h3> */}
             <div className="flex">
                 <div className={`flex w-full items-center border-gray-200 h-20 rounded-md bg-[#8080801a] justify-between ${currentTab === 4 || currentTab === 2 ? 'w-[80%]' : 'w-full'}`}>
-                    <div><button
-                        // onClick={() => handleTabChange(1)}
-                        className={`py-2 px-6 ${currentTab === 1 ? 'text-[#FF9F08] border-orange-500 font-bold' : 'font-bold text-black'}`}>
-                        Business
-                    </button>
-                    <button
-                        // onClick={() => handleTabChange(2)}
-                        className={`py-2 px-6 ${currentTab === 2 ? 'text-[#FF9F08] border-orange-500 font-bold' : 'font-bold text-black'}`}>
-                        Owner
-                    </button>
-                    <button
-                        // onClick={() => handleTabChange(3)}
-                        className={`py-2 px-6 ${currentTab === 3 ? 'text-[#FF9F08] border-orange-500 font-bold' : 'font-bold text-black'}`}>
-                        License
-                    </button></div>
+                    <div>
+
+                        <button
+                            // onClick={() => handleTabChange(1)}
+                            className={`py-2 px-6 ${currentTab === 1 ? 'text-[#FF9F08] border-orange-500 font-bold' : 'font-bold text-black'}`}>
+                           Unit Details
+                        </button>
+                        <button
+                            // onClick={() => handleTabChange(1)}
+                            className={`py-2 px-6 ${currentTab === 2 ? 'text-[#FF9F08] border-orange-500 font-bold' : 'font-bold text-black'}`}>
+                           Org. Details
+                        </button>
+                        <button
+                            // onClick={() => handleTabChange(2)}
+                            className={`py-2 px-6 ${currentTab === 3 ? 'text-[#FF9F08] border-orange-500 font-bold' : 'font-bold text-black'}`}>
+                            Owner
+                        </button>
+                        <button
+                            // onClick={() => handleTabChange(3)}
+                            className={`py-2 px-6 ${currentTab === 4 ? 'text-[#FF9F08] border-orange-500 font-bold' : 'font-bold text-black'}`}>
+                            License
+                        </button></div>
                     {/* <button
                         // onClick={() => handleTabChange(4)}
                         className={`py-2 px-6 ${currentTab === 4 ? 'text-[#FF9F08] border-orange-500 font-bold' : 'font-bold text-black'}`}>
                         Team
                     </button> */}
 
-                  <div>  {currentTab === 2 ?
+                    <div>  {currentTab === 3 ?
                         <button className="flex items-center text-[#FF9F08] py-2 px-4 rounded-full">
                             <span className="flex items-center justify-center bg-[#FF9F08] font-semibold text-[36px] text-white rounded-full h-10 w-10 p-1 mr-2">+</span>
                             <span className="text-[20px] font-bold">Add Owner</span>
@@ -48,10 +60,11 @@ const OwnershipAndLicenceDetails = ({ currentTab, handleTabChange, onSubmitOwner
             </div>
 
             <div className="mt-6">
-                {currentTab === 1 && <BusinessTabForm onSubmitBusiness={onSubmitBusiness} />}
-                {currentTab === 2 && <OwnerTabForm onSubmitOwner={onSubmitOwner} />}
-                {currentTab === 3 && <LicenseTabForm onSubmitLicence={onSubmitLicence} />}
-                {currentTab === 4 && <TeamTabForm />}
+                {currentTab === 1 && <UnitDetailsForm onSubmitUnitDetail={onSubmitUnitDetail} />}
+                {currentTab === 2 && <BusinessTabForm onSubmitBusiness={onSubmitBusiness} />}
+                {currentTab === 3 && <OwnerTabForm onSubmitOwner={onSubmitOwner} />}
+                {currentTab === 4 && <LicenseTabForm onSubmitLicence={onSubmitLicence} />}
+                {/* {currentTab === 4 && <TeamTabForm />} */}
             </div>
         </div>
     )

@@ -75,9 +75,79 @@ const useStore = create((set) => ({
   setLicenseForm: (form) => set((state) => ({
     licenseForm: { ...state.licenseForm, ...form },
   })),
-
+  resetUnitDetails: () => set(() => ({
+    unitDetails: {
+      unitRegistrationCountry: "",
+      categorySelected: "",
+      ownershipMode: "",
+      unitName: "",
+      subarea: "",
+      locality: "",
+      shopCategory: "",
+      address: "",
+      acceptedCurrency: "",
+      openTime: "09:00",
+      closeTime: "23:45",
+      contactType: "mobile",
+      contactNumber: "",
+      paymentMode: "cash",
+      mobileNumber: "",
+      shopFor: []
+    }
+  })),
+  resetBusinessDetails:()=>set(()=>({
+    businessDetails: {
+      idType: '',
+      idDocumentNumber: '',
+      legallyRegisteredName: '',
+      businessEntityRegistrationCountry: 'India',
+      addressLine1: '',
+      addressLine2: '',
+      city: '',
+      state: '',
+      zipCode: '',
+      gpsLocation: '',
+      businessLogo: null,
+      email: '',
+      mobileNumber: '',   // Updated field name
+      contact: 'mobile',
+      landlineNumber: '',
+      gstdocument: null,
+      cindocument: null,
+      pandocument: null,
+    },
+    
+  })),
+  resetOwnerDetails:()=>set(()=>({
+    ownerDetails: {
+      idType: '',
+      idDocumentNumber: '',
+      name: '',
+      dob: '',
+      email: '',
+      designation: '',
+      mobileNumber: '',   // Updated field name
+      landlineNumber: '', // Updated field name
+      contact: 'mobile',
+    },
+    
+  })),
+  resetLicenseDetails:()=>set(()=>({
+    licenseForm: {
+      licenseNumber: '',
+      validFrom: '',
+      validUpto: '',
+      licenseCategory: '',
+      issuingAuthority: '',
+      issuingAuthorityCountry: 'IND',
+      licenseOwner: 'licenseOwner',
+      licenseCertificate: null,
+    },
+    
+  }))
 
 }));
+
 
 export default useStore;
 

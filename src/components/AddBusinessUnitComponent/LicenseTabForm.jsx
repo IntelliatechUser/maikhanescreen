@@ -22,7 +22,11 @@ const LicenseTabForm = ({ onSubmitLicence }) => {
     };
 
     const validationSchema = Yup.object({
-        licenseNumber: Yup.string().required('License Number is required'),
+        licenseNumber: Yup.string()
+        .required('License Number is required')
+        .matches(/^\d+$/, 'License Number must be only digits')
+        .min(8, 'License Number must be at least 8 digits long')
+        .max(12, 'License Number must be at most 12 digits long'),
         // validFrom: Yup.date().required('Valid From is required'),
         // validUpto: Yup.date().required('Valid Upto is required'),
         // licenseCategory: Yup.string().required('License Category/Type Name is required'),
@@ -274,11 +278,7 @@ const LicenseTabForm = ({ onSubmitLicence }) => {
 
 
                 }
-                // else {
-                   
-                //     // setLicenseForm(values);
-                //     onSubmitLicence(values);
-                // }
+              
             }}
         >
             {({ setFieldValue, values }) => (
