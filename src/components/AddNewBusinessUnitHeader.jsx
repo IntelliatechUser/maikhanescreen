@@ -22,7 +22,7 @@ const AddNewBusinessUnitHeader = () => {
                     setCurrentStep(1)
 
                     setCurrentTab(-1)
-                }} className="w-full py-1 bg-customOrange text-white rounded-3xl w-36">Change</button></div>
+                }} className="py-1 bg-customOrange text-white rounded-3xl w-36">Change</button></div>
                 <div>
                     <div className='grid grid-cols-3 gap-20'>
              

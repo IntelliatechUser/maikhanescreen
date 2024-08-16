@@ -19,7 +19,8 @@ const useStore = create((set) => ({
     contactNumber: "",
     paymentMode: "cash",
     mobileNumber: "",
-    shopFor: []
+    shopFor: [],
+    loadFirsttimeCountry:false
 
   },
   setUnitDetails: (data) => set((state) => ({
@@ -92,7 +93,8 @@ const useStore = create((set) => ({
       contactNumber: "",
       paymentMode: "cash",
       mobileNumber: "",
-      shopFor: []
+      shopFor: [],
+      
     }
   })),
   resetBusinessDetails:()=>set(()=>({

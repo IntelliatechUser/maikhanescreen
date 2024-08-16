@@ -7,9 +7,10 @@ import * as Yup from "yup";
 import CustomRadioButton from "../../CommonComponents/CustomRadioButton";
 import useStore from "../../store/UnitDetail"; // Adjust the import based on your store file location
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 const LicenseTabForm = ({ onSubmitLicence }) => {
     const { licenseForm, setLicenseForm, unitDetails, businessDetails, ownerDetails } = useStore();
-
+const navigate=useNavigate();
     const initialValues = {
         licenseNumber: licenseForm.licenseNumber || '',
         validFrom: licenseForm.validFrom || '',
@@ -266,6 +267,7 @@ const LicenseTabForm = ({ onSubmitLicence }) => {
                         });
                         // alert("api runs2");
                         console.log('File uploaded successfully', response.data);
+                        navigate("/dashboard");
                     } catch (error) {
 
                         if (error.code === 'ERR_NETWORK') {

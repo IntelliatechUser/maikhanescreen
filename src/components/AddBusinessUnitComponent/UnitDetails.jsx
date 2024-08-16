@@ -164,7 +164,7 @@ const UnitDetails = () => {
 	const [ownershipModes, setOwnershipModes] = useState([]);
 
 
-	let countryId = 
+	let countryId =
 		[{
 			name: "India", id: 1
 		},
@@ -180,83 +180,127 @@ const UnitDetails = () => {
 	});
 	let token = localStorage.getItem("token");
 	useEffect(() => {
-	
-	
-		
+
+
+
 		const fetchCountry = async () => {
 			try {
 
 
-				
+
 				const response = await axios.get(`https://api.ipdata.co?api-key=409dc360bfb903547b374aff8050493c124ee2ee9ef26e441d68e3f8`
 
 
-					
+
 				);
-				setCountry(response.data.country_name);
+				if (!unitDetails.loadFirsttimeCountry) {
+					
+					setCountry(response.data.country_name);
+					let object={ ...unitDetails, loadFirsttimeCountry: true, unitRegistrationCountry: response.data.country_name }
+
+					console.log(">>>>>>>>>>>>>>>>>>>>>>,obj",object);
+					setUnitDetails(object)
+
+				} 
+				
+				
+				else {
+					
+					setCountry("");
+				 }
+				// 	let object={ ...unitDetails, loadFirsttimeCountry: true, unitRegistrationCountry: unitDetails.unitRegistrationCountry,ownershipMode:unitDetails.ownershipMode }
+
+				// 	console.log(">>>>>>>>>>>>>>>>>>>>>>,obj",object);
+				// 	setUnitDetails(object)
+					
+				// }
+
+
 			} catch (error) {
 				console.error("Error fetching the country:", error);
 			}
 		};
 
 		const fetchOwnershipModes = async (country) => {
-			
+
 			try {
 
-			
-				let Country =countryId.find((item)=>item.name===country)
-				
+
+				let Country = countryId.find((item) => item.name === country)
+
 				const response = await axios.get(`http://43.204.36.147:8067/api/countries/${Country.id}/ownership-modes`,
 
 
 					{
 						headers: {
-						'Authorization': `Bearer ${token}`
+							'Authorization': `Bearer ${token}`
 						}
 					}
 				);
-				
-				
 
-					
-					
-					setOwnershipModes(response?.data?.data);
+
+
+
+
+				setOwnershipModes(response?.data?.data);
 			} catch (error) {
 				console.error("Error fetching ownership modes:", error);
 			}
 		};
 
 		fetchCountry().then(() => {
-			if (country) {
-				fetchOwnershipModes(country);
+			if (country || unitDetails.unitRegistrationCountry) {
+				
+				fetchOwnershipModes(country || unitDetails.unitRegistrationCountry);
 			}
 		});
 	}, [country]);
 
 	const handleCountryChange = async (e, setFieldValue) => {
 		const selectedCountry = e.target.value;
-		
-		let Country =countryId.find((item)=>item.name==selectedCountry)
-			setFieldValue("unitRegistrationCountry", selectedCountry);
+	let obj2=	{
+			...unitDetails,
+			ownershipMode: "", // Clear ownershipMode in Zustand
+			unitRegistrationCountry: selectedCountry, // Update the country
+		}
+console.log(">>>>>>>>>>>>>>obj2",obj2);
+console.log(">>>>>>country",country);
+		setUnitDetails(obj2);
+		// useStore.getState().setUnitDetails({
+		// 	unitRegistrationCountry: selectedCountry,
+		// 	ownershipMode: "", // Clear ownershipMode
+		// });
+
+		setFieldValue("unitRegistrationCountry", selectedCountry);
+		setFieldValue("ownershipMode", "");
 		if (selectedCountry) {
-       
-			const response = await axios.get("http://43.204.36.147:8067/api/countries/"+Country?.id+"/ownership-modes",
+			let Country = countryId.find((item) => item.name == selectedCountry)
+			const response = await axios.get("http://43.204.36.147:8067/api/countries/" + Country?.id + "/ownership-modes",
 				{
 					headers: {
-					'Authorization': `Bearer ${token}`
+						'Authorization': `Bearer ${token}`
 					}
 				}
 			);
-		
+
 			
+
+			console.log(">>>>>>>>>>>>unitRegistrationCountry", selectedCountry);
 			setOwnershipModes(response.data.data);
-
+			
+			//	handleOwnership(values,setFieldValue);
 
 			
-			// setFieldValue("ownershipMode", "");
+			console.log(">>>>>>>>>>>>>>inside method unitdetails", unitDetails);
+		
 		}
 	};
 
+
+
+	console.log(">>>>>>>>>>>>>>country", country);
+
+	console.log(">>>>>>>>>>>>>>unitdetails", unitDetails);
 	return (
 		<>
 			<div className="grid grid-cols-[55%_45%]">
@@ -267,7 +311,7 @@ const UnitDetails = () => {
 						<HeadingUnitRegisteration heading={"Membership Club"} img={membershipclub} />
 					</div>
 					<div className="grid grid-cols-3">
-					<HeadingUnitRegisteration heading={"Liquor Brand"} img={liquorbrand} />
+						<HeadingUnitRegisteration heading={"Liquor Brand"} img={liquorbrand} />
 						<HeadingUnitRegisteration heading={"Liquor Store"} img={liquorstore} />
 						<HeadingUnitRegisteration heading={"Amusement Park"} img={amusementpark} />
 					</div>
@@ -275,10 +319,10 @@ const UnitDetails = () => {
 				<div>
 					<Formik
 						initialValues={{ ...unitDetails, unitRegistrationCountry: country || unitDetails.unitRegistrationCountry }}
-						enableReinitialize
+						enableReinitialize={true}
 						validationSchema={validationSchema}
 						onSubmit={(values) => {
-						
+							console.log(">>>>>>>>unitdetails>>>>>>>>>>>", values);
 							setUnitDetails(values);
 							setCurrentStep(2);
 							setCurrentTab(1);
@@ -321,7 +365,10 @@ const UnitDetails = () => {
 									<label className="block text-sm text-gray-600 mb-2" htmlFor="ownershipMode">
 										Unit Ownership Mode
 									</label>
-									<Field as="select" name="ownershipMode" className="w-full p-3 border border-customOrange outline-none rounded">
+									<Field as="select" name="ownershipMode" className="w-full p-3 border border-customOrange outline-none rounded"
+									//  onChange={(e)=>handleOwnership(e,setFieldValue)}
+
+									>
 										<option value="">Select Ownership Mode</option>
 										{ownershipModes?.map((item, index) => (
 											<option key={index} value={item.mode}>
