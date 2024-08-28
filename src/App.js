@@ -77,9 +77,11 @@ export default function App() {
      
     </RouterProvider>
     <ToastContainer
+    theme="light"
         position="top-center" // This aligns it at the top-center; custom styles will adjust further.
-        autoClose={5000}
-        hideProgressBar={false}
+        autoClose={2000}
+        hideProgressBar
+        
         newestOnTop={true}
         closeOnClick
         rtl={false}

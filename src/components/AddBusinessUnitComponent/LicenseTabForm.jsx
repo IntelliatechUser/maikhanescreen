@@ -55,6 +55,7 @@ const navigate=useNavigate();
                 if ("submitforregistration" == submitforregistration) {
                     // alert("running");
                     setLicenseForm(values);
+                    
                     // alert("api merchant");
                     console.log(">>>>>>>>>>>>>>>>>>>>>unitDetails", unitDetails);
                     console.log(">>>>>>>>>>>>>>>>>>>>>businessDetails", businessDetails);
@@ -152,39 +153,48 @@ const navigate=useNavigate();
                             "postalCode": "20222",
                             "gpsLocation": "4.1755, 73.5094",
                             "postalAddress": businessDetails?.zipCode,
-
-                            "users": [
-                                {
-                                    "name": ownerDetails?.name,
-                                    "mobileNo": ownerDetails?.mobileNumber || ownerDetails?.landlineNumber,
-                                    "isNoVerified": true,
-                                    "contactNoType": ownerDetails?.contact,
-                                    "dateOfBirth": ownerDetails?.dob,
-                                    "email": ownerDetails?.email,
-                                    "isEmail": true,
-                                    "idType": ownerDetails?.idType,
-                                    "documentNo": ownerDetails?.idDocumentNumber,
-                                    "isDocVerified": true,
-                                    "status": "Active",
-                                    "role": "Owner",
-                                    "designation": ownerDetails?.designation
-                                }
-                                //   },
-                                //   {
-                                //     "name": "Jane Smith",
-                                //     "mobileNo": "0987654321",
-                                //     "isNoVerified": false,
-                                //     "contactNoType": "Mobile",
-                                //     "dateOfBirth": "1990-05-22",
-                                //     "email": "jane.smith@oceanviewresort.com",
-                                //     "isEmail": true,
-                                //     "idType": "Driver's License",
-                                //     "documentNo": "DL98765432",
-                                //     "isDocVerified": false,
-                                //     "status": "Pending",
-                                //     "role": "Owner"
-                                //   }
-                            ],
+                            
+                            "users": ownerDetails
+                            
+                            
+                            
+                            
+                            
+                            // [
+                            //   {
+                            //     "name": ownerDetails?.name,
+                            //     "mobileNo": ownerDetails?.mobileNumber || ownerDetails?.landlineNumber,
+                            //     "isNoVerified": true,
+                            //     "contactNoType": ownerDetails?.contact,
+                            //     "dateOfBirth": ownerDetails?.dob,
+                            //     "email": ownerDetails?.email,
+                            //     "isEmail": true,
+                            //     "idType":  ownerDetails?.idType,
+                            //     "documentNo": ownerDetails?.idDocumentNumber,
+                            //     "isDocVerified": true,
+                            //     "status": "Active",
+                            //     "role": "Owner",
+                            //     "designation":ownerDetails?.designation
+                            // }
+                            // //   },
+                            // //   {
+                            // //     "name": "Jane Smith",
+                            // //     "mobileNo": "0987654321",
+                            // //     "isNoVerified": false,
+                            // //     "contactNoType": "Mobile",
+                            // //     "dateOfBirth": "1990-05-22",
+                            // //     "email": "jane.smith@oceanviewresort.com",
+                            // //     "isEmail": true,
+                            // //     "idType": "Driver's License",
+                            // //     "documentNo": "DL98765432",
+                            // //     "isDocVerified": false,
+                            // //     "status": "Pending",
+                            // //     "role": "Owner"
+                            // //   }
+                            // ]
+                            
+                            
+                            ,
                             "currencies": [
                                 {
                                     "currencyAccepted": unitDetails?.acceptedCurrency,

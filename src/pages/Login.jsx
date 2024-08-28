@@ -446,6 +446,7 @@ import axios from 'axios';
 import useAuthStore from "../store/useAuthStore";
 import getProfile from "../store/getProfile";
 import { toast } from 'react-toastify';
+import { makeApiRequest } from "../api/ApiRequest";
 const options = [
   { value: "option1", label: "Option 1", countryCode: "US" },
   { value: "option2", label: "Option 2", countryCode: "CA" },
@@ -642,9 +643,9 @@ const Login = () => {
           'Content-Type': 'application/json',
         },
       });
-      
+
       console.log("checking for the response", response)
-     
+
       if (response?.data?.status != 200) {
         toast.error('Invalid Login');
 
@@ -679,6 +680,23 @@ const Login = () => {
           console.log("Error occur in getting the profile");
 
         }
+
+        // const returnobject = makeApiRequest("/user/profile", "get", { userId: userid });
+        // if (returnobject.status) {
+        //   let response=returnobject.response;
+        //   setProfile(response);
+        //   setUser({ user: response?.data?.response, error: null, success: true });
+
+        //   localStorage.setItem("token", token)
+
+        //   localStorage.setItem("profile", JSON.stringify(response));
+
+
+        //   navigate("./dashboard")
+
+        // } else {
+        //   console.log("Error occur in getting the profile",returnobject?.error);
+        // }
       }
 
     } catch (error) {

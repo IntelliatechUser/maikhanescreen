@@ -130,8 +130,31 @@ const UnitDetails = ({ onNext }) => {
         acceptedCurrency: Yup.string().required("Required"),
         openTime: Yup.string().required("Required"),
         closeTime: Yup.string().required("Required"),
-        // contactType: Yup.string().required("Required"),
-        mobileNumber: Yup.string().required("Required"),
+        contactType: Yup.string().required("Required"),
+        mobileNumber: Yup.string().test(
+            'mobileNumberValidation',
+            'Mobile number is required ',
+            function (value) {
+                const { contactType } = this.parent;
+                if (contactType === 'mobile' || contactType === 'both') {
+                    return !!value;
+                }
+                return true;
+            }
+        )  .matches(/^[0-9]{10}$/, 'Mobile number must be exactly 10 digits')
+        .nullable(), // Ensures validation only runs if the field is not empty,
+        landlineNumber: Yup.string().test(
+            'landlineNumberValidation',
+            'Landline number is required ',
+            function (value) {
+                const { contactType } = this.parent;
+                if (contactType === 'landline' || contactType === 'both') {
+                    return !!value;
+                }
+                return true;
+            }
+        ).matches(/^[0-9]{10}$/, 'Landline number must be exactly 10 digits')
+        .nullable(),
 
     });
 
@@ -139,6 +162,9 @@ const UnitDetails = ({ onNext }) => {
         <Formik
             initialValues={unitDetails}
             validationSchema={validationSchema}
+            validateOnChange={true}
+            validateOnBlur={true}
+            validateOnMount={true}
             onSubmit={(values) => {
                 console.log(">>>>>>>>>>>>>>>>values.shopFor", values);
                 values.shopFor = [...shopFor];
@@ -467,7 +493,7 @@ const UnitDetails = ({ onNext }) => {
                                             type="text"
                                             name="landlineNumber"
                                             placeholder="Landline Number"
-                                        />
+                                        /></div><div>
                                         <ErrorMessage name="landlineNumber" component="div" className="text-darkred text-sm font-medium " />
                                     </div>
                                 </div>
@@ -509,7 +535,7 @@ const UnitDetails = ({ onNext }) => {
                                                 type="text"
                                                 name="landlineNumber"
                                                 placeholder="Landline Number"
-                                            />
+                                            /></div><div>
                                             <ErrorMessage name="landlineNumber" component="div" className="text-darkred text-sm font-medium " />
                                         </div>
                                     </div>
@@ -518,7 +544,7 @@ const UnitDetails = ({ onNext }) => {
                         </div>
                     </div>
                     <div className="flex justify-between ">
-                        <button type="submit" className="btn-primary mt-6 text-white bg-customOrange px-6 py-3 border border-transparent rounded-md" onClick={()=>{
+                        <button type="submit" className="btn-primary mt-6 text-white bg-customOrange px-6 py-3 border border-transparent rounded-md" onClick={() => {
                             setCurrentStep(1);
                             setCurrentTab(-1);
                         }}>

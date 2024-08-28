@@ -1,6 +1,6 @@
 
 
-import React from "react";
+import React, { useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
@@ -18,21 +18,47 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
     const [selectedIdType, setSelectedIdType] = useState(businessDetails.idType);
     const { currentTab, setCurrentTab } = businessLogicStore();
     const validationSchema = Yup.object({
-        idType: Yup.string().required('Required'),
-        // idDocumentNumber: Yup.string().required('Required'),
-        // legallyRegisteredName: Yup.string().required('Required'),
-        // addressLine1: Yup.string().required('Required'),
+       
+        idDocumentNumber: Yup.string().required('Required'),
+        legallyRegisteredName: Yup.string().required('Required'),
+        addressLine1: Yup.string().required('Required'),
         // addressLine2: Yup.string().required('Required'),
-        // city: Yup.string().required('Required'),
-        // state: Yup.string().required('Required'),
-        // zipCode: Yup.string().required('Required'),
+        city: Yup.string().required('Required'),
+        state: Yup.string().required('Required'),
+        zipCode: Yup.string().required('Required'),
+         contact: Yup.string().required('Required'),
         email: Yup.string().required('Required'),
-        // contactNumber: Yup.string().required('Required'),
-        mobileNumber: Yup.string().required("Required"),
+        idType: Yup.string().required('Required'),
+        
+      
         businessLogo: Yup.mixed().required('Business logo is required'),
         pandocument: Yup.mixed().required('pandocument logo is required'),
         cindocument: Yup.mixed().required('cindocument logo is required'),
-        gstdocument: Yup.mixed().required('gstdocument logo is required')
+        gstdocument: Yup.mixed().required('gstdocument logo is required'),
+
+       
+        mobileNumber: Yup.string().test(
+            'mobileNumberValidation',
+            'Mobile number is required ',
+            function (value) {
+                const { contact } = this.parent;
+                if (contact === 'mobile' || contact === 'both') {
+                    return !!value;
+                }
+                return true;
+            }
+        ),
+        landlineNumber: Yup.string().test(
+            'landlineNumberValidation',
+            'Landline number is required ',
+            function (value) {
+                const { contact} = this.parent;
+                if (contact === 'landline' || contact === 'both') {
+                    return !!value;
+                }
+                return true;
+            }
+        ),
 
     });
     const fetchDocumentDetails = async (cred = "mobileNumber", values, actions, setFieldValue) => {
@@ -167,9 +193,11 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
         setSelectedIdType(idType);
         setFieldValue("idType", idType);
     };
+ 
     return (
         <Formik
             initialValues={businessDetails}
+            enableReinitialize={true}
             validationSchema={validationSchema}
             onSubmit={(values) => {
                 let savebutton = document.activeElement.id
@@ -186,6 +214,8 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
             }}
         >
             {({ setFieldValue, values, setValues, validateForm }) => (
+
+
                 <Form>
                     <div className="mt-15 mr-7">
                         <div className="grid md:grid-cols-[60%_40%] gap-6 mb-6">
@@ -304,17 +334,7 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                             </div>
                                         </div>
 
-                                        {/* <div>
-                                        <label className="block text-gray-600 mb-2">Upload Business Logo</label>
-                                        <input
-                                            type="file"
-                                            name="businessLogo"
-                                            accept=".pdf"
-                                            onChange={(event) => handleFileChange(event, setFieldValue, "businessLogo")}
-                                            className="w-full p-3 border border-customOrange outline-none rounded"
-                                        />
-                                        <ErrorMessage name="businessLogo" component="div"  className="text-darkred text-sm font-medium " />
-                                    </div> */}
+                                     
 
                                     </div>
 
@@ -475,20 +495,18 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                     </div>
                                 ) : selectedValue === "landline" ? (
                                     <div>
-                                        <label
-                                            className="block text-gray-600 mb-2"
-                                            htmlFor="landlineNumber"
-                                        >
-                                            Landline Number
-                                        </label>
-                                        <div className="flex items-center">
-                                            <Field
-                                                className="w-full p-3 border border-customOrange outline-none rounded"
-                                                type="text"
-                                                name="landlineNumber"
-                                                placeholder="Landline Number"
-                                            />
-                                        </div>
+                                         <label className="block text-gray-600 mb-2" htmlFor="landlineNumber">
+                                        Landline Number
+                                    </label>
+                                    <div className=" items-center">
+                                        <Field
+                                            className="w-full p-3 border border-customOrange outline-none rounded"
+                                            type="text"
+                                            name="landlineNumber"
+                                            placeholder="Landline Number"
+                                        />
+                                        <ErrorMessage name="landlineNumber" component="div" className="text-darkred text-sm font-medium " />
+                                    </div>
                                     </div>
                                 ) : (
                                     <div>
@@ -515,6 +533,8 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                                     name="mobileNumber"
                                                     placeholder="Mobile Number"
                                                 />
+                                                </div><div>
+                                                  <ErrorMessage name="mobileNumber" component="div" className="text-darkred text-sm font-medium " />
                                                 {/* <button className="ml-2 py-3 px-6 text-[#FF9F08]">
                                             Verify Number
                                         </button> */}
@@ -533,13 +553,16 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                                     type="text"
                                                     name="landlineNumber"
                                                     placeholder="Landline Number"
-                                                />
+                                                /></div><div>
+                                                 <ErrorMessage name="landlineNumber" component="div" className="text-darkred text-sm font-medium " />
                                             </div>
                                         </div>
                                     </div>
                                 )}</div>
 
                                 <ErrorMessage name="contactNumber" component="div" className="text-darkred text-sm font-medium " />
+                                
+                            
                             </div>
                         </div>
 
@@ -554,6 +577,8 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                     className="w-full p-3 border border-customOrange outline-none rounded"
                                 />
                                 <ErrorMessage name="businessLogo" component="div" className="text-darkred text-sm font-medium " />
+                                {values.businessLogo && <p className="text-sm mt-1">File: {values.businessLogo.name}</p>}
+                            
                             </div>
 
 
@@ -569,6 +594,8 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                     />
                                 </div>
                                 <ErrorMessage name="gstdocument" component="div" className="text-darkred text-sm font-medium " />
+                                {values.gstdocument && <p className="text-sm mt-1">File: {values.gstdocument.name}</p>}
+                           
                             </div>
                             <div>
                                 <label className="block text-gray-600 mb-2">CIN Document Upload</label>
@@ -582,6 +609,7 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                     />
                                 </div>
                                 <ErrorMessage name="cindocument" component="div" className="text-darkred text-sm font-medium " />
+                                {values.cindocument && <p className="text-sm mt-1">File: {values.cindocument.name}</p>}
                             </div>
                             <div>
                                 <label className="block text-gray-600 mb-2">PAN Document Upload</label>
@@ -595,234 +623,23 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                     />
                                 </div>
                                 <ErrorMessage name="pandocument" component="div" className="text-darkred text-sm font-medium " />
+                                {values.pandocument && <p className="text-sm mt-1">File: {values.pandocument.name}</p>}
                             </div>
 
 
 
-                            {/* <div> {selectedIdType === "GST" && (
-                            <div className=" gap-6 mb-6">
-                                <div>
-                                    <label className="block text-gray-600 mb-2">PAN Document Upload</label>
-                                    <div className="flex">
-                                        <input
-                                            type="file"
-                                            name="pandocument"
-                                            accept=".pdf"
-                                            onChange={(event) => handleFileChange(event, setFieldValue, "pandocument")}
-                                            className="w-full p-3 border border-customOrange outline-none rounded"
-                                        />
-                                    </div>
-                                    <ErrorMessage name="pandocument" component="div" className="text-red-500 text-xs mt-1" />
-                                </div>
-                                <div>
-                                    <label className="block text-gray-600 mb-2">CIN Document Upload</label>
-                                    <div className="flex">
-                                        <input
-                                            type="file"
-                                            name="cindocument"
-                                            accept=".pdf"
-                                            onChange={(event) => handleFileChange(event, setFieldValue, "cindocument")}
-                                            className="w-full p-3 border border-customOrange outline-none rounded"
-                                        />
-                                    </div>
-                                    <ErrorMessage name="cindocument" component="div" className="text-red-500 text-xs mt-1" />
-                                </div>
-                                <div>
-                                    <label className="block text-gray-600 mb-2">GST Document Upload</label>
-                                    <div className="flex">
-                                        <input
-                                            type="file"
-                                            name="gstdocument"
-                                            accept=".pdf"
-                                            onChange={(event) => handleFileChange(event, setFieldValue, "gstdocument")}
-                                            className="w-full p-3 border border-customOrange outline-none rounded"
-                                        />
-                                    </div>
-                                    <ErrorMessage name="gstdocument" component="div" className="text-red-500 text-xs mt-1" />
-                                </div>
-                            </div>
-                        )}
-</div>
-                 <div>  {selectedIdType === "CIN" && (
-                            <div className=" gap-6 mb-6">
-                                <div>
-                                    <label className="block text-gray-600 mb-2">GST Document Upload</label>
-                                    <div className="flex">
-                                        <input
-                                            type="file"
-                                            name="gstdocument"
-                                            accept=".pdf"
-                                            onChange={(event) => handleFileChange(event, setFieldValue, "gstdocument")}
-                                            className="w-full p-3 border border-customOrange outline-none rounded"
-                                        />
-                                    </div>
-                                    <ErrorMessage name="gstdocument" component="div" className="text-red-500 text-xs mt-1" />
-                                </div>
-                                <div>
-                                    <label className="block text-gray-600 mb-2">PAN Document Upload</label>
-                                    <div className="flex">
-                                        <input
-                                            type="file"
-                                            name="pandocument"
-                                            accept=".pdf"
-                                            onChange={(event) => handleFileChange(event, setFieldValue, "pandocument")}
-                                            className="w-full p-3 border border-customOrange outline-none rounded"
-                                        />
-                                    </div>
-                                    <ErrorMessage name="pandocument" component="div" className="text-red-500 text-xs mt-1" />
-                                </div>
-                                <div>
-                                    <label className="block text-gray-600 mb-2">CIN Document Upload</label>
-                                    <div className="flex">
-                                        <input
-                                            type="file"
-                                            name="cindocument"
-                                            accept=".pdf"
-                                            onChange={(event) => handleFileChange(event, setFieldValue, "cindocument")}
-                                            className="w-full p-3 border border-customOrange outline-none rounded"
-                                        />
-                                    </div>
-                                    <ErrorMessage name="cindocument" component="div" className="text-red-500 text-xs mt-1" />
-                                </div>
-                            </div>
-                        )}
+                            {
+                            
+                            
+                            
+                          
 
-</div> */}
+}
 
                         </div>
 
 
-                        {/* {selectedIdType === "PAN" && (
-                            <div className="grid grid-cols-3 gap-6 mb-6">
-                                <div>
-                                    <label className="block text-gray-600 mb-2">GST Document Upload</label>
-                                    <div className="flex">
-                                        <input
-                                            type="file"
-                                            name="gstdocument"
-                                            accept=".pdf"
-                                            onChange={(event) => handleFileChange(event, setFieldValue, "gstdocument")}
-                                            className="w-full p-3 border border-customOrange outline-none rounded"
-                                        />
-                                    </div>
-                                    <ErrorMessage name="gstdocument" component="div" className="text-red-500 text-xs mt-1" />
-                                </div>
-                                <div>
-                                    <label className="block text-gray-600 mb-2">CIN Document Upload</label>
-                                    <div className="flex">
-                                        <input
-                                            type="file"
-                                            name="cindocument"
-                                            accept=".pdf"
-                                            onChange={(event) => handleFileChange(event, setFieldValue, "cindocument")}
-                                            className="w-full p-3 border border-customOrange outline-none rounded"
-                                        />
-                                    </div>
-                                    <ErrorMessage name="cindocument" component="div" className="text-red-500 text-xs mt-1" />
-                                </div>
-                                <div>
-                                    <label className="block text-gray-600 mb-2">PAN Document Upload</label>
-                                    <div className="flex">
-                                        <input
-                                            type="file"
-                                            name="pandocument"
-                                            accept=".pdf"
-                                            onChange={(event) => handleFileChange(event, setFieldValue, "pandocument")}
-                                            className="w-full p-3 border border-customOrange outline-none rounded"
-                                        />
-                                    </div>
-                                    <ErrorMessage name="pandocument" component="div" className="text-red-500 text-xs mt-1" />
-                                </div>
-                            </div>
-                        )}
-
-                        {selectedIdType === "GST" && (
-                            <div className="grid grid-cols-3 gap-6 mb-6">
-                                <div>
-                                    <label className="block text-gray-600 mb-2">PAN Document Upload</label>
-                                    <div className="flex">
-                                        <input
-                                            type="file"
-                                            name="pandocument"
-                                            accept=".pdf"
-                                            onChange={(event) => handleFileChange(event, setFieldValue, "pandocument")}
-                                            className="w-full p-3 border border-customOrange outline-none rounded"
-                                        />
-                                    </div>
-                                    <ErrorMessage name="pandocument" component="div" className="text-red-500 text-xs mt-1" />
-                                </div>
-                                <div>
-                                    <label className="block text-gray-600 mb-2">CIN Document Upload</label>
-                                    <div className="flex">
-                                        <input
-                                            type="file"
-                                            name="cindocument"
-                                            accept=".pdf"
-                                            onChange={(event) => handleFileChange(event, setFieldValue, "cindocument")}
-                                            className="w-full p-3 border border-customOrange outline-none rounded"
-                                        />
-                                    </div>
-                                    <ErrorMessage name="cindocument" component="div" className="text-red-500 text-xs mt-1" />
-                                </div>
-                                <div>
-                                    <label className="block text-gray-600 mb-2">GST Document Upload</label>
-                                    <div className="flex">
-                                        <input
-                                            type="file"
-                                            name="gstdocument"
-                                            accept=".pdf"
-                                            onChange={(event) => handleFileChange(event, setFieldValue, "gstdocument")}
-                                            className="w-full p-3 border border-customOrange outline-none rounded"
-                                        />
-                                    </div>
-                                    <ErrorMessage name="gstdocument" component="div" className="text-red-500 text-xs mt-1" />
-                                </div>
-                            </div>
-                        )}
-
-                        {selectedIdType === "CIN" && (
-                            <div className="grid grid-cols-3 gap-6 mb-6">
-                                <div>
-                                    <label className="block text-gray-600 mb-2">GST Document Upload</label>
-                                    <div className="flex">
-                                        <input
-                                            type="file"
-                                            name="gstdocument"
-                                            accept=".pdf"
-                                            onChange={(event) => handleFileChange(event, setFieldValue, "gstdocument")}
-                                            className="w-full p-3 border border-customOrange outline-none rounded"
-                                        />
-                                    </div>
-                                    <ErrorMessage name="gstdocument" component="div" className="text-red-500 text-xs mt-1" />
-                                </div>
-                                <div>
-                                    <label className="block text-gray-600 mb-2">PAN Document Upload</label>
-                                    <div className="flex">
-                                        <input
-                                            type="file"
-                                            name="pandocument"
-                                            accept=".pdf"
-                                            onChange={(event) => handleFileChange(event, setFieldValue, "pandocument")}
-                                            className="w-full p-3 border border-customOrange outline-none rounded"
-                                        />
-                                    </div>
-                                    <ErrorMessage name="pandocument" component="div" className="text-red-500 text-xs mt-1" />
-                                </div>
-                                <div>
-                                    <label className="block text-gray-600 mb-2">CIN Document Upload</label>
-                                    <div className="flex">
-                                        <input
-                                            type="file"
-                                            name="cindocument"
-                                            accept=".pdf"
-                                            onChange={(event) => handleFileChange(event, setFieldValue, "cindocument")}
-                                            className="w-full p-3 border border-customOrange outline-none rounded"
-                                        />
-                                    </div>
-                                    <ErrorMessage name="cindocument" component="div" className="text-red-500 text-xs mt-1" />
-                                </div>
-                            </div>
-                        )} */}
+                        
                         <div className="flex justify-between">  <button
                             type="button"
                             className="mt-6 p-3 bg-customOrange text-white rounded" onClick={() => onSubmitBusiness(values)}
