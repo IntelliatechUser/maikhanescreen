@@ -83,32 +83,51 @@ const useStore = create((set) => ({
 // })),
 
 setOwnerDetails: (email, data) => set((state) => {
-  console.log(data)
+  console.log(">>>>>>>>>>>>>>>data>>>>>>>>>>>>>>",data)
 
   const owner = state.ownerDetails.find((o) => o.email === email);
 
 
   if (owner) {
     const updatedOwners = state.ownerDetails.map((owner) => 
-      owner.email === email ? { ...owner, ...data } : owner
+      owner.email === email ? {
+        ...owner,
+        contactNoType: data.contact,
+        dateOfBirth: data.dob,
+        designation: data.designation,
+        documentNo: data.idDocumentNumber,
+        email: data.email,
+        idType: data.idType,
+        isDocVerified: true,
+        isEmail: true,
+        isNoVerified: true,
+        mobileNo: data.mobileNumber,
+        name: data.name,
+        role: "Owner",
+        status: "Active",
+      }: owner
     );
      return { ownerDetails: updatedOwners };
   } else {
     return { ownerDetails: [...state.ownerDetails, {
       
     
-          idType: '',
-          idDocumentNumber: '',
-          name: '',
-          dob: '',
-          email: '',
-          designation: '',
-          mobileNumber: '',   // Updated field name
-          landlineNumber: '', // Updated field name
-          contact: 'mobile',
- 
+          
+      contactNoType: data.contact,
+      dateOfBirth: data.dob,
+      designation: data.designation,
+      documentNo: data.idDocumentNumber,
+      email: data.email,
+      idType: data.idType,
+      isDocVerified: true,
+      isEmail: true,
+      isNoVerified: true,
+      mobileNo: data.mobileNumber,
+      name:      data.name,
+      role: "Owner",
+      status: "Active",
       
-      ...data}] };
+      }] };
   }
  
 }),
