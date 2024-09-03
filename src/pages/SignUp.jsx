@@ -927,6 +927,8 @@ import "slick-carousel/slick/slick-theme.css";
 import useSignupStore from '../store/SignUpStore';
 import {useState } from "react";
 import axios from "axios";
+import Loader from "../utility/Loader.jsx";
+import { toast } from "react-toastify";
 const validationSchema = Yup.object().shape({
   fullName: Yup.string().required("Full name is required"),
   phoneNumber: Yup.string()
@@ -954,6 +956,7 @@ const validationSchema = Yup.object().shape({
 });
 
 const SignUp = () => {
+  const [loading, setLoading] = useState(false);
   const [sucessMessage,setSuccessMessage]=useState("");
   const navigate = useNavigate();
   const {
@@ -963,7 +966,7 @@ const SignUp = () => {
     role,
     password,
     confirmPassword,
-    loading,
+  
     error,
     success,
     setFullName,
@@ -974,12 +977,12 @@ const SignUp = () => {
     setConfirmPassword,
     signup,
     setSuccess,
-    setLoading,setError
+    setError
   } = useSignupStore();
 
 
   const onSubmit = async (values) => {
-
+    setLoading(true);
     // setFullName(values.fullName);
     // setPhoneNumber(Number(values.phoneNumber));
     // setEmail(values.email);
@@ -1019,7 +1022,7 @@ roleId
     
         console.log("response>>>>>>>>>>2", response);
       setSuccessMessage("Successful signup");
-      
+      toast.success("Successful SignUp")
       setLoading(false);
       setSuccess(true);
       setError("")
@@ -1034,11 +1037,7 @@ roleId
       setError(error.response?.data?.message || error.message);
       // set({ loading: false, error: error.response?.data?.message || error.message });
     }
-    //  if (success) {
-    //   alert("success");
-    //   setSuccessMessage("User SignUp Successfully")
-    //  }else{
-    // alert("not in success")}
+    setLoading(false);
   };
 
   const settings1 = {
@@ -1230,7 +1229,7 @@ console.log(">>>>>>>>>>>>>>error",error);
                           <ErrorMessage
                             name="fullName"
                             component="div"
-                            className="text-red-600 mt-1 text-sm"
+                            className="text-red mt-1 text-sm"
                           />
                         </div>
                         <div className="mb-4">
@@ -1249,7 +1248,7 @@ console.log(">>>>>>>>>>>>>>error",error);
                           <ErrorMessage
                             name="phoneNumber"
                             component="div"
-                            className="text-red-600 mt-1 text-sm"
+                            className="text-red mt-1 text-sm"
                           />
                         </div>
                         <div className="mb-4">
@@ -1268,7 +1267,7 @@ console.log(">>>>>>>>>>>>>>error",error);
                           <ErrorMessage
                             name="email"
                             component="div"
-                            className="text-red-600 mt-1 text-sm"
+                            className="text-red mt-1 text-sm"
                           />
                         </div>
                         <div className="mb-4">
@@ -1287,7 +1286,7 @@ console.log(">>>>>>>>>>>>>>error",error);
                           <ErrorMessage
                             name="password"
                             component="div"
-                            className="text-red-600 mt-1 text-sm"
+                            className="text-red mt-1 text-sm"
                           />
                         </div>
                         <div className="mb-4">
@@ -1306,7 +1305,7 @@ console.log(">>>>>>>>>>>>>>error",error);
                           <ErrorMessage
                             name="confirmPassword"
                             component="div"
-                            className="text-red-600 mt-1 text-sm"
+                            className="text-red mt-1 text-sm"
                           />
                         </div>
                         <div className="mb-6">
@@ -1328,7 +1327,7 @@ console.log(">>>>>>>>>>>>>>error",error);
                           <ErrorMessage
                             name="role"
                             component="div"
-                            className="text-red-600 mt-1 text-sm"
+                            className="text-red mt-1 text-sm"
                           />
                         </div>
                         <div className="flex justify-start">

@@ -10,6 +10,7 @@ import axios from "axios";
 import { useState } from "react";
 import localStorageUtil from "../../utility/utility";
 import businessLogicStore from "../../store/BusinessLogicStore";
+import VerifiedIcon from '../../assets/icons/VerifiedIcon.jsx';
 const UnitDetails = ({ onNext }) => {
     const [category, setCategorySelected] = useState("Select Category");
     const [verify, setVerify] = useState("");
@@ -94,6 +95,7 @@ const UnitDetails = ({ onNext }) => {
             const data = response?.data;
             console.log(">>>>>>>>>>>>responseData", data.status);
             if (data.status == 200) {
+               
                 setVerify("Mobile Verified");
                 localStorageUtil.setItem("mobileverify", "Mobile is Verified")
             }
@@ -141,8 +143,8 @@ const UnitDetails = ({ onNext }) => {
                 }
                 return true;
             }
-        )  .matches(/^[0-9]{10}$/, 'Mobile number must be exactly 10 digits')
-        .nullable(), // Ensures validation only runs if the field is not empty,
+        ).matches(/^[0-9]{10}$/, 'Mobile number must be exactly 10 digits')
+            .nullable(), // Ensures validation only runs if the field is not empty,
         landlineNumber: Yup.string().test(
             'landlineNumberValidation',
             'Landline number is required ',
@@ -154,7 +156,7 @@ const UnitDetails = ({ onNext }) => {
                 return true;
             }
         ).matches(/^[0-9]{10}$/, 'Landline number must be exactly 10 digits')
-        .nullable(),
+            .nullable(),
 
     });
 
@@ -449,6 +451,11 @@ const UnitDetails = ({ onNext }) => {
                                             type="text"
                                             name="mobileNumber"
                                             placeholder="Mobile Number"
+                                            onClick={(e) => {
+                                                setVerify("");
+                                                localStorage.removeItem("mobileverify");// Clear localStorage when the mobile number changes
+                                                setFieldValue("mobileNumber", e.target.value);
+                                            }}
                                         // disabled={localStorageUtil.getItem("mobileverify")=="Mobile is Verified" ? true :false}
                                         />
                                         {localStorageUtil.getItem("mobileverify") !== "Mobile is Verified" ? <button type="button" className=" pl-0 lg:py-3 lg:px-6 text-[#FF9F08]" onClick={(event) => {
@@ -471,14 +478,17 @@ const UnitDetails = ({ onNext }) => {
                                             Verify
                                         </button> :
 
+                                            <VerifiedIcon width={80} height={80} fill="green" />
+                                            // <button type="button" className=" pl-0 lg:py-3 lg:px-6 text-[#FF9F08]"
 
-                                            <button type="button" className=" pl-0 lg:py-3 lg:px-6 text-[#FF9F08]"
 
 
+                                            // >
+                                            //     MobileNumber is Verified
+                                            // </button>
 
-                                            >
-                                                MobileNumber is Verified
-                                            </button>}
+
+                                        }
                                     </div>
                                     <ErrorMessage name="mobileNumber" component="div" className="text-darkred text-sm font-medium " />
                                 </div>
@@ -518,6 +528,7 @@ const UnitDetails = ({ onNext }) => {
                                                 type="text"
                                                 name="mobileNumber"
                                                 placeholder="Mobile Number"
+
                                             />
                                             {/* <button className="ml-2 py-3 px-6 text-[#FF9F08]">
 												Verify Number

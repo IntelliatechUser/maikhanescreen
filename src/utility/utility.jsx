@@ -10,6 +10,7 @@ const localStorageUtil = {
     getItem: (key) => {
       try {
         const value = localStorage.getItem(key);
+        
         return value ? JSON.parse(value) : null;
       } catch (error) {
         console.error(`Error getting ${key} from localStorage: `, error);

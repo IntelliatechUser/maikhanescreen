@@ -25,10 +25,10 @@ const OwnershipAndLicenceDetails = ({ currentTab, handleTabChange, onSubmitOwner
                 idType: "",
                 idDocumentNumber: "",
                 name: "",
-                dob: "",
+                dateOfBirth: "",
                 email: "",
                 designation: "",
-                mobileNumber: "",
+                mobileNo: "",
             
                 validate: "Validate This Member"
             }]);  // Update formdisplay to reflect the new member

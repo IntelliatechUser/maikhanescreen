@@ -10,6 +10,7 @@ import { useState } from "react"
 import businessLogicStore from "../../store/BusinessLogicStore"
 import OTPModal from '../../CommonComponents/Modal';
 import localStorageUtil from "../../utility/utility";
+import VerifiedIcon from '../../assets/icons/VerifiedIcon.jsx';
 const BusinessTabForm = ({ onSubmitBusiness }) => {
     const [verify, setVerify] = useState("Verify");
     const [isModalOpen, setIsModalOpen] = React.useState(false);
@@ -459,6 +460,11 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                                 type="text"
                                                 name="mobileNumber"
                                                 placeholder="Mobile Number"
+                                                onClick={(e) => {
+                                                    setVerify("");
+                                                    localStorage.removeItem("mobileverifybusiness");// Clear localStorage when the mobile number changes
+                                                    setFieldValue("mobileNumber", e.target.value);
+                                                }}
                                             // disabled={localStorageUtil.getItem("mobileverifybusiness")=="Mobile is Verified" ? true :false}
                                             />
                                             {localStorageUtil.getItem("mobileverifybusiness") !== "Mobile is Verified" ? <button type="button" className=" pl-0 lg:py-3 lg:px-6 text-[#FF9F08]" onClick={(event) => {
@@ -480,15 +486,17 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                             >
                                                 Verify
                                             </button> :
+                                            <VerifiedIcon width={80} height={80} fill="green" />
+
+                                                // <button type="button" className=" pl-0 lg:py-3 lg:px-6 text-[#FF9F08]"
 
 
-                                                <button type="button" className=" pl-0 lg:py-3 lg:px-6 text-[#FF9F08]"
 
-
-
-                                                >
-                                                    MobileNumber is Verified
-                                                </button>}
+                                                // >
+                                                //     MobileNumber is Verified
+                                                // </button>
+                                                
+                                                }
 
                                         </div>
                                         <ErrorMessage name="mobileNumber" component="div" className="text-darkred text-sm font-medium " />

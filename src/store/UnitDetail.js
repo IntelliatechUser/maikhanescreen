@@ -20,8 +20,8 @@ const useStore = create((set) => ({
     paymentMode: "cash",
     mobileNumber: "",
     shopFor: [],
-    loadFirsttimeCountry:false,
-    landlineNumber:""
+    loadFirsttimeCountry: false,
+    landlineNumber: ""
   },
   setUnitDetails: (data) => set((state) => ({
     unitDetails: { ...state.unitDetails, ...data }
@@ -61,84 +61,84 @@ const useStore = create((set) => ({
   //   contact: 'mobile',
   // },
 
-  ownerDetails:[
-    
-    
-  //   {
-  //   idType: '',
-  //   idDocumentNumber: '',
-  //   name: '',
-  //   dob: '',
-  //   email: '',
-  //   designation: '',
-  //   mobileNumber: '',   // Updated field name
-  //   landlineNumber: '', // Updated field name
-  //   contact: 'mobile',
-  // }
+  ownerDetails: [
 
 
-],
-//   setOwnerDetails: (data) => set((state) => ({
-//     ownerDetails: [...state.ownerDetails, data]
-// })),
+    //   {
+    //   idType: '',
+    //   idDocumentNumber: '',
+    //   name: '',
+    //   dob: '',
+    //   email: '',
+    //   designation: '',
+    //   mobileNumber: '',   // Updated field name
+    //   landlineNumber: '', // Updated field name
+    //   contact: 'mobile',
+    // }
 
-setOwnerDetails: (email, data) => set((state) => {
-  console.log(">>>>>>>>>>>>>>>data>>>>>>>>>>>>>>",data)
 
-  const owner = state.ownerDetails.find((o) => o.email === email);
+  ],
+  //   setOwnerDetails: (data) => set((state) => ({
+  //     ownerDetails: [...state.ownerDetails, data]
+  // })),
+
+  setOwnerDetails: (email, data) => set((state) => {
+    console.log(">>>>>>>>>>>>>>>data>>>>>>>>>>>>>>", data)
+
+    const owner = state.ownerDetails.find((o) => o.email === email);
 
 
-  if (owner) {
-    const updatedOwners = state.ownerDetails.map((owner) => 
-      owner.email === email ? {
-        ...owner,
-        contactNoType: data.contact,
-        dateOfBirth: data.dob,
-        designation: data.designation,
-        documentNo: data.idDocumentNumber,
-        email: data.email,
-        idType: data.idType,
-        isDocVerified: true,
-        isEmail: true,
-        isNoVerified: true,
-        mobileNo: data.mobileNumber,
-        name: data.name,
-        role: "Owner",
-        status: "Active",
-      }: owner
-    );
-     return { ownerDetails: updatedOwners };
-  } else {
-    return { ownerDetails: [...state.ownerDetails, {
-      
-    
-          
-      contactNoType: data.contact,
-      dateOfBirth: data.dob,
-      designation: data.designation,
-      documentNo: data.idDocumentNumber,
-      email: data.email,
-      idType: data.idType,
-      isDocVerified: true,
-      isEmail: true,
-      isNoVerified: true,
-      mobileNo: data.mobileNumber,
-      name:      data.name,
-      role: "Owner",
-      status: "Active",
-      
-      }] };
-  }
- 
-}),
-setOwnerDelete: (email) => set((state) => {
+    if (owner) {
+      const updatedOwners = state.ownerDetails.map((owner) =>
+        owner.email === email ? {
+          ...owner,
+          contactNoType: data.contact,
+          dateOfBirth: data.dateOfBirth,
+          designation: data.designation,
+          documentNo: data.documentNo,
+          email: data.email,
+          idType: data.idType,
+          isDocVerified: true,
+          isEmail: true,
+          isNoVerified: true,
+          mobileNo: data.mobileNo,
+          name: data.name,
+          role: "Owner",
+          status: "Active",
+          validate: data.validate
+        } : owner
+      );
+      return { ownerDetails: updatedOwners };
+    } else {
+      return {
+        ownerDetails: [...state.ownerDetails, {
+          contactNoType: data.contact,
+          dateOfBirth: data.dateOfBirth,
+          designation: data.designation,
+          documentNo: data.documentNo,
+          email: data.email,
+          idType: data.idType,
+          isDocVerified: true,
+          isEmail: true,
+          isNoVerified: true,
+          mobileNo: data.mobileNo,
+          name: data.name,
+          role: "Owner",
+          status: "Active",
+          validate: data.validate
+        }]
+      };
+    }
 
-   let owners=state.ownerDetails.filter((owner)=>owner.email != email)
-  return { ownerDetails: owners};
   }),
-  
+  setOwnerDelete: (email) => set((state) => {
 
-  
+    let owners = state.ownerDetails.filter((owner) => owner.email != email)
+    return { ownerDetails: owners };
+  }),
+
+
+
   licenseForm: {
     licenseNumber: '',
     validFrom: '',
@@ -170,10 +170,10 @@ setOwnerDelete: (email) => set((state) => {
       paymentMode: "cash",
       mobileNumber: "",
       shopFor: [],
-      
+
     }
   })),
-  resetBusinessDetails:()=>set(()=>({
+  resetBusinessDetails: () => set(() => ({
     businessDetails: {
       idType: '',
       idDocumentNumber: '',
@@ -194,13 +194,13 @@ setOwnerDelete: (email) => set((state) => {
       cindocument: null,
       pandocument: null,
     },
-    
+
   })),
-  resetOwnerDetails:()=>set(()=>({
+  resetOwnerDetails: () => set(() => ({
     ownerDetails: []
-    
+
   })),
-  resetLicenseDetails:()=>set(()=>({
+  resetLicenseDetails: () => set(() => ({
     licenseForm: {
       licenseNumber: '',
       validFrom: '',
@@ -211,7 +211,7 @@ setOwnerDelete: (email) => set((state) => {
       licenseOwner: 'licenseOwner',
       licenseCertificate: null,
     },
-    
+
   }))
 
 }));

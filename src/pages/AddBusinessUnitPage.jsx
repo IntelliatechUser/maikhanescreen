@@ -11,16 +11,16 @@ const AddBusinessUnitPage = () => {
     const onSubmitBusiness = (business) => {
 
         console.log(">>>>>>>>>>>business data", business);
-       
+
         setCurrentStep(2);
         setCurrentTab(1);
 
     }
-    
+
 
     const onSubmitOwner = (Ownerdata) => {
         console.log(">>>>>>>>>>>Owner data", Ownerdata);
-      
+
         setCurrentStep(2);
         setCurrentTab(2);
     }
@@ -28,16 +28,16 @@ const AddBusinessUnitPage = () => {
     const onSubmitLicence = (licencedata) => {
         console.log(">>>>>>>>>>>Licence data", licencedata);
         // alert("hello");
-       
+
         setCurrentStep(2);
         setCurrentTab(3);
-       
+
     }
-  
+
 
     const handleNext = (data) => {
         if (currentStep < 2) {
-            
+
             setCurrentStep(currentStep + 1);
         }
     };
@@ -45,17 +45,17 @@ const AddBusinessUnitPage = () => {
     const handleTabChange = (tabIndex) => {
         setCurrentTab(tabIndex);
     };
-console.log(">>>>>>>>>>>>>currentstep",currentStep);
+    console.log(">>>>>>>>>>>>>currentstep", currentStep);
     const renderStepContent = () => {
         switch (currentStep) {
             case 1:
                 return (
-                    <UnitDetails onNext={handleNext}  />
+                    <UnitDetails onNext={handleNext} />
                 );
             case 2:
                 return (
                     // <OwnershipAndLicenceDetails currentTab={currentTab} handleTabChange={handleTabChange} formData={formData}  />
-                    <OwnershipAndLicenceDetails currentTab={currentTab} handleTabChange={handleTabChange}  onSubmitBusiness={onSubmitBusiness} onSubmitOwner={onSubmitOwner} onSubmitLicence={onSubmitLicence} currentStep={currentStep} />
+                    <OwnershipAndLicenceDetails currentTab={currentTab} handleTabChange={handleTabChange} onSubmitBusiness={onSubmitBusiness} onSubmitOwner={onSubmitOwner} onSubmitLicence={onSubmitLicence} currentStep={currentStep} />
 
                 );
             default:

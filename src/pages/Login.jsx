@@ -652,6 +652,7 @@ const Login = () => {
         throw new Error(response?.data?.message || 'Failed to login');
       }
       else {
+        toast.success("Successful Login")
         //  toast.success('success');
         console.log(">>>>>>>userId", response?.data?.response.userDto.id)
         console.log(">>>>>>>>>>>>>>>>token11", response?.data?.response.userDto.token)
@@ -666,6 +667,9 @@ const Login = () => {
             headers: { Authorization: `Bearer ${token}` },
           });
 
+
+        //  let apiresponse= makeApiRequest("/user/profile","get");
+        // let response= apiresponse.response;
           setProfile(response);
           setUser({ user: response?.data?.response, error: null, success: true });
 

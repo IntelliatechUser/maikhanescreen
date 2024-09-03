@@ -6,10 +6,15 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import CustomRadioButton from "../../CommonComponents/CustomRadioButton";
 import useStore from "../../store/UnitDetail"; // Adjust the import based on your store file location
+import useAuthStore from "../../store/useAuthStore";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 const LicenseTabForm = ({ onSubmitLicence }) => {
     const { licenseForm, setLicenseForm, unitDetails, businessDetails, ownerDetails } = useStore();
+    const { resetUnitDetails,resetLicenseDetails,resetOwnerDetails, resetBusinessDetails} = useStore();
+    const { user, setUser } = useAuthStore();
+    
 const navigate=useNavigate();
     const initialValues = {
         licenseNumber: licenseForm.licenseNumber || '',
@@ -36,7 +41,7 @@ const navigate=useNavigate();
          licenseCertificate: Yup.mixed().required('Liquor Service License Certificate is required'),
     });
     const handleFileChange = (event, setFieldValue, fieldName) => {
- 
+
         console.log(">>>>>>>", fieldName);
         const file = event.currentTarget.files[0];
         console.log(">>>>>>>>>>licenceform licence certificate", file);
@@ -277,7 +282,29 @@ const navigate=useNavigate();
                         });
                         // alert("api runs2");
                         console.log('File uploaded successfully', response.data);
+                        toast.success("Business Registered")
+                        //=============================================
+                        
+                        // navigate('/dashboard', { replace: true });
+
+                        // setUser({});
+                         resetUnitDetails();
+                        resetLicenseDetails();
+                        resetOwnerDetails();
+                        resetBusinessDetails();
+                        // localStorage.removeItem("token");
+                        localStorage.removeItem("mobileverify");
+                        localStorage.removeItem("emailverify");
+                        localStorage.removeItem("mobileverifybusiness");
+                        localStorage.removeItem("mobileverifyowner");
+                       
+                        // localStorage.removeItem("profile");
+                      
+                        //=======================================
+
+
                         navigate("/dashboard");
+                        
                     } catch (error) {
 
                         if (error.code === 'ERR_NETWORK') {
