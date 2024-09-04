@@ -265,10 +265,11 @@
 import React, { useState, useEffect } from "react";
 import logo from "../assets/logobyclient/maikhane.jpg";
 import useAuthStore from "../store/useAuthStore";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useLocation } from 'react-router-dom';
 import businessLogicStore from "../store/BusinessLogicStore";
 import useStore from "../store/UnitDetail";
+import localStorageUtil from "../utility/utility";
 const Header = () => {
   const { resetUnitDetails,resetLicenseDetails,resetOwnerDetails, resetBusinessDetails} = useStore();
   const { currentTab, setCurrentTab } = businessLogicStore();
@@ -281,20 +282,20 @@ const Header = () => {
   useEffect(() => {
     // Fetch profile and token from localStorage on component mount
     const fetchLocalStorageData = () => {
-      const storedProfile = localStorage.getItem("profile");
+      const profile = localStorageUtil.getItem("profile");
 
       if (location.pathname == "/signup") {
 
-      } else if (!storedProfile) {
+      } else if (!profile) {
         navigate("/")
       }
-      if (storedProfile) {
+      if (profile) {
         try {
-          const profile = JSON.parse(storedProfile);
-          setProfileName(profile.data.response.fullName);
+         console.log(">>>>>>>>>>>>>profile>>>>>>>>>>>>>>",profile);
+          setProfileName(profile.fullName);
 
-          console.log(">>>>>>>>>>>>>profile", profile.data.response.fullName)
-          setRoleName(profile.data.response.roleName);
+        
+          setRoleName(profile.roleName);
         } catch (error) {
           console.error('Error parsing profile from localStorage:', error);
         }
@@ -330,7 +331,7 @@ const Header = () => {
       window.location.href = "/profile"; // Redirect to profile page
     }
   };
-  console.log(">>>>>>>>>>>>>>profileName", profileName);
+  console.log(">>>>>>>>>>>>>>profileName,roleName", profileName,roleName);
   return (
     <header className="bg-white shadow-xl mb-8">
       <div className="mx-auto p-4 pb-1 flex justify-between items-center">
@@ -356,9 +357,10 @@ const Header = () => {
             </div>
           )}
           <nav>
-            <a href="/" className="text-gray-600 px-3">
+           
+            <Link to= "/dashboard" className="text-gray-600 px-3">
               Home
-            </a>
+            </Link>
             <a href="/company" className="text-gray-600 px-3">
               Company
             </a>

@@ -854,7 +854,7 @@ const OwnerTabForm = ({ onSubmitOwner, formdisplay, setFormdisplay }) => {
                                                         <option>UK +44</option>
                                                     </Field>
                                                     <Field type="text" name="mobileNo" className="w-full p-3 border border-customOrange outline-none rounded" placeholder="Mobile Number"
-                                                        onClick={(e) => {
+                                                        onChange={(e) => {
                                                             setVerify("");
                                                             localStorage.removeItem("mobileverifyowner");// Clear localStorage when the mobile number changes
                                                             setFieldValue("mobileNo", e.target.value);

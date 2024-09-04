@@ -460,7 +460,7 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                                 type="text"
                                                 name="mobileNumber"
                                                 placeholder="Mobile Number"
-                                                onClick={(e) => {
+                                                onChange={(e) => {
                                                     setVerify("");
                                                     localStorage.removeItem("mobileverifybusiness");// Clear localStorage when the mobile number changes
                                                     setFieldValue("mobileNumber", e.target.value);

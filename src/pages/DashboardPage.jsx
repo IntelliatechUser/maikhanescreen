@@ -10,9 +10,52 @@ import BillingSupportIcon from "../assets/icons/billingSupportIcon.svg";
 import OperationSupportIcon from "../assets/icons/operationSupportIcon.svg";
 import { useNavigate } from "react-router-dom";
 import businessLogicStore from "../store/BusinessLogicStore";
+import businessStatus from "../store/BusinessStatus";
+import localStorageUtil from "../utility/utility";
+import axios from "axios";
+import { useEffect } from "react";
 
 const Dashboard = () => {
     const { currentStep, setCurrentStep, currentTab, setCurrentTab } = businessLogicStore();
+    const {  setCountInprogress ,setCountRegistered,countInprogress,countRegistered} = businessStatus();
+   
+    useEffect(() => {
+
+        const profile = localStorageUtil.getItem("profile");
+                
+                const userId = profile.id;
+        const fetchBusinessInProgressCount = async () => {
+            const token = localStorage.getItem("token");
+            console.log("token>>>>>>>>>>>", token);
+            let params = {
+                userId: userId,
+
+            }
+            console.log(">>>>>>>>>>>params", params);
+            try {
+                const response = await axios.get('http://43.204.36.147:8067/businessController/countBusinessByStatus', {
+                    params,
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                const { registered, 'in-process': inProcess } = response.data.data;
+                // alert("api runs2");
+                console.log('BusinessIn Progress count', inProcess);
+                setCountInprogress(inProcess);
+                setCountRegistered(registered);
+
+            } catch (error) {
+
+
+                console.error('Error in BusinessIn Progress count', error);
+
+
+            }
+        }
+
+        fetchBusinessInProgressCount();
+    }, [])
     
     const navigate = useNavigate();
     return (
@@ -22,13 +65,26 @@ const Dashboard = () => {
                     <h2 className="text-2xl font-bold text-gray-700 mb-6">Your Dashboard</h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 mb-12 gap-6">
                         <SupportCard title="Create Business Unit" description="Create a business Unit" Icon={BusinessUnitIcon} handleRedirect={() => {
-                            
+
                             navigate("/addBusinessUnit")
                             setCurrentStep(1);
-                            
-                            }} />
-                        <SupportCard title="In-Process Business Unit" description="Submit a sales request or connect with a sales associates." Icon={ProcessUnitIcon} number={4} />
-                        <SupportCard title="Registered Business Unit" description="Submit a sales request or connect with a sales associates." Icon={RegisteredUnitIcon} number={3} />
+
+                        }} />
+                        <SupportCard title="In-Process Business Unit" description="Submit a sales request or connect with a sales associates." Icon={ProcessUnitIcon} number={countInprogress} handleRedirect={() => {
+
+                            navigate("/registeredbusinessinprogress")
+
+
+                        }} />
+                        <SupportCard title="Registered Business Unit" description="Submit a sales request or connect with a sales associates." Icon={RegisteredUnitIcon} number={countRegistered}
+                        
+                        handleRedirect={() => {
+
+                            navigate("/registeredbusinessregistered")
+
+
+                        }}
+                        />
                     </div>
 
                     <h2 className="text-2xl font-bold text-gray-700 mb-6">General Support Services</h2>

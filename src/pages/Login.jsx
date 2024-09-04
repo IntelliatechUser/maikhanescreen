@@ -675,7 +675,7 @@ const Login = () => {
 
           localStorage.setItem("token", token)
 
-          localStorage.setItem("profile", JSON.stringify(response));
+          localStorage.setItem("profile", JSON.stringify(response.data.response));
 
 
           navigate("./dashboard")

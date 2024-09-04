@@ -17,6 +17,12 @@ import ModelTest from "./ModelTest.jsx";
 import PrivateRoute from "./components/authenticationRoute/PrivateRoute.jsx";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Layout from "./components/Layout.jsx";
+import RegisteredBusinessInProgressList from "./components/ListViewProgress/RegisteredBusinessInProgressList.jsx";
+import DetailViewBusinessInprogress from "./components/ListViewProgress/DetailViewBusinessInprogress.jsx";
+import RegisteredViewLayout from "./components/RegisteredViewLayout.jsx";
+import RegisteredBusinessRegistered from "./components/ListViewProgress/RegisteredBusinessRegistered.jsx";
+import DetailViewBusinessRegistered from "./components/ListViewProgress/DetailViewBusinessRegistered.jsx";
 const router = createBrowserRouter([
   // { path: "/DatePicker", element: <DatePicker /> },
   { path: "/businessGrid", element: <BusinessDetail /> },
@@ -64,6 +70,37 @@ const router = createBrowserRouter([
     path: "/modaltest",
     element: <ModelTest />,
     errorElement: <Errorpage />,
+  },
+
+
+  {
+    path: '/registeredbusinessinprogress',
+    element: <RegisteredViewLayout/>,
+    children: [
+      {
+        index: true,
+        element: <RegisteredBusinessInProgressList/>,
+      },
+      {
+        path: 'DetailViewBusinessInprogress/:id',
+        element: <DetailViewBusinessInprogress/>,
+      },
+    ],
+  },
+
+  {
+    path: '/registeredbusinessregistered',
+    element: <RegisteredViewLayout/>,
+    children: [
+      {
+        index: true,
+        element: <RegisteredBusinessRegistered/>,
+      },
+      {
+        path: 'DetailViewBusinessRegistered/:id',
+        element: <DetailViewBusinessRegistered/>,
+      },
+    ],
   },
   // {
   //   path: "*",
