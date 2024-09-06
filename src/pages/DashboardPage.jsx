@@ -14,16 +14,18 @@ import businessStatus from "../store/BusinessStatus";
 import localStorageUtil from "../utility/utility";
 import axios from "axios";
 import { useEffect } from "react";
+import useStore from "../store/UnitDetail";
 
 const Dashboard = () => {
-    const { currentStep, setCurrentStep, currentTab, setCurrentTab } = businessLogicStore();
-    const {  setCountInprogress ,setCountRegistered,countInprogress,countRegistered} = businessStatus();
-   
+    const { currentStep, setCurrentStep, currentTab, setCurrentTab, setCurrentFlow, setDiabledForm } = businessLogicStore();
+    const { resetUnitDetails, resetBusinessDetails, resetOwnerDetails, resetLicenseDetails } = useStore();
+    const { setCountInprogress, setCountRegistered, countInprogress, countRegistered } = businessStatus();
+
     useEffect(() => {
 
         const profile = localStorageUtil.getItem("profile");
-                
-                const userId = profile.id;
+
+        const userId = profile.id;
         const fetchBusinessInProgressCount = async () => {
             const token = localStorage.getItem("token");
             console.log("token>>>>>>>>>>>", token);
@@ -56,8 +58,9 @@ const Dashboard = () => {
 
         fetchBusinessInProgressCount();
     }, [])
-    
+
     const navigate = useNavigate();
+
     return (
         <Layout>
             <div className="min-h-screen bg-gray-100 p-6">
@@ -65,25 +68,41 @@ const Dashboard = () => {
                     <h2 className="text-2xl font-bold text-gray-700 mb-6">Your Dashboard</h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 mb-12 gap-6">
                         <SupportCard title="Create Business Unit" description="Create a business Unit" Icon={BusinessUnitIcon} handleRedirect={() => {
-
-                            navigate("/addBusinessUnit")
+                            resetUnitDetails();
+                            resetBusinessDetails();
+                            resetOwnerDetails();
+                            resetLicenseDetails();
                             setCurrentStep(1);
+                            setCurrentTab(1);
+                            setCurrentFlow("add");
+                            setDiabledForm(false);
+                            navigate("/addBusinessUnit")
+
 
                         }} />
                         <SupportCard title="In-Process Business Unit" description="Submit a sales request or connect with a sales associates." Icon={ProcessUnitIcon} number={countInprogress} handleRedirect={() => {
-
+                           
+                           resetUnitDetails();
+                            resetBusinessDetails();
+                            resetOwnerDetails();
+                            resetLicenseDetails();
+                            setCurrentStep(1);
+                            setCurrentTab(1);
+                            setCurrentFlow("get");
+                           
+                           setDiabledForm(true);
                             navigate("/registeredbusinessinprogress")
 
 
                         }} />
                         <SupportCard title="Registered Business Unit" description="Submit a sales request or connect with a sales associates." Icon={RegisteredUnitIcon} number={countRegistered}
-                        
-                        handleRedirect={() => {
 
-                            navigate("/registeredbusinessregistered")
+                            handleRedirect={() => {
+
+                                navigate("/registeredbusinessregistered")
 
 
-                        }}
+                            }}
                         />
                     </div>
 

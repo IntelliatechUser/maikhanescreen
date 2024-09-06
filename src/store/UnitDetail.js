@@ -136,9 +136,35 @@ const useStore = create((set) => ({
     let owners = state.ownerDetails.filter((owner) => owner.email != email)
     return { ownerDetails: owners };
   }),
-
-
-
+  setOwnerAddgetApi: (datas) => set((state) => {
+    console.log("Before update:", state.ownerDetails);
+    console.log("Incoming data:", datas);
+    
+    const newOwnerDetails = [
+      ...state.ownerDetails,
+      ...datas.map(data => ({
+        contactNoType: data.contactNoType,
+        dateOfBirth: data.dateOfBirth,
+        designation: data.designation,
+        documentNo: data.documentNo,
+        email: data.email,
+        idType: data.idType,
+        isDocVerified: true,
+        isEmail: true,
+        isNoVerified: true,
+        mobileNo: data.mobileNo,
+        name: data.fullName,
+        role: "Owner",
+        status: "Active",
+        validate:  "Validated"
+      }))
+    ];
+  
+    console.log("After update:", newOwnerDetails);
+  
+    return { ownerDetails: newOwnerDetails };
+  }),
+  
   licenseForm: {
     licenseNumber: '',
     validFrom: '',

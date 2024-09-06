@@ -50,25 +50,27 @@ const RegisteredBusinessRegistered = () => {
         fetchBusinessList();
     }, []);
 
+    
+
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error: {error}</div>;
 
     return (
-        <div className="p-4">
+        <div className="p-4 shadow-xl">
             <h2 className="text-lg font-bold mb-4">REGISTERED BUSINESS UNIT</h2>
-            <div className="pb-1">
-                <li className="flex items-center justify-between p-2 bg-light-gray  shadow-sm font-bold rounded-t-lg">
+            <div className="pb-1 ">
+                <li className="flex items-center justify-between p-2 bg-[#f5f5f5]  shadow-sm font-bold rounded-t-lg">
                     <div className="flex-1 flex items-center ">
-                        <div className="flex-1 flex">
+                        <div className="flex-1 flex text-yellow-dark">
                             <p className="font-semibold flex-1  text-center ">ID</p>
-                            <p className="text-gray-600 flex-1 text-center" > UNITNAME</p>
-                            <p className="text-gray-600 flex-1 text-center"> BUSINESS CATEGORY</p>
-                            <p className="text-gray-600 flex-1 text-center"> OWNERSHIP MODE</p>
+                            <p className="flex-1 text-center" > UNITNAME</p>
+                            <p className=" flex-1 text-center"> BUSINESS CATEGORY</p>
+                            <p className=" flex-1 text-center"> OWNERSHIP MODE</p>
                         </div>
                     </div>
                     <button
 
-                        className="bg-blue-500 text-black  px-4 py-2 rounded-lg hover:bg-blue-600"
+                        className=" px-4 py-2 rounded-lg  text-yellow-dark"
                     >
                         View
                     </button>
@@ -76,7 +78,7 @@ const RegisteredBusinessRegistered = () => {
             </div>
             <ul className="space-y-1">
                 {listBusinessRegistered.map((item) => (
-                    <li key={item.id} className="flex items-center   justify-between pl-2 pr-2 bg-light-gray rounded-lg shadow-sm">
+                    <li key={item.id} className="flex items-center   justify-between pl-2 pr-2  bg-[#f5f5f5]  shadow-sm">
                         <div className="flex-1 flex items-center space-x-4">
                             <div className="flex-1 flex">
                                 <p className="font-semibold flex-1  text-center">{item.id}</p>

@@ -7,6 +7,11 @@ const businessLogicStore = create((set) => ({
     },
     currentTab: 1,
     setCurrentTab: (data) => set(() => ({ currentTab: data })),
+    currentFlow:"add",
+    setCurrentFlow: (data) => set(() => ({ currentFlow: data })),
+    diabledForm:false,
+    setDiabledForm: (data) => set(() => ({ diabledForm: data })),
+
 }))
 
 export default businessLogicStore;

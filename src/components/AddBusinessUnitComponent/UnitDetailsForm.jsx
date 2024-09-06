@@ -11,7 +11,7 @@ import { useState } from "react";
 import localStorageUtil from "../../utility/utility";
 import businessLogicStore from "../../store/BusinessLogicStore";
 import VerifiedIcon from '../../assets/icons/VerifiedIcon.jsx';
-const UnitDetails = ({ onNext }) => {
+const UnitDetails = ({ onNext}) => {
     const [category, setCategorySelected] = useState("Select Category");
     const [verify, setVerify] = useState("");
     const [isModalOpen, setIsModalOpen] = React.useState(false);
@@ -25,7 +25,7 @@ const UnitDetails = ({ onNext }) => {
         setFieldValue("contactType", event.target.value);
     };
 
-    const { currentStep, setCurrentStep, currentTab, setCurrentTab } = businessLogicStore();
+    const { currentStep, setCurrentStep, currentTab, setCurrentTab,currentFlow,diabledForm } = businessLogicStore();
     const handleCheckboxChange = (event, setFieldValue) => {
         const { value, checked } = event.target;
         console.log(">>>>>>>>>>>>shopFor", shopFor);
@@ -40,21 +40,21 @@ const UnitDetails = ({ onNext }) => {
         );
 
     };
-    // const handleVerifyOtp = async (otp) => {
-    // 	try {
-    // 		// Make an API call to verify the OTP
-    // 		await fetch('/api/verify-otp', {
-    // 			method: 'POST',
-    // 			headers: {
-    // 				'Content-Type': 'application/json',
-    // 			},
-    // 			body: JSON.stringify({ otp }),
-    // 		});
-    // 		setIsModalOpen(false);
-    // 	} catch (error) {
-    // 		console.error('Error verifying OTP:', error);
-    // 	}
-    // };
+    const handleVerifyOtp = async (otp) => {
+    	try {
+    		// Make an API call to verify the OTP
+    		await fetch('/api/verify-otp', {
+    			method: 'POST',
+    			headers: {
+    				'Content-Type': 'application/json',
+    			},
+    			body: JSON.stringify({ otp }),
+    		});
+    		setIsModalOpen(false);
+    	} catch (error) {
+    		console.error('Error verifying OTP:', error);
+    	}
+    };
 
     const fetchDocumentDetails = async (countryCode, mobileNumber, actions, setFieldValue) => {
 
@@ -159,7 +159,7 @@ const UnitDetails = ({ onNext }) => {
             .nullable(),
 
     });
-
+console.log(">>>>>>>>>>>>>>>>>>>>>>>>shopFor",shopFor,diabledForm);
     return (
         <Formik
             initialValues={unitDetails}
@@ -182,56 +182,14 @@ const UnitDetails = ({ onNext }) => {
 						Unit Detailsdd
 					</h3> */}
                     <div className="grid grid-cols-1 text-sm md:grid-cols-3 gap-6">
-                        {/* <div>
-							<label className="block text-sm text-gray-600 mb-2" htmlFor="unitRegistrationCountry">
-								Unit Registration Country
-							</label>
-							<Field as="select" name="unitRegistrationCountry" className="w-full p-3 border border-customOrange outline-none rounded">
-								<option value="">Select Country</option>
-								<option value="India">India</option>
-								<option value="USA">USA</option>
-								<option value="UK">UK</option>
-							</Field>
-							<ErrorMessage name="unitRegistrationCountry" component="div" className="text-darkred text-sm font-medium " />
-						</div>
-
-						<div>
-							<label className="block text-sm text-gray-600 mb-2" htmlFor="categorySelected">
-								Category Selected
-							</label>
-							<Field as="select" name="categorySelected" className="w-full p-3 border border-customOrange outline-none rounded" onClick={(e) => {
-								setCategorySelected(e.target.value)
-							}}>
-								<option value="Select Category">Select Category</option>
-								<option value="Liquor">Liquor</option>
-								<option value="Wine Shop">Wine Shop</option>
-								<option value="Restaurant & Bar">Restaurant & Bar</option>
-							</Field>
-							<ErrorMessage name="categorySelected" component="div" className="text-darkred text-sm font-medium " />
-						</div>
-
-						<div>
-							<label className="block text-sm text-gray-600 mb-2" htmlFor="ownershipMode">
-								Unit Ownership Mode
-							</label>
-							<Field as="select" name="ownershipMode" className="w-full p-3 border border-customOrange outline-none rounded">
-								<option value="">Select Ownership Mode</option>
-								<option value="Private Limited Company">Private Limited Company</option>
-								<option value="Public Limited Company">Public Limited Company</option>
-								<option value="Partnerships">Partnerships</option>
-								<option value="LLP Registration">LLP Registration</option>
-								<option value="One Person Company">One Person Company</option>
-								<option value="Sole Proprietorship">Sole Proprietorship</option>
-								<option value="Section 8 Company">Section 8 Company</option>
-							</Field>
-							<ErrorMessage name="ownershipMode" component="div" className="text-darkred text-sm font-medium " />
-						</div> */}
+                        
 
                         <div>
                             <label className="block text-gray-600 mb-2" htmlFor="unitName">
                                 Business Unit Name
                             </label>
-                            <Field className="w-full p-3 border border-customOrange outline-none rounded" type="text" name="unitName" placeholder={category} />
+                            <Field className="w-full p-3 border border-customOrange outline-none rounded" type="text" name="unitName" placeholder={category}
+                            disabled={diabledForm} />
                             <ErrorMessage name="unitName" component="div" className="text-darkred text-sm font-medium " />
                         </div>
 
@@ -246,32 +204,35 @@ const UnitDetails = ({ onNext }) => {
                             >
                                 <div className="flex gap-2">
                                     <CustomCheckbox
-                                        id="liquor"
+                                        id="Accommodation"
                                         name="shopFor"
-                                        value="Liquor"
-                                        checked={values.shopFor.includes("Liquor")}
+                                        value="Accommodation"
+                                        checked={values.shopFor.includes("Accommodation")}
                                         onChange={(e) => handleCheckboxChange(e, setFieldValue)}
-                                        label="Liquor"
+                                        label="Accommodation"
+                                        disabled={diabledForm}
                                     />
                                 </div>
                                 <div className="flex gap-2">
                                     <CustomCheckbox
-                                        id="beer"
+                                        id="Dining"
                                         name="shopFor"
-                                        value="Beer"
-                                        checked={values.shopFor.includes("Beer")}
+                                        value="Dining"
+                                        checked={values.shopFor.includes("Dining")}
                                         onChange={(e) => handleCheckboxChange(e, setFieldValue)}
-                                        label="Beer"
+                                        label="Dining"
+                                        disabled={diabledForm}
                                     />
                                 </div>
                                 <div className="flex gap-2">
                                     <CustomCheckbox
                                         id="wine"
                                         name="shopFor"
-                                        value="Wine"
-                                        checked={values.shopFor.includes("Wine")}
+                                        value="Tours"
+                                        checked={values.shopFor.includes("Tours")}
                                         onChange={(e) => handleCheckboxChange(e, setFieldValue)}
-                                        label="Wine"
+                                        label="Tours"
+                                        disabled={diabledForm}
                                     />
                                 </div>
                             </div>
@@ -286,7 +247,7 @@ const UnitDetails = ({ onNext }) => {
                             <label className="block text-gray-600 mb-2" htmlFor="subarea">
                                 Subarea/Society/Landmark
                             </label>
-                            <Field className="w-full p-3 border border-customOrange outline-none rounded" type="text" name="subarea" placeholder="Enter Area Name" />
+                            <Field className="w-full p-3 border border-customOrange outline-none rounded" type="text" name="subarea" placeholder="Enter Area Name"  disabled={diabledForm} />
                             <ErrorMessage name="subarea" component="div" className="text-darkred text-sm font-medium " />
                         </div>
 
@@ -294,7 +255,7 @@ const UnitDetails = ({ onNext }) => {
                             <label className="block text-gray-600 mb-2" htmlFor="locality">
                                 Locality/Area Name
                             </label>
-                            <Field className="w-full p-3 border border-customOrange outline-none rounded" type="text" name="locality" placeholder="Enter Area Name" />
+                            <Field className="w-full p-3 border border-customOrange outline-none rounded" type="text" name="locality" placeholder="Enter Area Name" disabled={diabledForm} />
                             <ErrorMessage name="locality" component="div" className="text-darkred text-sm font-medium " />
                         </div>
 
@@ -302,7 +263,7 @@ const UnitDetails = ({ onNext }) => {
                             <label className="block text-gray-600 mb-2" htmlFor="shopCategory">
                                 Shop Category
                             </label>
-                            <Field as="select" name="shopCategory" className="w-full p-3 border border-customOrange outline-none rounded">
+                            <Field as="select" name="shopCategory" className="w-full p-3 border border-customOrange outline-none rounded" disabled={diabledForm} >
                                 <option value="">Select Shop Category</option>
                                 <option value="Counter Store">Counter Store</option>
                                 <option value="Online Store">Online Store</option>
@@ -314,7 +275,7 @@ const UnitDetails = ({ onNext }) => {
                             <label className="block text-gray-600 mb-2" htmlFor="address">
                                 Address
                             </label>
-                            <Field className="w-full p-3 border border-customOrange outline-none rounded" type="text" name="address" placeholder="Select Address" />
+                            <Field className="w-full p-3 border border-customOrange outline-none rounded" type="text" name="address" placeholder="Select Address" disabled={diabledForm}  />
                             <ErrorMessage name="address" component="div" className="text-darkred text-sm font-medium " />
                         </div>
 
@@ -323,7 +284,7 @@ const UnitDetails = ({ onNext }) => {
                                 <label className="block text-gray-700 mb-2" htmlFor="acceptedCurrency">
                                     Accepted Currency
                                 </label>
-                                <Field as="select" name="acceptedCurrency" className="w-full p-3 border border-customOrange outline-none rounded">
+                                <Field as="select" name="acceptedCurrency" className="w-full p-3 border border-customOrange outline-none rounded" disabled={diabledForm} >
                                     <option value="">Select Currency</option>
                                     <option value="INR">Indian Rupees : INR</option>
                                     <option value="EUR">Euro : EUR</option>
@@ -342,14 +303,14 @@ const UnitDetails = ({ onNext }) => {
                                     <label className="block text-gray-700 mb-2" htmlFor="openTime">
                                         Open Time
                                     </label>
-                                    <Field className="w-full p-3 border border-customOrange outline-none rounded" type="time" name="openTime" />
+                                    <Field className="w-full p-3 border border-customOrange outline-none rounded" type="time" name="openTime" disabled={diabledForm}  />
                                     <ErrorMessage name="openTime" component="div" className="text-darkred text-sm font-medium " />
                                 </div>
                                 <div className="w-full">
                                     <label className="block text-gray-700 mb-2" htmlFor="closeTime">
                                         Close Time
                                     </label>
-                                    <Field className="w-full p-3 border border-customOrange outline-none rounded" type="time" name="closeTime" />
+                                    <Field className="w-full p-3 border border-customOrange outline-none rounded" type="time" name="closeTime" disabled={diabledForm} />
                                     <ErrorMessage name="closeTime" component="div" className="text-darkred text-sm font-medium " />
                                 </div>
                             </div>
@@ -369,6 +330,7 @@ const UnitDetails = ({ onNext }) => {
                                             checked={selectedPaymentMode === "cash"}
                                             onChange={(e) => handlePaymentModeChange(e, setFieldValue)}
                                             label="Cash"
+                                            disabled={diabledForm} 
                                         />
                                         <CustomRadioButton
                                             id="card"
@@ -377,6 +339,7 @@ const UnitDetails = ({ onNext }) => {
                                             checked={selectedPaymentMode === "card"}
                                             onChange={(e) => handlePaymentModeChange(e, setFieldValue)}
                                             label="Card"
+                                            disabled={diabledForm} 
                                         />
                                         <CustomRadioButton
                                             id="mobile"
@@ -385,6 +348,7 @@ const UnitDetails = ({ onNext }) => {
                                             checked={selectedPaymentMode === "mobile"}
                                             onChange={(e) => handlePaymentModeChange(e, setFieldValue)}
                                             label="Mobile"
+                                            disabled={diabledForm} 
                                         />
                                     </div>
                                     <ErrorMessage name="paymentMode" component="div" className="text-darkred text-sm font-medium " />
@@ -410,6 +374,7 @@ const UnitDetails = ({ onNext }) => {
                                             checked={selectedValue === "mobile"}
                                             onChange={(e) => handleRadioChange(e, setFieldValue)}
                                             label="Mobile"
+                                            disabled={diabledForm} 
                                         />
                                         <CustomRadioButton
                                             id="landline"
@@ -418,6 +383,7 @@ const UnitDetails = ({ onNext }) => {
                                             checked={selectedValue === "landline"}
                                             onChange={(e) => handleRadioChange(e, setFieldValue)}
                                             label="Landline"
+                                            disabled={diabledForm} 
                                         />
                                         <CustomRadioButton
                                             id="both"
@@ -426,6 +392,7 @@ const UnitDetails = ({ onNext }) => {
                                             checked={selectedValue === "both"}
                                             onChange={(e) => handleRadioChange(e, setFieldValue)}
                                             label="Both"
+                                            disabled={diabledForm} 
                                         />
                                     </div>
                                 </div>
@@ -440,7 +407,7 @@ const UnitDetails = ({ onNext }) => {
                                         <Field
                                             as="select"
                                             name="countryCode"
-                                            className="p-3 border border-customOrange outline-none rounded mr-2"
+                                            className="p-3 border border-customOrange outline-none rounded mr-2" disabled={diabledForm} 
                                         >
                                             <option value="IND +91">IND +91</option>
                                             <option value="USA +1">USA +1</option>
@@ -450,7 +417,7 @@ const UnitDetails = ({ onNext }) => {
                                             className="w-full p-3 border border-customOrange outline-none rounded"
                                             type="text"
                                             name="mobileNumber"
-                                            placeholder="Mobile Number"
+                                            placeholder="Mobile Number" disabled={diabledForm} 
                                             onChange={(e) => {
                                                 setVerify("");
                                                 localStorage.removeItem("mobileverify");// Clear localStorage when the mobile number changes
@@ -458,7 +425,7 @@ const UnitDetails = ({ onNext }) => {
                                             }}
                                         // disabled={localStorageUtil.getItem("mobileverify")=="Mobile is Verified" ? true :false}
                                         />
-                                        {localStorageUtil.getItem("mobileverify") !== "Mobile is Verified" ? <button type="button" className=" pl-0 lg:py-3 lg:px-6 text-[#FF9F08]" onClick={(event) => {
+                                        {localStorageUtil.getItem("mobileverify") !== "Mobile is Verified" ? <button type="button" className=" pl-0 lg:py-3 lg:px-6 text-[#FF9F08]"  disabled={diabledForm} onClick={(event) => {
 
 
                                             fetchDocumentDetails(values.countryCode, values.mobileNumber, { setValues }, setFieldValue)
@@ -503,6 +470,7 @@ const UnitDetails = ({ onNext }) => {
                                             type="text"
                                             name="landlineNumber"
                                             placeholder="Landline Number"
+                                            disabled={diabledForm} 
                                         /></div><div>
                                         <ErrorMessage name="landlineNumber" component="div" className="text-darkred text-sm font-medium " />
                                     </div>
@@ -518,6 +486,7 @@ const UnitDetails = ({ onNext }) => {
                                                 as="select"
                                                 name="countryCode"
                                                 className="p-3 border border-customOrange outline-none rounded mr-2"
+                                                disabled={diabledForm} 
                                             >
                                                 <option value="IND +91">IND +91</option>
                                                 <option value="USA +1">USA +1</option>
@@ -528,6 +497,7 @@ const UnitDetails = ({ onNext }) => {
                                                 type="text"
                                                 name="mobileNumber"
                                                 placeholder="Mobile Number"
+                                                disabled={diabledForm} 
 
                                             />
                                             {/* <button className="ml-2 py-3 px-6 text-[#FF9F08]">
@@ -546,6 +516,7 @@ const UnitDetails = ({ onNext }) => {
                                                 type="text"
                                                 name="landlineNumber"
                                                 placeholder="Landline Number"
+                                                disabled={diabledForm} 
                                             /></div><div>
                                             <ErrorMessage name="landlineNumber" component="div" className="text-darkred text-sm font-medium " />
                                         </div>
@@ -555,12 +526,17 @@ const UnitDetails = ({ onNext }) => {
                         </div>
                     </div>
                     <div className="flex justify-between ">
-                        <button type="submit" className="btn-primary mt-6 text-white bg-customOrange px-6 py-3 border border-transparent rounded-md" onClick={() => {
+                       {currentFlow=="add" && <button type="submit" className="btn-primary mt-6 text-white bg-customOrange px-6 py-3 border border-transparent rounded-md" onClick={() => {
                             setCurrentStep(1);
                             setCurrentTab(-1);
                         }}>
                             Back
-                        </button>
+                        </button>}
+                       { currentFlow=="get" && <button type="submit" className="btn-primary mt-6 text-white  px-6 py-3 border border-transparent rounded-md" onClick={() => {
+                           
+                        }}>
+                           
+                        </button>}
 
                         <button type="submit" className="btn-primary mt-6 text-white bg-customOrange px-6 py-3 border border-transparent rounded-md">
                             Next

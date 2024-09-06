@@ -37,7 +37,7 @@ const DetailViewBusinessRegistered = () => {
       </div>
 <div className='flex  flex-grow justify-center '>
       {/* Main content */}
-      <div className="bg-light-gray shadow-md rounded-lg p-6 w-full  ">
+      <div className="bg-[#f5f5f5] shadow-md rounded-lg p-6 w-full  ">
         <h2 className="text-3xl font-bold text-gray-800 mb-6">
           {businessDetail.unitName.toUpperCase()}
         </h2>

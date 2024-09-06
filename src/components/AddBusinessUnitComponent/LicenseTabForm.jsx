@@ -10,12 +10,13 @@ import useAuthStore from "../../store/useAuthStore";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import businessLogicStore from "../../store/BusinessLogicStore"
 const LicenseTabForm = ({ onSubmitLicence }) => {
     const { licenseForm, setLicenseForm, unitDetails, businessDetails, ownerDetails } = useStore();
-    const { resetUnitDetails,resetLicenseDetails,resetOwnerDetails, resetBusinessDetails} = useStore();
-    const { user, setUser } = useAuthStore();
-    
-const navigate=useNavigate();
+    const { resetUnitDetails, resetLicenseDetails, resetOwnerDetails, resetBusinessDetails } = useStore();
+
+    const { diabledForm, currentFlow } = businessLogicStore();
+    const navigate = useNavigate();
     const initialValues = {
         licenseNumber: licenseForm.licenseNumber || '',
         validFrom: licenseForm.validFrom || '',
@@ -29,16 +30,16 @@ const navigate=useNavigate();
 
     const validationSchema = Yup.object({
         licenseNumber: Yup.string()
-        .required('License Number is required')
-        .matches(/^\d+$/, 'License Number must be only digits')
-        .min(8, 'License Number must be at least 8 digits long')
-        .max(12, 'License Number must be at most 12 digits long'),
+            .required('License Number is required')
+            .matches(/^\d+$/, 'License Number must be only digits')
+            .min(8, 'License Number must be at least 8 digits long')
+            .max(12, 'License Number must be at most 12 digits long'),
         // validFrom: Yup.date().required('Valid From is required'),
         // validUpto: Yup.date().required('Valid Upto is required'),
         // licenseCategory: Yup.string().required('License Category/Type Name is required'),
         // issuingAuthority: Yup.string().required('License Issuing Authority is required'),
         // licenseOwner: Yup.string().required('License Owner details are required'),
-         licenseCertificate: Yup.mixed().required('Liquor Service License Certificate is required'),
+        licenseCertificate: Yup.mixed().required('Liquor Service License Certificate is required'),
     });
     const handleFileChange = (event, setFieldValue, fieldName) => {
 
@@ -60,74 +61,16 @@ const navigate=useNavigate();
                 if ("submitforregistration" == submitforregistration) {
                     // alert("running");
                     setLicenseForm(values);
-                    
+
                     // alert("api merchant");
                     console.log(">>>>>>>>>>>>>>>>>>>>>unitDetails", unitDetails);
                     console.log(">>>>>>>>>>>>>>>>>>>>>businessDetails", businessDetails);
                     console.log(">>>>>>>>>>>>>>>>>>>>>ownerDetails", ownerDetails);
                     console.log(">>>>>>>>>>>>>>>>>>>>>licenseForm", licenseForm);
-                    //    let unitDetails= {
-                    //         unitRegistrationCountry: "",
-                    //         categorySelected: "",
-                    //         ownershipMode: "",
-                    //         unitName: "",
-                    //         subarea: "",
-                    //         locality: "",
-                    //         shopCategory: "",
-                    //         address: "",
-                    //         acceptedCurrency: "",
-                    //         openTime: "09:00",
-                    //         closeTime: "23:45",
-                    //         contactType: "mobile",
-                    //         contactNumber: "",
-                    //         paymentMode: "cash",
 
-                    //       }
-                    //      let businessDetails= {
-                    //         idType: '',
-                    //         idDocumentNumber: '',
-                    //         legallyRegisteredName: '',
-                    //         businessEntityRegistrationCountry: 'India',
-                    //         addressLine1: '',
-                    //         addressLine2: '',
-                    //         city: '',
-                    //         state: '',
-                    //         zipCode: '',
-                    //         gpsLocation: '',
-                    //         businessLogo: null,
-                    //         email: '',
-                    //         mobileNumber: '',   // Updated field name
-                    //         contact: 'mobile',
-                    //         landlineNumber: '' , 
-                    //         gstdocument: null, 
-                    //         cindocument: null, 
-                    //         pandocument: null, 
-                    //       }
-
-                    // ownerDetails: {
-                    //     idType: '',
-                    //     idDocumentNumber: '',
-                    //     name: '',
-                    //     dob: '',
-                    //     email: '',
-                    //     designation: '',
-                    //     mobileNumber: '',   // Updated field name
-                    //     landlineNumber: '', // Updated field name
-                    //     contact: 'mobile',
-                    //   },
-                    // licenseForm: {
-                    //     licenseNumber: '',
-                    //     validFrom: '',
-                    //     validUpto: '',
-                    //     licenseCategory: '',
-                    //     issuingAuthority: '',
-                    //     issuingAuthorityCountry: 'IND',
-                    //     licenseOwner: 'licenseOwner',
-                    //     licenseCertificate: null,
-                    //   },
                     console.log(">>>>>>>>>>>>>>>>>>values.From", values?.validFrom);
                     console.log(">>>>>>>>>>>>>>>>>>values.validUpto", values?.validUpto);
-                
+
                     let merchantsignup = {
                         businessUnitDetailDto: {
                             "unitName": unitDetails?.unitName,
@@ -147,8 +90,9 @@ const navigate=useNavigate();
                             "openTime": unitDetails?.openTime,
                             "closeTime": unitDetails?.closeTime,
                             "paymentMode": ["Credit Card", "Debit Card", "Cash", "Online Payment"],
-                            "photoIdType": "Passport",
-                            "photoIdNo": "P987654321",
+                            "photoIdType": businessDetails.idType,
+                            "photoIdNo": businessDetails.idDocumentNumber,
+
                             "legalBusinessName": businessDetails?.legallyRegisteredName,
                             "country": businessDetails?.businessEntityRegistrationCountry || "",
                             "address1": businessDetails?.addressLine1,
@@ -158,13 +102,13 @@ const navigate=useNavigate();
                             "postalCode": "20222",
                             "gpsLocation": "4.1755, 73.5094",
                             "postalAddress": businessDetails?.zipCode,
-                            
+
                             "users": ownerDetails
-                            
-                            
-                            
-                            
-                            
+
+
+
+
+
                             // [
                             //   {
                             //     "name": ownerDetails?.name,
@@ -197,8 +141,8 @@ const navigate=useNavigate();
                             // //     "role": "Owner"
                             // //   }
                             // ]
-                            
-                            
+
+
                             ,
                             "currencies": [
                                 {
@@ -284,11 +228,11 @@ const navigate=useNavigate();
                         console.log('File uploaded successfully', response.data);
                         toast.success("Business Registered")
                         //=============================================
-                        
+
                         // navigate('/dashboard', { replace: true });
 
                         // setUser({});
-                         resetUnitDetails();
+                        resetUnitDetails();
                         resetLicenseDetails();
                         resetOwnerDetails();
                         resetBusinessDetails();
@@ -297,14 +241,14 @@ const navigate=useNavigate();
                         localStorage.removeItem("emailverify");
                         localStorage.removeItem("mobileverifybusiness");
                         localStorage.removeItem("mobileverifyowner");
-                       
+
                         // localStorage.removeItem("profile");
-                      
+
                         //=======================================
 
 
                         navigate("/dashboard");
-                        
+
                     } catch (error) {
 
                         if (error.code === 'ERR_NETWORK') {
@@ -317,7 +261,7 @@ const navigate=useNavigate();
 
 
                 }
-              
+
             }}
         >
             {({ setFieldValue, values }) => (
@@ -333,6 +277,7 @@ const navigate=useNavigate();
                                         name="licenseNumber"
                                         className="w-full p-3 border border-customOrange outline-none rounded"
                                         placeholder='ABCDESZ3245'
+                                        disabled={diabledForm}
                                     />
                                     <ErrorMessage name="licenseNumber" component="div" className="text-darkred text-sm font-medium" />
                                 </div>
@@ -344,6 +289,7 @@ const navigate=useNavigate();
                                                 type="date"
                                                 name="validFrom"
                                                 className="w-full p-3 border border-customOrange outline-none rounded"
+                                                disabled={diabledForm}
                                             />
                                             <ErrorMessage name="validFrom" component="div" className="text-darkred text-sm font-medium" />
                                         </div>
@@ -353,6 +299,7 @@ const navigate=useNavigate();
                                                 type="date"
                                                 name="validUpto"
                                                 className="w-full p-3 border border-customOrange outline-none rounded"
+                                                disabled={diabledForm}
                                             />
                                             <ErrorMessage name="validUpto" component="div" className="text-darkred text-sm font-medium" />
                                         </div>
@@ -360,36 +307,74 @@ const navigate=useNavigate();
                                 </div>
                             </div>
                             <div className="grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        
-                                    <label className="block text-gray-700 mb-2" htmlFor="issuingAuthority">License Issuing Authority</label>
-                                    <div className="flex items-center mt-1">
-                                        <Field
-                                            type="text"
-                                            name="issuingAuthority"
-                                            className="w-full p-3 border border-customOrange outline-none rounded"
-                                            placeholder="Enter the Name of Issuing Authority"
-                                        />
-                                        <Field as="select" name="issuingAuthorityCountry" className="p-3 border border-customOrange outline-none rounded ml-2 block">
-                                        <option value="">Select Country</option>
-                                            
-                                            <option value="IND">IND</option>
-                                            {/* Add more options as needed */}
-                                        </Field>
-                                    </div>
-                                    <ErrorMessage name="issuingAuthority" component="div" className="text-darkred text-sm font-medium" />
-                               
-                                    <div className='mt-5'>
-                                <label className="block text-gray-700 mb-2" htmlFor="licenseCertificate">Liquor Service License Certificate</label>
 
-                                <input
-                                    type="file"
-                                    name="licenseCertificate"
-                                    accept=".pdf"
-                                    onChange={(event) => handleFileChange(event, setFieldValue, "licenseCertificate")}
-                                    className="w-full p-3 border border-customOrange outline-none rounded"
-                                />
-                                <ErrorMessage name="licenseCertificate" component="div" className="text-darkred text-sm font-medium" />
-                            </div>
+                                <label className="block text-gray-700 mb-2" htmlFor="issuingAuthority">License Issuing Authority</label>
+                                <div className="flex items-center mt-1">
+                                    <Field
+                                        type="text"
+                                        name="issuingAuthority"
+                                        className="w-full p-3 border border-customOrange outline-none rounded"
+                                        placeholder="Enter the Name of Issuing Authority"
+                                        disabled={diabledForm}
+                                    />
+                                    <Field as="select" name="issuingAuthorityCountry" className="p-3 border border-customOrange outline-none rounded ml-2 block"
+                                        disabled={diabledForm}>
+                                        <option value="">Select Country</option>
+
+                                        <option value="IND">IND</option>
+                                        {/* Add more options as needed */}
+                                    </Field>
+                                </div>
+                                <ErrorMessage name="issuingAuthority" component="div" className="text-darkred text-sm font-medium" />
+
+                                <div className='mt-5'>
+                                    <label className="block text-gray-700 mb-2" htmlFor="licenseCertificate">Liquor Service License Certificate</label>
+
+                                    <input
+                                        type="file"
+                                        name="licenseCertificate"
+                                        accept=".pdf"
+                                        onChange={(event) => handleFileChange(event, setFieldValue, "licenseCertificate")}
+                                        className="w-full p-3 border border-customOrange outline-none rounded"
+                                        disabled={diabledForm}
+                                    />
+                                    <ErrorMessage name="licenseCertificate" component="div" className="text-darkred text-sm font-medium" />
+
+
+
+
+                                    {values.licenseCertificate && <p className="text-sm mt-1"> {values.licenseCertificate.name.includes("https") ?
+
+
+                                        <p className="text-sm mt-1">
+                                            File: <a
+                                                href={licenseForm.licenseCertificate.name}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="text-customBlue underline">
+                                                Link
+                                            </a>
+                                        </p> : <p className="text-sm mt-1">File: {values.licenseCertificate.name}</p>
+
+
+                                    }</p>}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                </div>
                             </div>
                             <div className="grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
                                 <label className="block text-gray-600 mb-2">License Owner Details</label>
@@ -401,6 +386,7 @@ const navigate=useNavigate();
                                         checked={values.licenseOwner === 'licenseOwner'}
                                         onChange={() => setFieldValue('licenseOwner', 'licenseOwner')}
                                         label={`License Ownership is with Business Organization Business organization`}
+                                        disabled={diabledForm}
                                     />
                                     <CustomRadioButton
                                         id="ownerGroupMember"
@@ -409,6 +395,7 @@ const navigate=useNavigate();
                                         checked={values.licenseOwner === 'ownerGroupMember'}
                                         onChange={() => setFieldValue('licenseOwner', 'ownerGroupMember')}
                                         label={'License Ownership is with Owner-Group Member Owner-Group Member'}
+                                        disabled={diabledForm}
                                     />
                                     <CustomRadioButton
                                         id="thirdParty"
@@ -417,24 +404,25 @@ const navigate=useNavigate();
                                         checked={values.licenseOwner === 'thirdParty'}
                                         onChange={() => setFieldValue('licenseOwner', 'thirdParty')}
                                         label="License Ownership is with Third-Party"
+                                        disabled={diabledForm}
                                     />
                                     <ErrorMessage name="licenseOwner" component="div" className="text-darkred text-sm font-medium" />
                                 </div>
                             </div>
                         </div>
-                     
+
                         <div className="flex justify-between"><button
                             type="button"
-                            className="mt-4 py-2 px-4 bg-[#FF9F08] text-white rounded-md"  onClick={()=>onSubmitLicence(values)}
+                            className="mt-4 py-2 px-4 bg-[#FF9F08] text-white rounded-md" onClick={() => onSubmitLicence(values)}
                         >
                             Back
                         </button>
-                            <button
+                            {currentFlow == "add" && <button
                                 type="submit" id="submitforregistration"
                                 className="mt-4 py-2 px-4 bg-[#FF9F08] text-white rounded-md"
                             >
                                 Submit For Registration
-                            </button>
+                            </button>}
                         </div>
                     </div>
                 </Form>

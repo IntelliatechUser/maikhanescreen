@@ -17,9 +17,9 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
     const [modalfor, setModalFor] = useState("");
     const { businessDetails, setBusinessDetails } = useStore();
     const [selectedIdType, setSelectedIdType] = useState(businessDetails.idType);
-    const { currentTab, setCurrentTab } = businessLogicStore();
+    const { currentTab, setCurrentTab, currentFlow, diabledForm } = businessLogicStore();
     const validationSchema = Yup.object({
-       
+
         idDocumentNumber: Yup.string().required('Required'),
         legallyRegisteredName: Yup.string().required('Required'),
         addressLine1: Yup.string().required('Required'),
@@ -27,17 +27,17 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
         city: Yup.string().required('Required'),
         state: Yup.string().required('Required'),
         zipCode: Yup.string().required('Required'),
-         contact: Yup.string().required('Required'),
+        contact: Yup.string().required('Required'),
         email: Yup.string().required('Required'),
         idType: Yup.string().required('Required'),
-        
-      
+
+
         businessLogo: Yup.mixed().required('Business logo is required'),
         pandocument: Yup.mixed().required('pandocument logo is required'),
         cindocument: Yup.mixed().required('cindocument logo is required'),
         gstdocument: Yup.mixed().required('gstdocument logo is required'),
 
-       
+
         mobileNumber: Yup.string().test(
             'mobileNumberValidation',
             'Mobile number is required ',
@@ -53,7 +53,7 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
             'landlineNumberValidation',
             'Landline number is required ',
             function (value) {
-                const { contact} = this.parent;
+                const { contact } = this.parent;
                 if (contact === 'landline' || contact === 'both') {
                     return !!value;
                 }
@@ -194,7 +194,7 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
         setSelectedIdType(idType);
         setFieldValue("idType", idType);
     };
- 
+    console.log(">>>>>>>>>>>>>>>businessDetail", businessDetails)
     return (
         <Formik
             initialValues={businessDetails}
@@ -222,7 +222,7 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                         <div className="grid md:grid-cols-[60%_40%] gap-6 mb-6">
                             <div>
                                 <label className="block text-gray-600 mb-2">Business ID Type</label>
-                                <Field as="select" name="idType" className="w-full p-3 border border-customOrange outline-none rounded" onChange={(event) => {
+                                <Field as="select" name="idType" className="w-full p-3 border border-customOrange outline-none rounded" disabled={diabledForm} onChange={(event) => {
 
                                     setFieldValue('legallyRegisteredName', "");
                                     setFieldValue('addressLine1', "");
@@ -243,10 +243,11 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                         name="idDocumentNumber"
                                         className="w-full p-3 border border-customOrange outline-none rounded"
                                         placeholder="HGEU49660T"
+                                        disabled={diabledForm}
                                     />
                                     <button
                                         type="button"
-                                        className="ml-2 border border-customOrange text-[#FF9F08] py-2 px-4 rounded-md"
+                                        className="ml-2 border border-customOrange text-[#FF9F08] py-2 px-4 rounded-md"  disabled={diabledForm}
                                         onClick={() => handleValidate(values.idType, values.idDocumentNumber, setFieldValue)}
                                     >
                                         Validate
@@ -265,6 +266,7 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                         name="legallyRegisteredName"
                                         className="w-full p-3 border border-customOrange outline-none rounded"
                                         placeholder="Legally Registered Name"
+                                        disabled={diabledForm}
                                     />
                                     <ErrorMessage name="legallyRegisteredName" component="div" className="text-darkred text-sm font-medium " />
                                 </div> <div>  <p className="mt-1 text-xs text-gray-600">
@@ -279,6 +281,7 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                                     name="addressLine1"
                                                     className="w-full p-3 border border-customOrange outline-none rounded"
                                                     placeholder="Address Line 01"
+                                                    disabled={diabledForm}
                                                 />
                                                 <ErrorMessage name="addressLine1" component="div" className="text-red-500 text-xs mt-1" />
                                             </div>
@@ -289,6 +292,7 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                                     name="addressLine2"
                                                     className="w-full p-3 border border-customOrange outline-none rounded"
                                                     placeholder="Address Line 02"
+                                                    disabled={diabledForm}
                                                 />
                                                 <ErrorMessage name="addressLine2" component="div" className="text-darkred text-sm font-medium " />
                                             </div>
@@ -301,6 +305,7 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                                     name="city"
                                                     className="w-full p-3 border border-customOrange outline-none rounded"
                                                     placeholder="Town/City"
+                                                    disabled={diabledForm}
                                                 />
                                                 <ErrorMessage name="city" component="div" className="text-darkred text-sm font-medium " />
                                             </div>
@@ -310,6 +315,7 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                                     name="state"
                                                     className="w-full p-3 border border-customOrange outline-none rounded"
                                                     placeholder="State/Province/Territory"
+                                                    disabled={diabledForm}
                                                 />
                                                 <ErrorMessage name="state" component="div" className="text-darkred text-sm font-medium " />
                                             </div>
@@ -322,6 +328,7 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                                     name="zipCode"
                                                     className="w-full p-3 border border-customOrange outline-none rounded"
                                                     placeholder="Postal Code"
+                                                    disabled={diabledForm}
                                                 />
                                                 <ErrorMessage name="zipCode" component="div" className="text-darkred text-sm font-medium " />
                                             </div>
@@ -331,11 +338,12 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                                     name="gpsLocation"
                                                     className="w-full p-3 border border-customOrange outline-none rounded"
                                                     placeholder="Add GPS Location"
+                                                    disabled={diabledForm}
                                                 />
                                             </div>
                                         </div>
 
-                                     
+
 
                                     </div>
 
@@ -372,7 +380,7 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
 
 
 
-                                            {localStorageUtil.getItem("emailverify") !== "Email is Verified" ? <button type="button" className="ml-2 border border-customOrange text-[#FF9F08] py-2 px-4 rounded-md flex-grow" onClick={(event) => {
+                                            {localStorageUtil.getItem("emailverify") !== "Email is Verified" ? <button type="button" className="ml-2 border border-customOrange text-[#FF9F08] py-2 px-4 rounded-md flex-grow"  disabled={diabledForm} onClick={(event) => {
 
 
                                                 fetchDocumentDetails("email", values, { setValues }, setFieldValue)
@@ -417,6 +425,7 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                                 checked={selectedValue === "mobile"}
                                                 onChange={(e) => handleRadioChange(e, setFieldValue)}
                                                 label="Mobile"
+                                                disabled={diabledForm}
                                             />
                                             <CustomRadioButton
                                                 id="landline"
@@ -425,6 +434,7 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                                 checked={selectedValue === "landline"}
                                                 onChange={(e) => handleRadioChange(e, setFieldValue)}
                                                 label="Landline"
+                                                disabled={diabledForm}
                                             />
                                             <CustomRadioButton
                                                 id="both"
@@ -433,6 +443,7 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                                 checked={selectedValue === "both"}
                                                 onChange={(e) => handleRadioChange(e, setFieldValue)}
                                                 label="Both"
+                                                disabled={diabledForm}
                                             />
                                         </div>
                                     </div>
@@ -450,6 +461,7 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                                 as="select"
                                                 name="countryCode"
                                                 className="p-3 border border-customOrange outline-none rounded mr-2"
+                                                disabled={diabledForm}
                                             >
                                                 <option value="IND +91">IND +91</option>
                                                 <option value="USA +1">USA +1</option>
@@ -460,6 +472,7 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                                 type="text"
                                                 name="mobileNumber"
                                                 placeholder="Mobile Number"
+                                                disabled={diabledForm}
                                                 onChange={(e) => {
                                                     setVerify("");
                                                     localStorage.removeItem("mobileverifybusiness");// Clear localStorage when the mobile number changes
@@ -467,7 +480,7 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                                 }}
                                             // disabled={localStorageUtil.getItem("mobileverifybusiness")=="Mobile is Verified" ? true :false}
                                             />
-                                            {localStorageUtil.getItem("mobileverifybusiness") !== "Mobile is Verified" ? <button type="button" className=" pl-0 lg:py-3 lg:px-6 text-[#FF9F08]" onClick={(event) => {
+                                            {localStorageUtil.getItem("mobileverifybusiness") !== "Mobile is Verified" ? <button type="button" className=" pl-0 lg:py-3 lg:px-6 text-[#FF9F08]"  disabled={diabledForm} onClick={(event) => {
 
 
                                                 fetchDocumentDetails("mobileNumber", values, { setValues }, setFieldValue)
@@ -486,7 +499,7 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                             >
                                                 Verify
                                             </button> :
-                                            <VerifiedIcon width={80} height={80} fill="green" />
+                                                <VerifiedIcon width={80} height={80} fill="green" />
 
                                                 // <button type="button" className=" pl-0 lg:py-3 lg:px-6 text-[#FF9F08]"
 
@@ -495,26 +508,27 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                                 // >
                                                 //     MobileNumber is Verified
                                                 // </button>
-                                                
-                                                }
+
+                                            }
 
                                         </div>
                                         <ErrorMessage name="mobileNumber" component="div" className="text-darkred text-sm font-medium " />
                                     </div>
                                 ) : selectedValue === "landline" ? (
                                     <div>
-                                         <label className="block text-gray-600 mb-2" htmlFor="landlineNumber">
-                                        Landline Number
-                                    </label>
-                                    <div className=" items-center">
-                                        <Field
-                                            className="w-full p-3 border border-customOrange outline-none rounded"
-                                            type="text"
-                                            name="landlineNumber"
-                                            placeholder="Landline Number"
-                                        />
-                                        <ErrorMessage name="landlineNumber" component="div" className="text-darkred text-sm font-medium " />
-                                    </div>
+                                        <label className="block text-gray-600 mb-2" htmlFor="landlineNumber">
+                                            Landline Number
+                                        </label>
+                                        <div className=" items-center">
+                                            <Field
+                                                className="w-full p-3 border border-customOrange outline-none rounded"
+                                                type="text"
+                                                name="landlineNumber"
+                                                placeholder="Landline Number"
+                                                disabled={diabledForm}
+                                            />
+                                            <ErrorMessage name="landlineNumber" component="div" className="text-darkred text-sm font-medium " />
+                                        </div>
                                     </div>
                                 ) : (
                                     <div>
@@ -530,6 +544,7 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                                     as="select"
                                                     name="countryCode"
                                                     className="p-3 border border-customOrange outline-none rounded mr-2"
+                                                    disabled={diabledForm}
                                                 >
                                                     <option value="IND +91">IND +91</option>
                                                     <option value="USA +1">USA +1</option>
@@ -540,9 +555,10 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                                     type="text"
                                                     name="mobileNumber"
                                                     placeholder="Mobile Number"
+                                                    disabled={diabledForm}
                                                 />
-                                                </div><div>
-                                                  <ErrorMessage name="mobileNumber" component="div" className="text-darkred text-sm font-medium " />
+                                            </div><div>
+                                                <ErrorMessage name="mobileNumber" component="div" className="text-darkred text-sm font-medium " />
                                                 {/* <button className="ml-2 py-3 px-6 text-[#FF9F08]">
                                             Verify Number
                                         </button> */}
@@ -561,16 +577,17 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                                     type="text"
                                                     name="landlineNumber"
                                                     placeholder="Landline Number"
+                                                    disabled={diabledForm}
                                                 /></div><div>
-                                                 <ErrorMessage name="landlineNumber" component="div" className="text-darkred text-sm font-medium " />
+                                                <ErrorMessage name="landlineNumber" component="div" className="text-darkred text-sm font-medium " />
                                             </div>
                                         </div>
                                     </div>
                                 )}</div>
 
                                 <ErrorMessage name="contactNumber" component="div" className="text-darkred text-sm font-medium " />
-                                
-                            
+
+
                             </div>
                         </div>
 
@@ -583,10 +600,25 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                     accept=".pdf"
                                     onChange={(event) => handleFileChange(event, setFieldValue, "businessLogo")}
                                     className="w-full p-3 border border-customOrange outline-none rounded"
+                                    disabled={diabledForm}
                                 />
                                 <ErrorMessage name="businessLogo" component="div" className="text-darkred text-sm font-medium " />
-                                {values.businessLogo && <p className="text-sm mt-1">File: {values.businessLogo.name}</p>}
-                            
+
+                                {values.businessLogo && <p className="text-sm mt-1"> {values.businessLogo.name.includes("https") ?
+
+
+<p className="text-sm mt-1">
+    File: <a
+        href={businessDetails.businessLogo.name}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-customBlue underline">
+        Link
+    </a>
+</p> : <p className="text-sm mt-1">File: {values.businessLogo.name}</p>
+
+
+}</p>}
                             </div>
 
 
@@ -599,11 +631,25 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                         accept=".pdf"
                                         onChange={(event) => handleFileChange(event, setFieldValue, "gstdocument")}
                                         className="w-full p-3 border border-customOrange outline-none rounded"
+                                        disabled={diabledForm}
                                     />
                                 </div>
                                 <ErrorMessage name="gstdocument" component="div" className="text-darkred text-sm font-medium " />
-                                {values.gstdocument && <p className="text-sm mt-1">File: {values.gstdocument.name}</p>}
-                           
+                                {values.gstdocument && <p className="text-sm mt-1"> {values.gstdocument.name.includes("https") ?
+
+
+                                    <p className="text-sm mt-1">
+                                        File: <a
+                                            href={businessDetails.gstdocument.name}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="text-customBlue underline">
+                                            Link
+                                        </a>
+                                    </p> : <p className="text-sm mt-1">File: {values.gstdocument.name}</p>
+
+
+                                }</p>}
                             </div>
                             <div>
                                 <label className="block text-gray-600 mb-2">CIN Document Upload</label>
@@ -614,10 +660,26 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                         accept=".pdf"
                                         onChange={(event) => handleFileChange(event, setFieldValue, "cindocument")}
                                         className="w-full p-3 border border-customOrange outline-none rounded"
+                                        disabled={diabledForm}
                                     />
                                 </div>
                                 <ErrorMessage name="cindocument" component="div" className="text-darkred text-sm font-medium " />
-                                {values.cindocument && <p className="text-sm mt-1">File: {values.cindocument.name}</p>}
+                                {values.cindocument && <p className="text-sm mt-1"> {values.cindocument.name.includes("https") ?
+
+
+                                    <p className="text-sm mt-1">
+                                        File: <a
+                                            href={businessDetails.cindocument.name}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="text-customBlue underline">
+                                            Link
+                                        </a>
+                                    </p> : <p className="text-sm mt-1">File: {values.cindocument.name}</p>
+
+
+                                }</p>}
+
                             </div>
                             <div>
                                 <label className="block text-gray-600 mb-2">PAN Document Upload</label>
@@ -628,26 +690,43 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                         accept=".pdf"
                                         onChange={(event) => handleFileChange(event, setFieldValue, "pandocument")}
                                         className="w-full p-3 border border-customOrange outline-none rounded"
+                                        disabled={diabledForm}
                                     />
                                 </div>
                                 <ErrorMessage name="pandocument" component="div" className="text-darkred text-sm font-medium " />
-                                {values.pandocument && <p className="text-sm mt-1">File: {values.pandocument.name}</p>}
+                                {values.pandocument && <p className="text-sm mt-1"> {values.pandocument.name.includes("https") ?
+
+
+                                    <p className="text-sm mt-1">
+                                        File: <a
+                                            href={businessDetails.pandocument.name}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="text-customBlue underline">
+                                            Link
+                                        </a>
+                                    </p> : <p className="text-sm mt-1">File: {values.pandocument.name}</p>
+
+
+                                }</p>}
+
+
                             </div>
 
 
 
                             {
-                            
-                            
-                            
-                          
 
-}
+
+
+
+
+                            }
 
                         </div>
 
 
-                        
+
                         <div className="flex justify-between">  <button
                             type="button"
                             className="mt-6 p-3 bg-customOrange text-white rounded" onClick={() => onSubmitBusiness(values)}

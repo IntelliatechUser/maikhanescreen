@@ -331,6 +331,9 @@ const Header = () => {
       window.location.href = "/profile"; // Redirect to profile page
     }
   };
+  const handleNavigate = () => {
+    navigate('/dashboard');
+  };
   console.log(">>>>>>>>>>>>>>profileName,roleName", profileName,roleName);
   return (
     <header className="bg-white shadow-xl mb-8">
@@ -358,9 +361,9 @@ const Header = () => {
           )}
           <nav>
            
-            <Link to= "/dashboard" className="text-gray-600 px-3">
-              Home
-            </Link>
+          <button onClick={handleNavigate} className="text-gray-600 px-3">
+     HOME
+    </button>
             <a href="/company" className="text-gray-600 px-3">
               Company
             </a>

@@ -5,8 +5,10 @@ import UnitDetails from '../components/AddBusinessUnitComponent/UnitDetails';
 import businessLogicStore from "../store/BusinessLogicStore";
 import OwnershipAndLicenceDetails from '../components/AddBusinessUnitComponent/OwnerShipDetails';
 import useStore from "../store/UnitDetail";
+import { useLocation } from 'react-router-dom';
 const AddBusinessUnitPage = () => {
-
+    const location = useLocation();
+    
     const { currentStep, setCurrentStep, currentTab, setCurrentTab } = businessLogicStore();
     const onSubmitBusiness = (business) => {
 
@@ -45,7 +47,7 @@ const AddBusinessUnitPage = () => {
     const handleTabChange = (tabIndex) => {
         setCurrentTab(tabIndex);
     };
-    console.log(">>>>>>>>>>>>>currentstep", currentStep);
+    console.log(">>>>>>>>>>>>>currentstep currenttab", currentStep,currentTab);
     const renderStepContent = () => {
         switch (currentStep) {
             case 1:
@@ -62,8 +64,8 @@ const AddBusinessUnitPage = () => {
                 return null;
         }
     };
-    // console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>formdata", formData);
-    // console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>allformdata", allformdata);
+    
+    
     return (
         <Layout>
             <h2 className="text-3xl  font-bold text-gray-700  text-center">Add New Business Unit</h2>

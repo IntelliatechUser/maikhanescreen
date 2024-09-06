@@ -1,6 +1,6 @@
 import React from 'react';
 
-const CustomCheckbox = ({ id, name, value, checked, onChange, label }) => {
+const CustomCheckbox = ({ id, name, value, checked, onChange, label, disabled }) => {
     return (
         <label className="flex text-secondary items-start cursor-pointer">
             <input
@@ -11,6 +11,7 @@ const CustomCheckbox = ({ id, name, value, checked, onChange, label }) => {
                 checked={checked}
                 onChange={onChange}
                 className="hidden"
+                disabled={disabled}
             />
             <span
                 className={`w-6 h-6 inline-block border-2 rounded-md mr-2 relative border-customOrange`}
