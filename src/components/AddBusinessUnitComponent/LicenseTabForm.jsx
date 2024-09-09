@@ -11,6 +11,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import businessLogicStore from "../../store/BusinessLogicStore"
+import localStorageUtil from "../../utility/utility";
 const LicenseTabForm = ({ onSubmitLicence }) => {
     const { licenseForm, setLicenseForm, unitDetails, businessDetails, ownerDetails } = useStore();
     const { resetUnitDetails, resetLicenseDetails, resetOwnerDetails, resetBusinessDetails } = useStore();
@@ -195,7 +196,7 @@ const LicenseTabForm = ({ onSubmitLicence }) => {
 
 
 
-                    let token = localStorage.getItem("token");
+                    let token = localStorageUtil.getItem("token")
 
                     if (!(businessDetails.businessLogo instanceof File) || !(businessDetails.gstdocument instanceof File) || !(businessDetails.cindocument instanceof File) || !(values.licenseCertificate instanceof File)) {
                         console.error('One or more files are not valid File objects');
@@ -333,7 +334,7 @@ const LicenseTabForm = ({ onSubmitLicence }) => {
                                     <input
                                         type="file"
                                         name="licenseCertificate"
-                                        accept=".pdf"
+                                      
                                         onChange={(event) => handleFileChange(event, setFieldValue, "licenseCertificate")}
                                         className="w-full p-3 border border-customOrange outline-none rounded"
                                         disabled={diabledForm}

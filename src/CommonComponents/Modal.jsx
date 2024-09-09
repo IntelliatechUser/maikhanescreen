@@ -28,7 +28,7 @@ const OTPInput = ({ field, form }) => {
 
   return (
     <div className="flex justify-between space-x-2">
-      {Array(4)
+      {Array(6)
         .fill()
         .map((_, index) => (
           <input
@@ -54,7 +54,7 @@ const OTPModal = ({ isOpen, onClose, onSubmitOTP }) => {
   // Validation schema for Formik
   const validationSchema = Yup.object().shape({
     otp: Yup.string()
-      .matches(/^\d{4}$/, "OTP must be 4 digits")
+      .matches(/^\d{6}$/, "OTP must be 4 digits")
       .required("OTP is required"),
   });
 

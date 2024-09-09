@@ -13,6 +13,7 @@ import businessLogicStore from "../../store/BusinessLogicStore";
 import VerifiedIcon from '../../assets/icons/VerifiedIcon.jsx';
 const UnitDetails = ({ onNext}) => {
     const [category, setCategorySelected] = useState("Select Category");
+  
     const [verify, setVerify] = useState("");
     const [isModalOpen, setIsModalOpen] = React.useState(false);
 
@@ -40,27 +41,13 @@ const UnitDetails = ({ onNext}) => {
         );
 
     };
-    const handleVerifyOtp = async (otp) => {
-    	try {
-    		// Make an API call to verify the OTP
-    		await fetch('/api/verify-otp', {
-    			method: 'POST',
-    			headers: {
-    				'Content-Type': 'application/json',
-    			},
-    			body: JSON.stringify({ otp }),
-    		});
-    		setIsModalOpen(false);
-    	} catch (error) {
-    		console.error('Error verifying OTP:', error);
-    	}
-    };
+  
 
     const fetchDocumentDetails = async (countryCode, mobileNumber, actions, setFieldValue) => {
 
         setIsModalOpen(true);
         try {
-            let token = localStorage.getItem("token");
+            let token = localStorageUtil.getItem("token");
             const response = await axios.get('http://43.204.36.147:8067/otp/generateOtpForUser', {
                 params: {
                     countryCode: "+91",
@@ -80,7 +67,7 @@ const UnitDetails = ({ onNext}) => {
         }
     };
     const handleSubmitOTP = async (actions, otp, mobileNumber) => {
-        let token = localStorage.getItem("token");
+        let token = localStorageUtil.getItem("token");
         try {
             const response = await axios.post(
                 'http://43.204.36.147:8067/otp/validateOtpForUser',
@@ -138,9 +125,11 @@ const UnitDetails = ({ onNext}) => {
             'Mobile number is required ',
             function (value) {
                 const { contactType } = this.parent;
-                if (contactType === 'mobile' || contactType === 'both') {
+                if ((contactType === 'mobile' || contactType === 'both') ) {
+                    
                     return !!value;
                 }
+                
                 return true;
             }
         ).matches(/^[0-9]{10}$/, 'Mobile number must be exactly 10 digits')
@@ -163,6 +152,7 @@ console.log(">>>>>>>>>>>>>>>>>>>>>>>>shopFor",shopFor,diabledForm);
     return (
         <Formik
             initialValues={unitDetails}
+            
             validationSchema={validationSchema}
             validateOnChange={true}
             validateOnBlur={true}

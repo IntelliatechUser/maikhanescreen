@@ -23,11 +23,15 @@ const Dashboard = () => {
 
     useEffect(() => {
 
-        const profile = localStorageUtil.getItem("profile");
 
-        const userId = profile.id;
         const fetchBusinessInProgressCount = async () => {
-            const token = localStorage.getItem("token");
+
+
+
+            const token = await localStorageUtil.getItem("token")
+            const profile = await localStorageUtil.getItem("profile");
+            const userId = profile.id;
+            console.log("profile>>>>>>>>>>", profile);
             console.log("token>>>>>>>>>>>", token);
             let params = {
                 userId: userId,
@@ -81,16 +85,16 @@ const Dashboard = () => {
 
                         }} />
                         <SupportCard title="In-Process Business Unit" description="Submit a sales request or connect with a sales associates." Icon={ProcessUnitIcon} number={countInprogress} handleRedirect={() => {
-                           
-                           resetUnitDetails();
+
+                            resetUnitDetails();
                             resetBusinessDetails();
                             resetOwnerDetails();
                             resetLicenseDetails();
-                            setCurrentStep(1);
+                            setCurrentStep(2);
                             setCurrentTab(1);
                             setCurrentFlow("get");
-                           
-                           setDiabledForm(true);
+
+                            setDiabledForm(true);
                             navigate("/registeredbusinessinprogress")
 
 

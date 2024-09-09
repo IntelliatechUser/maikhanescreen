@@ -10,9 +10,10 @@ import UnitDetailsForm from "./UnitDetailsForm";
 import StepProgressBar from '../../components/StepProgressBar';
 import AddNewBusinessUnitHeader from "../AddNewBusinessUnitHeader";
 import { toast } from "react-toastify";
+import useBusinessLogicStore from "../../store/BusinessLogicStore";
 const OwnershipAndLicenceDetails = ({ currentTab, handleTabChange, onSubmitOwner, onSubmitBusiness, onSubmitLicence, onSubmitUnitDetail, currentStep }) => {
 
-
+const {currentFlow}=useBusinessLogicStore();
     const { ownerDetails, setOwnerDetails } = useStore();
     const [formdisplay, setFormdisplay] = useState(ownerDetails);
 
@@ -75,12 +76,12 @@ const OwnershipAndLicenceDetails = ({ currentTab, handleTabChange, onSubmitOwner
                         Team
                     </button> */}
 
-                    <div>  {currentTab === 3 ?
+                  { currentFlow=="add" && <div>  {currentTab === 3 ?
                         <button className="flex items-center text-[#FF9F08] py-2 px-4 rounded-full">
                             <span className="flex items-center justify-center bg-[#FF9F08] font-semibold text-[36px] text-white rounded-full h-10 w-10 p-1 mr-2">+</span>
-                            <span className="text-[20px] font-bold" onClick={addNewMember}>Add Owner</span>
+                           <span className="text-[20px] font-bold" onClick={addNewMember}>Add Owner</span>
                         </button>
-                        : <></>}</div>
+                        : <></>}</div>}
                 </div>
                 {/* {currentTab === 4 ?
                     <button className="flex items-center text-[#FF9F08] py-2 px-4 rounded-full">

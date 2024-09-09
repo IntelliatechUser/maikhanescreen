@@ -354,7 +354,7 @@ const Header = () => {
                   </option> */}
 
                   <option value="profile">My Profile</option>
-                  <option value="logout" >Logout</option>
+                  <option value="logout">Logout</option>
                 </select>
               </div>
             </div>
@@ -365,16 +365,16 @@ const Header = () => {
      HOME
     </button>
             <a href="/company" className="text-gray-600 px-3">
-              Company
+              COMPANY
             </a>
             <a href="/contact" className="text-gray-600 px-3">
-              Contact Us
+              CONTACT US
             </a>
             <a href="/pricing" className="text-gray-600 px-3">
-              Pricing
+              PRICING
             </a>
             <a href="/support" className="text-gray-600 px-3">
-              Support
+              SUPPORT
             </a>
           </nav>
         </div>

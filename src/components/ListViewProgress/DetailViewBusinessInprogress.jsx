@@ -1,81 +1,6 @@
 
 
 
-
-// import React from 'react';
-// import { useParams,useNavigate } from 'react-router-dom';
-// import businessStatus from "../../store/BusinessStatus"; // Update the path as necessary
-
-// const DetailViewBusinessInprogress = () => {
-//   const { id } = useParams();
-//   const { listBusinessInProgress } = businessStatus();
-//   const navigate = useNavigate();
-//   // Find the business detail with the matching id
-//   const businessDetail = listBusinessInProgress?.find(item => item.id === parseInt(id));
-
-//   if (!businessDetail) {
-//     return <div>Business not found</div>;
-//   }
-
-//   return (
-
-    
-//     <div className="p-6 max-w-4xl mx-auto bg-light-gray shadow-md rounded-lg ">
-//       <h2 className="text-3xl font-bold text-gray-800 mb-6">{businessDetail.unitName.toUpperCase()}</h2>
-//       <div className="flex flex-col space-y-4">
-//         <div className="flex ">
-//           <span className="flex-1 text-sm  font-bold">Business Category:</span>
-//           <span className=" flex-1 text-sm text-gray-700">{businessDetail.businessCategory}</span>
-//         </div>
-//         <div className="flex ">
-//           <span className="flex-1 text-sm  font-bold">Ownership Mode:</span>
-//           <span className="flex-1 text-sm text-gray-700">{businessDetail.ownershipMode}</span>
-//         </div>
-//         <div className="flex ">
-//           <span className="flex-1 text-sm  font-bold">Email:</span>
-//           <span className="flex-1 text-sm text-gray-700">{businessDetail.isEmail ? businessDetail.email : "N/A"}</span>
-//         </div>
-//         <div className="flex ">
-//           <span className="flex-1 text-sm  font-bold">Contact Number:</span>
-//           <span className="flex-1 text-sm text-gray-700">{businessDetail.isContactNo ? businessDetail.contact_no : "N/A"}</span>
-//         </div>
-//         <div className="flex justify-between">
-//           <span className="flex-1 text-sm  font-bold">Registered Country:</span>
-//           <span className="flex-1 text-sm text-gray-700">{businessDetail.registerCountry}</span>
-//         </div>
-//         <div className="flex justify-between">
-//           <span className="flex-1 text-sm  font-bold">Registered Address:</span>
-//           <span className="flex-1 first:text-sm text-gray-700">{businessDetail.registerAddress}</span>
-//         </div>
-//         <div className="flex justify-between">
-//           <span className="flex-1 text-sm  font-bold">Legal Business Name:</span>
-//           <span className="flex-1 text-sm text-gray-700">{businessDetail.legalBusinessName}</span>
-//         </div>
-//         <div className="flex justify-between">
-//           <span className="flex-1 text-sm  font-bold">City:</span>
-//           <span className="flex-1 text-sm text-gray-700">{businessDetail.city}</span>
-//         </div>
-//         <div className="flex justify-between">
-//           <span className="flex-1 text-sm  font-bold">State:</span>
-//           <span className="flex-1 text-sm text-gray-700">{businessDetail.state}</span>
-//         </div>
-//         <div className="flex justify-between">
-//           <span className="flex-1 text-sm  font-bold">Postal Code:</span>
-//           <span className="flex-1 text-sm text-gray-700">{businessDetail.postalCode}</span>
-//         </div>
-//         <div className="flex justify-between">
-//           <span className="flex-1 text-sm  font-bold">GPS Location:</span>
-//           <span className="flex-1 text-sm text-gray-700">{businessDetail.gpsLocation}</span>
-//         </div>
-//       </div>
-//     </div>
-    
-//   );
-// };
-
-// export default DetailViewBusinessInprogress;
-
-
 import axios from 'axios';
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -98,7 +23,7 @@ const DetailViewBusinessInprogress = () => {
           const profile = localStorageUtil.getItem("profile");
           
           const userId = profile.id;
-          const token = localStorage.getItem("token");
+          const token = localStorageUtil.getItem("token");
           if (!token) {
               throw new Error("Token not found");
           }
@@ -168,7 +93,7 @@ licenseForm.licenseCertificate = data.logoPath;
 setBusinessDetails(businessDetails);
 setUnitDetails(unitDetails);
 setOwnerAddgetApi(owners);
-alert("ww")
+
 console.log(">>>>>>>>ownerDetails>>>fetch2",owners);
         //   let merchantsignup = {
         //     businessUnitDetailDto: {

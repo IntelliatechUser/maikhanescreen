@@ -18,6 +18,23 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
     const { businessDetails, setBusinessDetails } = useStore();
     const [selectedIdType, setSelectedIdType] = useState(businessDetails.idType);
     const { currentTab, setCurrentTab, currentFlow, diabledForm } = businessLogicStore();
+    const handleGetLocation = (setFieldValue) => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const { latitude, longitude } = position.coords;
+        const gpsLocationString = `Lat.: ${latitude}, Lon.: ${longitude}`;
+        setFieldValue("gpsLocation", gpsLocationString); 
+                    // setErrorMessage('');
+                },
+                (error) => {
+                    // setErrorMessage('Error fetching location. Please allow location access.');
+                }
+            );
+        } else {
+            // setErrorMessage('Geolocation is not supported by your browser.');
+        }
+    };
     const validationSchema = Yup.object({
 
         idDocumentNumber: Yup.string().required('Required'),
@@ -79,7 +96,7 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
             }
         }
         try {
-            let token = localStorage.getItem("token");
+            let token = localStorageUtil.getItem("token")
             const response = await axios.get('http://43.204.36.147:8067/otp/generateOtpForUser', {
                 params,
                 headers: {
@@ -112,7 +129,7 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                 otp: otp
             }
         }
-        let token = localStorage.getItem("token");
+        let token = localStorageUtil.getItem("token");
         try {
             const response = await axios.post(
                 'http://43.204.36.147:8067/otp/validateOtpForUser',
@@ -153,7 +170,7 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
         setFieldValue('city', "");
         setFieldValue('state', "");
         setFieldValue('zipCode', "");
-        let token = localStorage.getItem("token");
+        let token = localStorageUtil.getItem("token")
         const endpoint = idType === "PAN" ? 'userVerification' : 'businessVerification';
         try {
             const response = await axios.post(`http://43.204.36.147:8067/${endpoint}`, {
@@ -340,6 +357,7 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                                     placeholder="Add GPS Location"
                                                     disabled={diabledForm}
                                                 />
+                                                {/* <button className="ml-2 border border-customOrange text-[#FF9F08] py-2 px-4 rounded-md flex-grow" onClick={()=>handleGetLocation(setFieldValue)}>ADD</button> */}
                                             </div>
                                         </div>
 
@@ -597,7 +615,7 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                 <input
                                     type="file"
                                     name="businessLogo"
-                                    accept=".pdf"
+                                   
                                     onChange={(event) => handleFileChange(event, setFieldValue, "businessLogo")}
                                     className="w-full p-3 border border-customOrange outline-none rounded"
                                     disabled={diabledForm}
@@ -628,7 +646,7 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                     <input
                                         type="file"
                                         name="gstdocument"
-                                        accept=".pdf"
+                                       
                                         onChange={(event) => handleFileChange(event, setFieldValue, "gstdocument")}
                                         className="w-full p-3 border border-customOrange outline-none rounded"
                                         disabled={diabledForm}
@@ -657,7 +675,7 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                     <input
                                         type="file"
                                         name="cindocument"
-                                        accept=".pdf"
+                                       
                                         onChange={(event) => handleFileChange(event, setFieldValue, "cindocument")}
                                         className="w-full p-3 border border-customOrange outline-none rounded"
                                         disabled={diabledForm}
@@ -687,7 +705,7 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                     <input
                                         type="file"
                                         name="pandocument"
-                                        accept=".pdf"
+                                     
                                         onChange={(event) => handleFileChange(event, setFieldValue, "pandocument")}
                                         className="w-full p-3 border border-customOrange outline-none rounded"
                                         disabled={diabledForm}

@@ -23,7 +23,8 @@ const RegisteredBusinessInProgressList = () => {
                 const profile = localStorageUtil.getItem("profile");
 
                 const userId = profile.id;
-                const token = localStorage.getItem("token");
+                console.log(">>>>>>>>>>>>profile",profile);
+                const token = localStorageUtil.getItem("token");
                 if (!token) {
                     throw new Error("Token not found");
                 }
@@ -68,7 +69,7 @@ const RegisteredBusinessInProgressList = () => {
             const profile = localStorageUtil.getItem("profile");
 
             const userId = profile.id;
-            const token = localStorage.getItem("token");
+            const token = localStorageUtil.getItem("token")
             if (!token) {
                 throw new Error("Token not found");
             }
@@ -194,7 +195,7 @@ const RegisteredBusinessInProgressList = () => {
                             onClick={async () => {
                                 setCurrentStep(2);
                                 await fetchBusinessList();
-                                setCurrentStep(2);
+                               
                                 setCurrentTab(1);
 
                                 navigate("/addBusinessUnit");

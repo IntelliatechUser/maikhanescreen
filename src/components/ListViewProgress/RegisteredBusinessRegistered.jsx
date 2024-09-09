@@ -21,7 +21,7 @@ const RegisteredBusinessRegistered = () => {
                 const profile = localStorageUtil.getItem("profile");
                 
                 const userId = profile.id;
-                const token = localStorage.getItem("token");
+                const token = localStorageUtil.getItem("token")
                 if (!token) {
                     throw new Error("Token not found");
                 }

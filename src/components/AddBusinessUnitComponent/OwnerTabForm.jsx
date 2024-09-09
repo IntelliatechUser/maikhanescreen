@@ -80,7 +80,7 @@ const OwnerTabForm = ({ onSubmitOwner, formdisplay, setFormdisplay }) => {
 
     // Function to fetch document details
     const fetchDocumentDetails = async (idType, idDocumentNumber, actions, setFieldValue) => {
-        let token = localStorage.getItem("token");
+        let token = localStorageUtil.getItem("token")
         setFieldValue('dateOfBirth', "");
         setFieldValue('name', "");
         try {
@@ -135,7 +135,7 @@ const OwnerTabForm = ({ onSubmitOwner, formdisplay, setFormdisplay }) => {
             }
         }
         try {
-            let token = localStorage.getItem("token");
+            let token = localStorageUtil.getItem("token");
             const response = await axios.get('http://43.204.36.147:8067/otp/generateOtpForUser', {
                 params,
                 headers: {
@@ -168,7 +168,7 @@ const OwnerTabForm = ({ onSubmitOwner, formdisplay, setFormdisplay }) => {
                 otp: otp
             }
         }
-        let token = localStorage.getItem("token");
+        let token = localStorage.getItem("token")
         try {
             const response = await axios.post(
                 'http://43.204.36.147:8067/otp/validateOtpForUser',
@@ -205,7 +205,7 @@ const OwnerTabForm = ({ onSubmitOwner, formdisplay, setFormdisplay }) => {
     };
 
     const handleSubmitOTP = async (actions, otp, idDocumentNumber) => {
-        let token = localStorage.getItem("token");
+        let token = localStorageUtil.getItem("token");
         try {
             const response = await axios.post('http://43.204.36.147:8067/aadharValidateOtp', {
                 referenceId: referenceId,
@@ -266,17 +266,7 @@ const OwnerTabForm = ({ onSubmitOwner, formdisplay, setFormdisplay }) => {
                     validationSchema={validationSchema}
                     onSubmit={(values, actions) => {
 
-                        //                 let obj={  idType: '',
-                        // idDocumentNumber: '',
-                        // name: '',
-                        // dob: '',
-                        // email: values.email,
-                        // designation: '',
-                        // mobileNumber: '',   // Updated field name
-                        // landlineNumber: '', // Updated field name
-                        // contact: 'mobile'
-
-                        //                 }
+                      
 
 
                         console.log(">>>>>>>>>>>values ownertabform", values);
@@ -292,24 +282,17 @@ const OwnerTabForm = ({ onSubmitOwner, formdisplay, setFormdisplay }) => {
 
                                 values.validate = "Validated"
                                 values.role = "Owner"
-                                // setOwnerDetails(values.email, values);
-                                // let formdisplayindex = formdisplay.findIndex((owner, idx) => idx === index);
-                                // if (formdisplayindex !== -1) {
-                                //     formdisplay[formdisplayindex] = values;
-                                //     setFormdisplay([...formdisplay]); // Spread operator to ensure state immutability
-                                // }
+                               
                                 toast.success("Owner Validated")
                                 console.log(">>>>>>>>>>>>>ownerDetials1", values);
 
                                 setOwnerDetails(values.email, values);
-                                // let tab = currentTab;
-                                // setCurrentTab(tab + 1)
+                                
 
 
                             }
 
-                            // let tab = currentTab;
-                            // setCurrentTab(tab + 1)
+                           
                         } else if (buttonclick == "edit") {
 
                             toast.success("Owner Updated")
@@ -394,7 +377,16 @@ const OwnerTabForm = ({ onSubmitOwner, formdisplay, setFormdisplay }) => {
                                         {errors.designation && touched.designation && <div className="text-darkred text-sm font-medium">{errors.designation}</div>}
                                     </div>
                                     <div>
-                                        <Field type="text" name="dateOfBirth" className="w-full p-3 border border-customOrange outline-none rounded" placeholder="Date of Birth" disabled={diabledForm} />
+                                  
+
+                                    <Field
+                                                type="date"
+                                                name="dateOfBirth"
+                                                className="w-full p-3 border border-customOrange outline-none rounded"
+                                                placeholder="Date of Birth"
+                                                disabled={diabledForm}
+                                            />
+                                        {/* <Field type="text" name="dateOfBirth" className="w-full p-3 border border-customOrange outline-none rounded" placeholder="Date of Birth" disabled={diabledForm} /> */}
                                         {errors.dateOfBirth && touched.dateOfBirth && <div className="text-darkred text-sm font-medium">{errors.dateOfBirth}</div>}
                                     </div>
                                     <div>
@@ -568,7 +560,7 @@ const OwnerTabForm = ({ onSubmitOwner, formdisplay, setFormdisplay }) => {
 
 
 
-                                <div>{currentFlow == "add" && ownerDetails.find((owner) => owner.email === values.email) && values.validate == "Validated" && <button
+                                <div className='space-x-2'>{currentFlow == "add" && ownerDetails.find((owner) => owner.email === values.email) && values.validate == "Validated" && <button
                                     type="submit" id="edit"
                                     className="mt-6 p-3 bg-customOrange text-white rounded"
                                     disabled={diabledForm}
