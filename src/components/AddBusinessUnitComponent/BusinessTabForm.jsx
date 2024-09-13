@@ -11,11 +11,12 @@ import businessLogicStore from "../../store/BusinessLogicStore"
 import OTPModal from '../../CommonComponents/Modal';
 import localStorageUtil from "../../utility/utility";
 import VerifiedIcon from '../../assets/icons/VerifiedIcon.jsx';
+import { makeApiRequest } from "../../api/ApiRequest";
 const BusinessTabForm = ({ onSubmitBusiness }) => {
     const [verify, setVerify] = useState("Verify");
     const [isModalOpen, setIsModalOpen] = React.useState(false);
     const [modalfor, setModalFor] = useState("");
-    const { businessDetails, setBusinessDetails } = useStore();
+    const { businessDetails, setBusinessDetails,unitDetails } = useStore();
     const [selectedIdType, setSelectedIdType] = useState(businessDetails.idType);
     const { currentTab, setCurrentTab, currentFlow, diabledForm } = businessLogicStore();
     const handleGetLocation = (setFieldValue) => {
@@ -97,13 +98,13 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
         }
         try {
             let token = localStorageUtil.getItem("token")
-            const response = await axios.get('http://43.204.36.147:8067/otp/generateOtpForUser', {
-                params,
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-
+            // const response = await axios.get('http://43.204.36.147:8067/otp/generateOtpForUser', {
+            //     params,
+            //     headers: {
+            //         'Authorization': `Bearer ${token}`
+            //     }
+            // });
+            const returnObject = await makeApiRequest("/otp/generateOtpForUser", "get",   params);
 
 
 
@@ -130,17 +131,17 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
             }
         }
         let token = localStorageUtil.getItem("token");
-        try {
-            const response = await axios.post(
-                'http://43.204.36.147:8067/otp/validateOtpForUser',
-                params,
-                {
-                    headers: { Authorization: `Bearer ${token}` }
-                }
-            );
-            const data = response?.data;
-            console.log(">>>>>>>>>>>>responseData", data.status);
-            if (data.status == 200) {
+        
+            // const response = await axios.post(
+            //     'http://43.204.36.147:8067/otp/validateOtpForUser',
+            //     params,
+            //     {
+            //         headers: { Authorization: `Bearer ${token}` }
+            //     }
+            // );
+            const returnObject = await makeApiRequest("/otp/validateOtpForUser", "post",  params);
+           
+            if (returnObject.statusCode == 200) {
 
                 if (modalfor == "email") {
                     setVerify("Email is Verified");
@@ -150,18 +151,16 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                     localStorageUtil.setItem("mobileverifybusiness", "Mobile is Verified")
                 }
 
+            }else{
+                console.log("Error in Submitting Otp for mobile or Email");
             }
 
 
 
-        } catch (error) {
-            console.error("Error verifying OTP:", error);
-        } finally {
-            setIsModalOpen(false);
-        }
+      
 
 
-
+        setIsModalOpen(false);
 
     };
     const handleValidate = async (idType, idDocumentNumber, setFieldValue) => {
@@ -172,23 +171,33 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
         setFieldValue('zipCode', "");
         let token = localStorageUtil.getItem("token")
         const endpoint = idType === "PAN" ? 'userVerification' : 'businessVerification';
-        try {
-            const response = await axios.post(`http://43.204.36.147:8067/${endpoint}`, {
+        let params=
+            {
                 useCase: idType,
                 documentId: idDocumentNumber
-            }, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-            const responseData = response.data.data;
+            }
+        
+        
+            // const response = await axios.post(`http://43.204.36.147:8067/${endpoint}`, {
+            //     useCase: idType,
+            //     documentId: idDocumentNumber
+            // }, {
+            //     headers: {
+            //         'Authorization': `Bearer ${token}`
+            //     }
+            // });
+            const returnObject = await makeApiRequest(`/${endpoint}`, "post",  params);
+      console.log(">>>>>>>>>>>>>>>>>>>>>>>>>return returnObject",returnObject);
+            // let response=returnObject.response;
+            if(returnObject.statusCode==200){
+            const responseData = returnObject.response.data;
             setFieldValue('legallyRegisteredName', responseData.name);
             setFieldValue('addressLine1', responseData.address);
             setFieldValue('city', responseData.city);
             setFieldValue('state', responseData.state);
             setFieldValue('zipCode', responseData.postalCode);
-        } catch (error) {
-            console.error("Validation error:", error);
+        } else {
+            console.error("Validation error:");
         }
     };
 
@@ -211,13 +220,14 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
         setSelectedIdType(idType);
         setFieldValue("idType", idType);
     };
-    console.log(">>>>>>>>>>>>>>>businessDetail", businessDetails)
+    console.log(">>>>>>>>>>>>>>>unitDetails", unitDetails)
     return (
         <Formik
             initialValues={businessDetails}
             enableReinitialize={true}
             validationSchema={validationSchema}
             onSubmit={(values) => {
+               
                 let savebutton = document.activeElement.id
                 if (savebutton == "businessdatasave") {
                     console.log(">>>>>>>>>>BusinessDetails", values);
@@ -249,6 +259,7 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                     <option value="PAN">PAN</option>
                                     <option value="GST">GST</option>
                                     <option value="CIN">CIN</option>
+                                    <option value="Passport">PASSPORT</option>
                                 </Field>
                                 <ErrorMessage name="idType" component="div" className="text-darkred text-sm font-medium " />
                             </div>

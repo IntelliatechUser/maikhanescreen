@@ -18,6 +18,7 @@ import OTPModal from '../../CommonComponents/Modal';
 import axios from "axios";
 import localStorageUtil from "../../utility/utility";
 import businessLogicStore from "../../store/BusinessLogicStore";
+import { makeApiRequest } from "../../api/ApiRequest";
 
 const UnitDetails = () => {
 
@@ -87,28 +88,28 @@ const UnitDetails = () => {
 
 		const fetchOwnershipModes = async (country) => {
 
-			try {
+			
 
 
 				let Country = countryId.find((item) => item.name === country)
 
-				const response = await axios.get(`http://43.204.36.147:8067/api/countries/${Country.id}/ownership-modes`,
+				// const response = await axios.get(`http://43.204.36.147:8067/api/countries/${Country.id}/ownership-modes`,
 
 
-					{
-						headers: {
-							'Authorization': `Bearer ${token}`
-						}
-					}
-				);
+				// 	{
+				// 		headers: {
+				// 			'Authorization': `Bearer ${token}`
+				// 		}
+				// 	}
+				// );
 
+				const returnObject = await makeApiRequest(`/api/countries/${Country.id}/ownership-modes`, "get", {  });
 
-
-
-
-				setOwnershipModes(response?.data?.data);
-			} catch (error) {
-				console.error("Error fetching ownership modes:", error);
+console.log(">>>>>>>>>>>>>>>>returnObject unitdetails",returnObject);
+if(returnObject.statusCode==200){
+				 setOwnershipModes(returnObject?.response?.data);
+			} else {
+				console.error("Error fetching ownership modes:");
 			}
 		};
 
@@ -139,19 +140,12 @@ console.log(">>>>>>country",country);
 		setFieldValue("ownershipMode", "");
 		if (selectedCountry) {
 			let Country = countryId.find((item) => item.name == selectedCountry)
-			const response = await axios.get("http://43.204.36.147:8067/api/countries/" + Country?.id + "/ownership-modes",
-				{
-					headers: {
-						'Authorization': `Bearer ${token}`
-					}
-				}
-			);
+			const returnObject = await makeApiRequest(`/api/countries/${Country.id}/ownership-modes`, "get", {  });
 
-			
-
-			console.log(">>>>>>>>>>>>unitRegistrationCountry", selectedCountry);
-			setOwnershipModes(response.data.data);
-			
+console.log(">>>>>>>>>>>>>>>>returnObject unitdetails",returnObject);
+if(returnObject.statusCode==200){
+				 setOwnershipModes(returnObject?.response?.data);
+}else{}
 			//	handleOwnership(values,setFieldValue);
 
 			

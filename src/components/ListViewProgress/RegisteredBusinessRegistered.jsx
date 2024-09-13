@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import localStorageUtil from '../../utility/utility';
-import businessStatus from "../../store/BusinessStatus"; 
-
+import businessStatus from "../../store/BusinessStatus";
+import { makeApiRequest } from "../../api/ApiRequest";
 
 const RegisteredBusinessRegistered = () => {
-    const { setListBusinessRegistered,listBusinessRegistered } = businessStatus();
+    const { setListBusinessRegistered, listBusinessRegistered } = businessStatus();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
@@ -17,32 +17,28 @@ const RegisteredBusinessRegistered = () => {
     };
     useEffect(() => {
         const fetchBusinessList = async () => {
-            try {
-                const profile = localStorageUtil.getItem("profile");
-                
-                const userId = profile.id;
-                const token = localStorageUtil.getItem("token")
-                if (!token) {
-                    throw new Error("Token not found");
-                }
-                let params = {
 
-                    userId: userId,
-                    status: "registered"
-                }
-                const response = await axios.get('http://43.204.36.147:8067/businessController/business-units/by-status', {
-                    params,
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-                console.log(">>>>>>>>>>>>>>>>>>>>>>>>>Business inprocess list", response.data.data);
-                //     // Use dummy data for testing
-                setListBusinessRegistered(response.data.data);
+            const profile = localStorageUtil.getItem("profile");
+
+            const userId = profile.id;
+            const token = localStorageUtil.getItem("token")
+            if (!token) {
+                throw new Error("Token not found");
+            }
+            let params = {
+
+                userId: userId,
+                status: "registered"
+            }
+            const returnObject = await makeApiRequest("/businessController/business-units/by-status", "get", params);
+
+
+            if (returnObject.statusCode == 200) {
+                setListBusinessRegistered(returnObject.response.data);
                 setLoading(false);
-            } catch (err) {
-                console.error('Error fetching business list:', err);
-                setError(err.message);
+            } else {
+                console.error('Error fetching business list:');
+                setError("Cannot fetch List Business in process");
                 setLoading(false);
             }
         };
@@ -50,7 +46,7 @@ const RegisteredBusinessRegistered = () => {
         fetchBusinessList();
     }, []);
 
-    
+
 
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error: {error}</div>;

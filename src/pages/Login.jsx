@@ -288,30 +288,33 @@ const Login = () => {
 
   // };
   const handleLogin = async (values) => {
-    try {
+    
       // Start the loading state
       setLoading(true);
       
       // Send login request
-      const response = await axios.post('http://43.204.36.147:8067/user/login', 
-        { email: values.username, password: values.password }, 
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      );
-  
+      // const response = await axios.post('http://43.204.36.147:8067/user/login', 
+      //   { email: values.username, password: values.password }, 
+      //   {
+      //     headers: {
+      //       'Content-Type': 'application/json',
+      //     },
+      //   }
+      // );
+      const returnObject = await makeApiRequest("/user/login", "post",  { email: values.username, password: values.password });
+      
+      let response=returnObject.response;
+      
       console.log("Checking the login response", response);
   
       // Check if login is successful
-      if (response?.data?.status !== 200) {
+      if (returnObject?.statusCode !== 200) {
         toast.error('Invalid Login');
-        throw new Error(response?.data?.message || 'Failed to login');
+        throw new Error(response?.response?.message || 'Failed to login');
       } else {
         toast.success("Successful Login");
-        const token = response?.data?.response.userDto.token;
-        const userId = response?.data?.response.userDto.id;
+        const token = response?.response.userDto?.token;
+        const userId = response?.response.userDto.id;
   
         console.log("User ID:", userId);
         console.log("Token:", token);
@@ -337,18 +340,11 @@ const Login = () => {
           // Navigate to the dashboard only when the profile is successfully set
           navigate("/dashboard");
         } else {
-          console.log("Error fetching the profile", returnObject?.error);
+          console.log("Error fetching the profile");
           throw new Error("Error fetching profile");
         }
       }
-    } catch (error) {
-      // Handle login or profile fetch error
-      setError("Invalid Login");
-      setUser({ error: error?.response?.data?.message || error?.message, user: null, success: false });
-    } finally {
-      // Stop the loading state
-      setLoading(false);
-    }
+    
   
     console.log("Login success:", success);
   };

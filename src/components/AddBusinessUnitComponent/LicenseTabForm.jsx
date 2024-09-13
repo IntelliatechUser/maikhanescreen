@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import businessLogicStore from "../../store/BusinessLogicStore"
 import localStorageUtil from "../../utility/utility";
+import { makeApiRequest } from "../../api/ApiRequest";
 const LicenseTabForm = ({ onSubmitLicence }) => {
     const { licenseForm, setLicenseForm, unitDetails, businessDetails, ownerDetails } = useStore();
     const { resetUnitDetails, resetLicenseDetails, resetOwnerDetails, resetBusinessDetails } = useStore();
@@ -213,18 +214,22 @@ const LicenseTabForm = ({ onSubmitLicence }) => {
                     formData.append('uploadPan', businessDetails.pandocument);
                     formData.append('certificate', values.licenseCertificate);
                     // alert("api runs1");
-                    try {
-                        const response = await axios.post('http://43.204.36.147:8067/businessController/registerBusiness', formData, {
-                            headers: {
-                                'Accept': 'application/json, text/plain, */*',
-                                // 'Accept-Language': 'en-US,en;q=0.9',
-                                'Authorization': `Bearer ${token}`,
-                                // 'Connection': 'keep-alive',
 
-                                // 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36',
-                                'Content-Type': 'multipart/form-data'
-                            },
-                        });
+                    // const response = await axios.post('http://43.204.36.147:8067/businessController/registerBusiness', formData, {
+                    //     headers: {
+                    //         'Accept': 'application/json, text/plain, */*',
+                    //         // 'Accept-Language': 'en-US,en;q=0.9',
+                    //         'Authorization': `Bearer ${token}`,
+                    //         // 'Connection': 'keep-alive',
+
+                    //         // 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36',
+                    //         'Content-Type': 'multipart/form-data'
+                    //     },
+                    // });
+                    const returnObject = await makeApiRequest("/businessController/registerBusiness", "post", formData);
+                    console.log(">>>>>>>>>>>>license returnObject", returnObject);
+                    let response = returnObject.response;
+                    if (returnObject.statusCode == 200) {
                         // alert("api runs2");
                         console.log('File uploaded successfully', response.data);
                         toast.success("Business Registered")
@@ -250,12 +255,12 @@ const LicenseTabForm = ({ onSubmitLicence }) => {
 
                         navigate("/dashboard");
 
-                    } catch (error) {
+                    } else {
 
-                        if (error.code === 'ERR_NETWORK') {
+                        if (returnObject.status === 'ERR_NETWORK') {
                             console.error('Network error: Please check if the server is running and accessible.');
                         } else {
-                            console.error('Error in Uploading Pdf files', error);
+                            console.error('Error in Uploading Pdf files');
                         }
 
                     }
@@ -334,7 +339,7 @@ const LicenseTabForm = ({ onSubmitLicence }) => {
                                     <input
                                         type="file"
                                         name="licenseCertificate"
-                                      
+
                                         onChange={(event) => handleFileChange(event, setFieldValue, "licenseCertificate")}
                                         className="w-full p-3 border border-customOrange outline-none rounded"
                                         disabled={diabledForm}
@@ -359,20 +364,6 @@ const LicenseTabForm = ({ onSubmitLicence }) => {
 
 
                                     }</p>}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
                                 </div>

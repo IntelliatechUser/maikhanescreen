@@ -7,7 +7,7 @@ import registration from "./../assets/img/registration.png"
 import ownership from "./../assets/img/ownership.png"
 import category from "./../assets/img/category.png"
 const AddNewBusinessUnitHeader = () => {
-    const { currentStep, setCurrentStep, currentTab, setCurrentTab } = businessLogicStore();
+    const { currentStep, setCurrentStep, currentTab, setCurrentTab,currentFlow } = businessLogicStore();
     const naviagte = useNavigate();
     const { unitDetails, setUnitDetails } = useStore();
 
@@ -18,11 +18,11 @@ const AddNewBusinessUnitHeader = () => {
 
             </h3>
             <div className='flex flex-col gap-2'>
-                <div className='flex  justify-end' ><button onClick={() => {
+              {currentFlow=="add" &&  <div className='flex  justify-end' ><button onClick={() => {
                     setCurrentStep(1)
 
                     setCurrentTab(-1)
-                }} className="py-1 bg-customOrange text-white rounded-3xl w-36">Change</button></div>
+                }} className="py-1 bg-customOrange text-white rounded-3xl w-36">Change</button></div>}
                 <div>
                     <div className='grid grid-cols-3 gap-20'>
              

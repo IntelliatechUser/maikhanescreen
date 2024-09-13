@@ -13,6 +13,7 @@ import businessLogicStore from "../store/BusinessLogicStore";
 import businessStatus from "../store/BusinessStatus";
 import localStorageUtil from "../utility/utility";
 import axios from "axios";
+import { makeApiRequest } from "../api/ApiRequest";
 import { useEffect } from "react";
 import useStore from "../store/UnitDetail";
 
@@ -38,23 +39,25 @@ const Dashboard = () => {
 
             }
             console.log(">>>>>>>>>>>params", params);
-            try {
-                const response = await axios.get('http://43.204.36.147:8067/businessController/countBusinessByStatus', {
-                    params,
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-                const { registered, 'in-process': inProcess } = response.data.data;
+            
+                // const response = await axios.get('http://43.204.36.147:8067/businessController/countBusinessByStatus', {
+                //     params,
+                //     headers: {
+                //         'Authorization': `Bearer ${token}`
+                //     }
+                // });
+                const returnObject = await makeApiRequest("/businessController/countBusinessByStatus", "get", params);
+              if(returnObject.statusCode==200){
+                 const { registered, 'in-process': inProcess } = returnObject.response.data;
                 // alert("api runs2");
                 console.log('BusinessIn Progress count', inProcess);
                 setCountInprogress(inProcess);
                 setCountRegistered(registered);
 
-            } catch (error) {
+            } else{
 
 
-                console.error('Error in BusinessIn Progress count', error);
+                console.error('Error in BusinessIn Progress count');
 
 
             }
@@ -113,20 +116,20 @@ const Dashboard = () => {
                     <h2 className="text-2xl font-bold text-gray-700 mb-6">General Support Services</h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 mb-12 gap-6">
                         <SupportCard title="Sales Support" description="Submit a sales request or connect with a sales associates."
-                            buttonTitle={'Connect with sales support'} Icon={SalesSupportIcon} />
+                            buttonTitle={'Connect with sales support'} Icon={SalesSupportIcon} handleRedirect={()=>{}} />
                         <SupportCard title="Login/Access Support" description="Submit a sales request or connect with a sales associates."
-                            buttonTitle={'Connect with sales support'}
-                            Icon={LoginSupportIcon} />
+                            buttonTitle={'Connect with sales support' }
+                            Icon={LoginSupportIcon} handleRedirect={()=>{}}/>
                     </div>
 
                     <h2 className="text-2xl font-bold text-gray-700 mb-6">Subscriber Support Services</h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <SupportCard title="Technical Support" description="Submit a sales request or connect with a sales associates."
-                            Icon={SalesSupportIcon} buttonTitle={'Connect with sales support'} />
+                            Icon={SalesSupportIcon} buttonTitle={'Connect with sales support'} handleRedirect={()=>{}}/>
                         <SupportCard title="Billing Support" description="Submit a sales request or connect with a sales associates."
-                            Icon={BillingSupportIcon} buttonTitle={'Connect with sales support'} />
+                            Icon={BillingSupportIcon} buttonTitle={'Connect with sales support'} handleRedirect={()=>{}}/>
                         <SupportCard title="Operation Support" description="Submit a sales request or connect with a sales associates."
-                            Icon={OperationSupportIcon} buttonTitle={'Connect with sales support'} />
+                            Icon={OperationSupportIcon} buttonTitle={'Connect with sales support'} handleRedirect={()=>{}}/>
                     </div>
                 </div>
             </div>

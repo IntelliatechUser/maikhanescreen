@@ -1,7 +1,3 @@
-
-
-
-
 import React, { useState } from 'react';
 import { Formik, Field, Form } from 'formik';
 import * as Yup from 'yup';
@@ -13,6 +9,7 @@ import businessLogicStore from "../../store/BusinessLogicStore"
 import localStorageUtil from "../../utility/utility";
 import { toast } from 'react-toastify';
 import VerifiedIcon from '../../assets/icons/VerifiedIcon.jsx';
+import { makeApiRequest } from "../../api/ApiRequest";
 const emailExists = async (email) => {
     const store = useStore.getState();
 
@@ -83,20 +80,36 @@ const OwnerTabForm = ({ onSubmitOwner, formdisplay, setFormdisplay }) => {
         let token = localStorageUtil.getItem("token")
         setFieldValue('dateOfBirth', "");
         setFieldValue('name', "");
-        try {
-            const response = await axios.post('http://43.204.36.147:8067/userVerification', {
-                useCase: idType,
-                documentId: idDocumentNumber
-            }, {
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
+        let params =
+        {
+            useCase: idType,
+            documentId: idDocumentNumber
+        }
 
+
+        // const response = await axios.post('http://43.204.36.147:8067/userVerification', {
+        //     useCase: idType,
+        //     documentId: idDocumentNumber
+        // }, {
+        //     headers: { 'Authorization': `Bearer ${token}` }
+        // });
+        const returnObject = await makeApiRequest("/userVerification", "post", params);
+        console.log(">>>>>>>>>>>>>>ownerTabForm returnobject", returnObject)
+        if (returnObject.statusCode == 200) {
             if (idType === "PAN") {
-                const { name, dob, email, designation, mobile } = response.data.data;
+let formattedDob;
+                const { name, dob, email, designation, mobile } = returnObject.response.data;
+                if (dob) {
+                    const [day, month, year] = dob.split('-');
+                    if (day && month && year) {
+                        formattedDob = `${year}-${month}-${day}`;
+                    }
+                }
                 setFieldValue('name', name);
-                setFieldValue('dateOfBirth', dob);
+                setFieldValue('dateOfBirth', formattedDob);
             } else if (idType === "AADHAR_REQUEST_OTP") {
-                const { reference_id, transaction_id } = response.data.data;
+
+                const { reference_id, transaction_id } = returnObject.response.data;
                 setFieldValue("idType", idType);
                 setFieldValue("idDocumentNumber", idDocumentNumber);
                 setReferenceId(reference_id);
@@ -104,8 +117,8 @@ const OwnerTabForm = ({ onSubmitOwner, formdisplay, setFormdisplay }) => {
                 setIsModalOpen(true);
 
             }
-        } catch (error) {
-            console.error('Error fetching document details:', error);
+        } else {
+            console.error('Error fetching document details:');
         }
     };
 
@@ -136,20 +149,20 @@ const OwnerTabForm = ({ onSubmitOwner, formdisplay, setFormdisplay }) => {
         }
         try {
             let token = localStorageUtil.getItem("token");
-            const response = await axios.get('http://43.204.36.147:8067/otp/generateOtpForUser', {
-                params,
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-
+            // const response = await axios.get('http://43.204.36.147:8067/otp/generateOtpForUser', {
+            //     params,
+            //     headers: {
+            //         'Authorization': `Bearer ${token}`
+            //     }
+            // });
+            const returnObject = await makeApiRequest("/otp/generateOtpForUser", "get", params);
 
 
 
 
 
         } catch (error) {
-            console.error('Error in getting otp', error);
+            console.error('Error in getting otp');
         }
     };
     const handleVerifyOtp = async (actions, otp, values) => {
@@ -169,61 +182,66 @@ const OwnerTabForm = ({ onSubmitOwner, formdisplay, setFormdisplay }) => {
             }
         }
         let token = localStorage.getItem("token")
-        try {
-            const response = await axios.post(
-                'http://43.204.36.147:8067/otp/validateOtpForUser',
-                params,
-                {
-                    headers: { Authorization: `Bearer ${token}` }
-                }
-            );
-            const data = response?.data;
-            console.log(">>>>>>>>>>>>responseData", data.status);
-            if (data.status == 200) {
 
-                if (modalfor == "email") {
-                    setVerify("Email is Verified");
-                    localStorageUtil.setItem("emailverifyowner", "Email is Verified")
-                } else {
-                    setVerify("Mobile is Verified");
-                    localStorageUtil.setItem("mobileverifyowner", "Mobile is Verified")
-                }
+        // const response = await axios.post(
+        //     'http://43.204.36.147:8067/otp/validateOtpForUser',
+        //     params,
+        //     {
+        //         headers: { Authorization: `Bearer ${token}` }
+        //     }
+        // );
+        // const data = response?.data;
+        const returnObject = await makeApiRequest("/otp/validateOtpForUser", "post", params);
 
+
+        if (returnObject.statusCode == 200) {
+
+            if (modalfor == "email") {
+                setVerify("Email is Verified");
+                localStorageUtil.setItem("emailverifyowner", "Email is Verified")
+            } else {
+                setVerify("Mobile is Verified");
+                localStorageUtil.setItem("mobileverifyowner", "Mobile is Verified")
             }
 
+        }else {
 
-
-        } catch (error) {
-            console.error("Error verifying OTP:", error);
-        } finally {
-            setIsModalOpenMobileEmail(false);
+            console.error("Error verifying OTP");
         }
 
-
-
+        setIsModalOpenMobileEmail(false);
 
     };
 
     const handleSubmitOTP = async (actions, otp, idDocumentNumber) => {
         let token = localStorageUtil.getItem("token");
         try {
-            const response = await axios.post('http://43.204.36.147:8067/aadharValidateOtp', {
+            const params={
                 referenceId: referenceId,
                 transactionId: transactionId,
                 otp: otp,
                 useCase: "AADHAR_VALIDATE_OTP",
                 documentId: documentId,
-            }, {
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
+            }
+            const returnObject = await makeApiRequest("/aadharValidateOtp", "post", params);
 
-            const data1 = response.data;
-            let responseData = data1.data;
-            console.log(">>>>>>>>>>>>>>>name", responseData.name);
+            // const response = await axios.post('http://43.204.36.147:8067/aadharValidateOtp', , {
+            //     headers: { 'Authorization': `Bearer ${token}` }
+            // });
+console.log(">>>>>>>>>>>>>>>returnObject adhar card",returnObject);
+          
+            let responseData = returnObject.response.data;
 
+            let formattedDob = '';
+            if (responseData.dob) {
+                const [day, month, year] = responseData.dob.split('-');
+                if (day && month && year) {
+                    formattedDob = `${year}-${month}-${day}`;
+                }
+            }
             actions.setFieldValue("idType", "AADHAR_REQUEST_OTP");
             actions.setFieldValue("idDocumentNumber", idDocumentNumber);
-            actions.setFieldValue("dateOfBirth", responseData.dob);
+            actions.setFieldValue("dateOfBirth", formattedDob);
             actions.setFieldValue("name", responseData.name);
 
             setOtpSubmitted(true);
@@ -266,7 +284,7 @@ const OwnerTabForm = ({ onSubmitOwner, formdisplay, setFormdisplay }) => {
                     validationSchema={validationSchema}
                     onSubmit={(values, actions) => {
 
-                      
+
 
 
                         console.log(">>>>>>>>>>>values ownertabform", values);
@@ -282,17 +300,17 @@ const OwnerTabForm = ({ onSubmitOwner, formdisplay, setFormdisplay }) => {
 
                                 values.validate = "Validated"
                                 values.role = "Owner"
-                               
+
                                 toast.success("Owner Validated")
                                 console.log(">>>>>>>>>>>>>ownerDetials1", values);
 
                                 setOwnerDetails(values.email, values);
-                                
 
+                                console.log('Form submitted with values:', values);
 
                             }
 
-                           
+
                         } else if (buttonclick == "edit") {
 
                             toast.success("Owner Updated")
@@ -300,14 +318,14 @@ const OwnerTabForm = ({ onSubmitOwner, formdisplay, setFormdisplay }) => {
                         }
 
                         else {
-                            console.log('Form submitted with values:', values);
+                           
                             // onSubmitOwner(values);
                             // // let tab=currentTab;
                             // // setCurrentTab(tab-1);
                             // setOwnerDetails(values);
                         }
 
-                        const { idDocumentNumber, idType } = values;
+                       
 
 
                     }}
@@ -334,7 +352,7 @@ const OwnerTabForm = ({ onSubmitOwner, formdisplay, setFormdisplay }) => {
                                 <div>
                                     <label className="block text-gray-600 mb-2">Photo Id Document/Certificate Number</label>
                                     <div className="flex">
-                                        <Field type="text" name="documentNo" className="w-full p-3 border border-customOrange outline-none rounded" placeholder="HGEU49660T" disabled={diabledForm} />
+                                        <Field type="text" name="documentNo" className="flex-[60%] w-full p-3 border border-customOrange outline-none rounded" placeholder="HGEU49660T" disabled={diabledForm} />
                                         {values.idType === 'AADHAR_REQUEST_OTP' ? (
                                             <button
                                                 type="button"
@@ -348,7 +366,7 @@ const OwnerTabForm = ({ onSubmitOwner, formdisplay, setFormdisplay }) => {
                                             <button
                                                 type="button"
                                                 disabled={diabledForm}
-                                                className="ml-2 border border-customOrange text-[#FF9F08] py-2 px-4 rounded-md"
+                                                className="ml-2 border border-customOrange text-[#FF9F08] py-2 px-4 rounded-md "
                                                 onClick={() => fetchDocumentDetails(values.idType, values.idDocumentNumber, { setValues }, setFieldValue)}
                                             >
                                                 Validate
@@ -377,21 +395,27 @@ const OwnerTabForm = ({ onSubmitOwner, formdisplay, setFormdisplay }) => {
                                         {errors.designation && touched.designation && <div className="text-darkred text-sm font-medium">{errors.designation}</div>}
                                     </div>
                                     <div>
-                                  
 
-                                    <Field
-                                                type="date"
-                                                name="dateOfBirth"
-                                                className="w-full p-3 border border-customOrange outline-none rounded"
-                                                placeholder="Date of Birth"
-                                                disabled={diabledForm}
-                                            />
+
+                                        <Field
+                                            type="date"
+                                            name="dateOfBirth"
+                                            className="w-full p-3 border border-customOrange outline-none rounded"
+                                            placeholder="Date of Birth"
+                                            disabled={diabledForm}
+                                        />
                                         {/* <Field type="text" name="dateOfBirth" className="w-full p-3 border border-customOrange outline-none rounded" placeholder="Date of Birth" disabled={diabledForm} /> */}
                                         {errors.dateOfBirth && touched.dateOfBirth && <div className="text-darkred text-sm font-medium">{errors.dateOfBirth}</div>}
                                     </div>
                                     <div>
                                         <div className="flex">
-                                            <Field type="email" name="email" className="w-full p-3 border border-customOrange outline-none rounded" disabled={diabledForm} placeholder="Email" disabled={values.validate == "Validated" ? true : false} />
+                                            <Field type="email" name="email" className="w-full p-3 border border-customOrange outline-none rounded" disabled={diabledForm} placeholder="Email" 
+                                            
+                                            
+                                            // disabled={values.validate == "Validated" ? true : false}  
+                                            
+                                            
+                                            />
                                             {/* <button type="button" className="ml-2 text-[#FF9F08] py-2 px-4">Verify</button> */}
                                         </div>
                                         {errors.email && touched.email && <div className="text-darkred text-sm font-medium">{errors.email}</div>}
@@ -566,13 +590,13 @@ const OwnerTabForm = ({ onSubmitOwner, formdisplay, setFormdisplay }) => {
                                     disabled={diabledForm}
                                 >
                                     Update
-                                </button>} 
-                                <button
-                                    type="submit" id="ownerdatasave"
-                                    className="mt-6 p-3 bg-customOrange text-white rounded"
-                                    disabled={diabledForm}
+                                </button>}
+                                    <button
+                                        type="submit" id="ownerdatasave"
+                                        className="mt-6 p-3 bg-customOrange text-white rounded"
+                                        disabled={diabledForm}
 
-                                >
+                                    >
                                         {values.validate}
                                     </button></div>
 
@@ -630,7 +654,7 @@ const OwnerTabForm = ({ onSubmitOwner, formdisplay, setFormdisplay }) => {
                 <div className='flex justify-between'>
                     <button
                         type="button"
-                        className="w-fit mt-4 py-2 px-4 bg-[#FF9F08] text-white rounded-md" onClick={() => {
+                        className="mt-6 p-3 bg-customOrange text-white rounded" onClick={() => {
 
                             setFormdisplay(ownerDetails);
                             setCurrentStep(2);
@@ -639,20 +663,20 @@ const OwnerTabForm = ({ onSubmitOwner, formdisplay, setFormdisplay }) => {
                     >
                         Back
                     </button>
-                    <button className="bg-[#FF9F08] text-white py-2 px-6 rounded-md" onClick={() => {
+                    <button className="mt-6 p-3 bg-customOrange text-white rounded" onClick={() => {
                         console.log(">>>>>>>>>>>>>formdisplay.length", formdisplay.length)
                         console.log(">>>>>>>>>>>>>ownerDetails.length", ownerDetails.length)
                         let tab = currentTab;
                         if (currentFlow == "add") {
                             if (formdisplay.length == ownerDetails.length) {
                                 setFormdisplay(ownerDetails);
-                               
+
                                 setCurrentTab(tab + 1);
 
                             } else {
                                 toast.info("Please Validate all members")
                             }
-                        }else{ 
+                        } else {
                             setCurrentTab(tab + 1);
                         }
                     }}>Next</button></div>
