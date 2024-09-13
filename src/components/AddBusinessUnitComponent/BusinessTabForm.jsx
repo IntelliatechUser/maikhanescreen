@@ -259,7 +259,7 @@ const BusinessTabForm = ({ onSubmitBusiness }) => {
                                     <option value="PAN">PAN</option>
                                     <option value="GST">GST</option>
                                     <option value="CIN">CIN</option>
-                                    <option value="Passport">PASSPORT</option>
+                                   
                                 </Field>
                                 <ErrorMessage name="idType" component="div" className="text-darkred text-sm font-medium " />
                             </div>
