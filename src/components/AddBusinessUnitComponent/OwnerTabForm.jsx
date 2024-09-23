@@ -20,7 +20,7 @@ const emailExists = async (email) => {
 // Validation schema using Yup
 const validationSchema = Yup.object({
     idType: Yup.string().required('Required'),
-    documentNo: Yup.string().required('Required'),
+    idDocumentNumber: Yup.string().required('Required'),
     name: Yup.string().required('Required'),
     dateOfBirth: Yup.string().required('Required'),
     email: Yup.string()
@@ -97,7 +97,7 @@ const OwnerTabForm = ({ onSubmitOwner, formdisplay, setFormdisplay }) => {
         console.log(">>>>>>>>>>>>>>ownerTabForm returnobject", returnObject)
         if (returnObject.statusCode == 200) {
             if (idType === "PAN") {
-let formattedDob;
+                let formattedDob;
                 const { name, dob, email, designation, mobile } = returnObject.response.data;
                 if (dob) {
                     const [day, month, year] = dob.split('-');
@@ -204,7 +204,7 @@ let formattedDob;
                 localStorageUtil.setItem("mobileverifyowner", "Mobile is Verified")
             }
 
-        }else {
+        } else {
 
             console.error("Error verifying OTP");
         }
@@ -216,7 +216,7 @@ let formattedDob;
     const handleSubmitOTP = async (actions, otp, idDocumentNumber) => {
         let token = localStorageUtil.getItem("token");
         try {
-            const params={
+            const params = {
                 referenceId: referenceId,
                 transactionId: transactionId,
                 otp: otp,
@@ -228,8 +228,8 @@ let formattedDob;
             // const response = await axios.post('http://43.204.36.147:8067/aadharValidateOtp', , {
             //     headers: { 'Authorization': `Bearer ${token}` }
             // });
-console.log(">>>>>>>>>>>>>>>returnObject adhar card",returnObject);
-          
+            console.log(">>>>>>>>>>>>>>>returnObject adhar card", returnObject);
+
             let responseData = returnObject.response.data;
 
             let formattedDob = '';
@@ -318,14 +318,14 @@ console.log(">>>>>>>>>>>>>>>returnObject adhar card",returnObject);
                         }
 
                         else {
-                           
+
                             // onSubmitOwner(values);
                             // // let tab=currentTab;
                             // // setCurrentTab(tab-1);
                             // setOwnerDetails(values);
                         }
 
-                       
+
 
 
                     }}
@@ -352,7 +352,7 @@ console.log(">>>>>>>>>>>>>>>returnObject adhar card",returnObject);
                                 <div>
                                     <label className="block text-gray-600 mb-2">Photo Id Document/Certificate Number</label>
                                     <div className="flex">
-                                        <Field type="text" name="documentNo" className="flex-[60%] w-full p-3 border border-customOrange outline-none rounded" placeholder="HGEU49660T" disabled={diabledForm} />
+                                        <Field type="text" name="idDocumentNumber" className="flex-[60%] w-full p-3 border border-customOrange outline-none rounded" placeholder="HGEU49660T" disabled={diabledForm} />
                                         {values.idType === 'AADHAR_REQUEST_OTP' ? (
                                             <button
                                                 type="button"
@@ -409,12 +409,12 @@ console.log(">>>>>>>>>>>>>>>returnObject adhar card",returnObject);
                                     </div>
                                     <div>
                                         <div className="flex">
-                                            <Field type="email" name="email" className="w-full p-3 border border-customOrange outline-none rounded" disabled={diabledForm} placeholder="Email" 
-                                            
-                                            
+                                            <Field type="email" name="email" className="w-full p-3 border border-customOrange outline-none rounded" disabled={diabledForm} placeholder="Email"
+
+
                                             // disabled={values.validate == "Validated" ? true : false}  
-                                            
-                                            
+
+
                                             />
                                             {/* <button type="button" className="ml-2 text-[#FF9F08] py-2 px-4">Verify</button> */}
                                         </div>

@@ -24,7 +24,7 @@ const AddNewBusinessUnitHeader = () => {
                     setCurrentTab(-1)
                 }} className="py-1 bg-customOrange text-white rounded-3xl w-36">Change</button></div>}
                 <div>
-                    <div className='grid grid-cols-3 gap-20'>
+                    <div className='grid grid-cols-3 gap-[10%]'>
              
                         <BusinessUnitInfo img={registration} unitDetailsKey="Business Unit Registration Country" unitDetailsValue={unitDetails.unitRegistrationCountry}/>
                         <BusinessUnitInfo  img={ownership} unitDetailsKey="Business Unit Ownership Mode"   unitDetailsValue={unitDetails.categorySelected}/>
